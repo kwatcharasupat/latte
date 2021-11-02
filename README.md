@@ -1,5 +1,5 @@
-# Latte
-
+<p align=center><b>Latte</b></p>
+<p align=center><b>Cross-framework Python Package for Evaluation of Latent-based Generative Models</b></p>
 
 
 
