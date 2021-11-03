@@ -39,22 +39,23 @@ def latent_attr_mutual_info(
     z: np.ndarray, a: np.ndarray, discrete: bool = False
 ) -> np.ndarray:
     """
-    [summary]
+    Calculate mutual information between latent vectors and a target attribute.
 
     Parameters
     ----------
     z : np.ndarray, (n_samples, n_features)
-        [description]
+        a batch of latent vectors
     a : np.ndarray, (n_samples,)
-        [description]
+        a batch of one attribute
     discrete : bool, optional
-        [description], by default False
+        whether the attribute is discrete, by default False
 
     Returns
     -------
     np.ndarray, (n_features,)
-        [description]
+        mutual information between each latent vector dimension and the attribute
     """
+    
     return get_mi_func(discrete)(z, a)
 
 

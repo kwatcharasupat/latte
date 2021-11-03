@@ -1,0 +1,423 @@
+:py:mod:`latte.functional.disentanglement.mutual_info`
+======================================================
+
+.. py:module:: latte.functional.disentanglement.mutual_info
+
+.. autoapi-nested-parse::
+
+   
+   ..
+       !! processed by numpydoc !!
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   latte.functional.disentanglement.mutual_info._validate_za_shape
+   latte.functional.disentanglement.mutual_info.get_mi_func
+   latte.functional.disentanglement.mutual_info.latent_attr_mutual_info
+   latte.functional.disentanglement.mutual_info.single_mutual_info
+   latte.functional.disentanglement.mutual_info.entropy
+   latte.functional.disentanglement.mutual_info.conditional_entropy
+   latte.functional.disentanglement.mutual_info._mgap
+   latte.functional.disentanglement.mutual_info._xgap
+   latte.functional.disentanglement.mutual_info.mig
+   latte.functional.disentanglement.mutual_info.dmig
+   latte.functional.disentanglement.mutual_info.dlig
+   latte.functional.disentanglement.mutual_info.xmig
+
+
+
+.. py:function:: _validate_za_shape(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List], fill_reg_dim: bool = False) -> Tuple[numpy.ndarray, numpy.ndarray]
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: get_mi_func(discrete: bool) -> Callable
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: latent_attr_mutual_info(z: numpy.ndarray, a: numpy.ndarray, discrete: bool = False) -> numpy.ndarray
+
+   
+   Calculate mutual information between latent vectors and a target attribute.
+
+
+   :Parameters:
+
+       **z** : np.ndarray, (n_samples, n_features)
+           a batch of latent vectors
+
+       **a** : np.ndarray, (n_samples,)
+           a batch of one attribute
+
+       **discrete** : bool, optional
+           whether the attribute is discrete, by default False
+
+   :Returns:
+
+       np.ndarray, (n_features,)
+           mutual information between each latent vector dimension and the attribute
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: single_mutual_info(a: numpy.ndarray, b: numpy.ndarray, discrete: bool) -> numpy.float
+
+   
+   [summary]
+
+
+   :Parameters:
+
+       **a** : np.ndarray, (n_samples,)
+           [description]
+
+       **b** : np.ndarray, (n_samples,)
+           [description]
+
+       **discrete** : bool
+           [description]
+
+   :Returns:
+
+       np.float
+           [description]
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: entropy(a: numpy.ndarray, discrete: bool = False) -> numpy.float
+
+   
+   [summary]
+
+
+   :Parameters:
+
+       **a** : np.ndarray, (n_samples,)
+           [description]
+
+       **discrete** : bool, optional
+           [description], by default False
+
+   :Returns:
+
+       np.float
+           [description]
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: conditional_entropy(ai: numpy.ndarray, aj: numpy.ndarray, discrete: bool = False) -> numpy.float
+
+   
+   [summary]
+
+
+   :Parameters:
+
+       **ai** : np.ndarray, (n_samples,)
+           [description]
+
+       **aj** : np.ndarray, (n_samples,)
+           [description]
+
+       **discrete** : bool, optional
+           [description], by default False
+
+   :Returns:
+
+       np.float
+           H(ai|aj) = H(ai) - I(ai, aj)
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: _mgap(mi: numpy.ndarray, zi: Optional[int] = None) -> Tuple[numpy.ndarray, Optional[int]]
+
+   
+   [summary]
+
+
+   :Parameters:
+
+       **mi** : np.ndarray, (n_features,)
+           [description]
+
+       **zi** : t.Optional[int], optional
+           [description], by default None
+
+   :Returns:
+
+       np.ndarray
+           [description]
+
+       t.Optional[int]
+           index of the unregularized latent dimension with the highest MI, `None` if `zi` is `None`
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: _xgap(mi: numpy.ndarray, zi: int, reg_dim: List) -> Tuple[numpy.ndarray, Optional[int]]
+
+   
+   [summary]
+
+
+   :Parameters:
+
+       **mi** : np.ndarray, (n_features,)
+           [description]
+
+       **zi** : t.Optional[int], optional
+           [description], by default None
+
+   :Returns:
+
+       np.ndarray
+           [description]
+
+       t.Optional[int]
+           index of the unregularized latent dimension with the highest MI, `None` if `zi` is `None`
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: mig(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False) -> numpy.ndarray
+
+   
+   [summary]
+
+
+   :Parameters:
+
+       **z** : np.ndarray, (n_samples, n_features)
+           [description]
+
+       **a** : np.ndarray, (n_samples, n_attributes)
+           [description]
+
+       **reg_dim** : t.Optional[t.List], optional
+           [description], by default None
+
+       **discrete** : bool, optional
+           [description], by default False
+
+   :Returns:
+
+       np.ndarray, (n_attributes,)
+           [description]
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: dmig(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False) -> numpy.ndarray
+
+   
+   [summary]
+
+
+   :Parameters:
+
+       **z** : np.ndarray, (n_samples, n_features)
+           [description]
+
+       **a** : np.ndarray, (n_samples, n_attributes)
+           [description]
+
+       **reg_dim** : t.Optional[t.List], optional
+           [description], by default None
+
+       **discrete** : bool, optional
+           [description], by default False
+
+   :Returns:
+
+       np.ndarray, (n_attributes,)
+           [description]
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: dlig(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False)
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: xmig(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False)
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

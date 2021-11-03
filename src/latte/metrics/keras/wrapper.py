@@ -4,6 +4,16 @@ import typing as t
 
 
 def to_numpy(args, kwargs):
+    '''
+    [summary]
+
+    :param args: [description]
+    :type args: [type]
+    :param kwargs: [description]
+    :type kwargs: [type]
+    :return: [description]
+    :rtype: [type]
+    '''
     args = [a.numpy() for a in args]
     kwargs = {k: kwargs[k].numpy() for k in kwargs}
 
@@ -21,7 +31,7 @@ class KerasMetricsFunctionalWrapper(tfm.Metric):
         self.metric = metric
         self.metric_kwargs = kwargs
 
-        self.result = self.add_weight(name='result')
+        self.result = self.add_weight(name="result")
 
     def update(self, *args, **kwargs):
         args, kwargs = to_numpy(args, kwargs)
