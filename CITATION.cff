@@ -11,16 +11,3 @@ title: "Latte: Cross-framework Python Package for Evaluation of Latent-based Gen
 version: 0.0.1-beta
 date-released: 2021
 url: "https://github.com/karnwatcharasupat/latte"
-preferred-citation:
-  type: conference-paper
-  authors:
-  - family-names: "Watcharasupat"
-    given-names: "Karn N."
-    orcid: "https://orcid.org/0000-0002-3878-5048"
-  - family-names: "Lerch"
-    given-names: "Alexander"
-    orcid: "https://orcid.org/0000-0000-0000-0000"
-  journal: "Extended Abstracts of the Late-Breaking Demo Session of the 22nd International Society for Music Information Retrieval Conference"
-  month: 11
-  title: "Evaluation of Latent Space Disentanglement in the Presence of Interdependent Attributes"
-  year: 2021
