@@ -1,4 +1,4 @@
-<p align=center><img src="./assets/logo.png"/></p>
+<p align=center><img width="50%" src="./assets/logo.png"/></p>
 <p align=center><b>Cross-framework Python Package for Evaluation of Latent-based Generative Models</b></p>
 
 
