@@ -131,20 +131,17 @@
 <dd><p>Calculate mutual information between latent vectors and a target attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>z</strong><span class="classifier">np.ndarray, (n_samples, n_features)</span></dt><dd><p>a batch of latent vectors</p>
-</dd>
-<dt><strong>a</strong><span class="classifier">np.ndarray, (n_samples,)</span></dt><dd><p>a batch of one attribute</p>
-</dd>
-<dt><strong>discrete</strong><span class="classifier">bool, optional</span></dt><dd><p>whether the attribute is discrete, by default False</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – a batch of latent vectors</p></li>
+<li><p><strong>a</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_samples</em><em>,</em><em>)</em>) – a batch of one attribute</p></li>
+<li><p><strong>discrete</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether the attribute is discrete, by default False</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>np.ndarray, (n_features,)</dt><dd><p>mutual information between each latent vector dimension and the attribute</p>
+<dd class="field-even"><p>mutual information between each latent vector dimension and the attribute</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray, (n_features,)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -155,20 +152,17 @@
 <dd><p>[summary]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>a</strong><span class="classifier">np.ndarray, (n_samples,)</span></dt><dd><p>[description]</p>
-</dd>
-<dt><strong>b</strong><span class="classifier">np.ndarray, (n_samples,)</span></dt><dd><p>[description]</p>
-</dd>
-<dt><strong>discrete</strong><span class="classifier">bool</span></dt><dd><p>[description]</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_samples</em><em>,</em><em>)</em>) – [description]</p></li>
+<li><p><strong>b</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_samples</em><em>,</em><em>)</em>) – [description]</p></li>
+<li><p><strong>discrete</strong> (<em>bool</em>) – [description]</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>np.float</dt><dd><p>[description]</p>
+<dd class="field-even"><p>[description]</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -179,18 +173,16 @@
 <dd><p>[summary]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>a</strong><span class="classifier">np.ndarray, (n_samples,)</span></dt><dd><p>[description]</p>
-</dd>
-<dt><strong>discrete</strong><span class="classifier">bool, optional</span></dt><dd><p>[description], by default False</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_samples</em><em>,</em><em>)</em>) – [description]</p></li>
+<li><p><strong>discrete</strong> (<em>bool</em><em>, </em><em>optional</em>) – [description], by default False</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>np.float</dt><dd><p>[description]</p>
+<dd class="field-even"><p>[description]</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -201,20 +193,17 @@
 <dd><p>[summary]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>ai</strong><span class="classifier">np.ndarray, (n_samples,)</span></dt><dd><p>[description]</p>
-</dd>
-<dt><strong>aj</strong><span class="classifier">np.ndarray, (n_samples,)</span></dt><dd><p>[description]</p>
-</dd>
-<dt><strong>discrete</strong><span class="classifier">bool, optional</span></dt><dd><p>[description], by default False</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ai</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_samples</em><em>,</em><em>)</em>) – [description]</p></li>
+<li><p><strong>aj</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_samples</em><em>,</em><em>)</em>) – [description]</p></li>
+<li><p><strong>discrete</strong> (<em>bool</em><em>, </em><em>optional</em>) – [description], by default False</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>np.float</dt><dd><p>H(ai|aj) = H(ai) - I(ai, aj)</p>
+<dd class="field-even"><p>H(ai|aj) = H(ai) - I(ai, aj)</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -225,20 +214,17 @@
 <dd><p>[summary]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>mi</strong><span class="classifier">np.ndarray, (n_features,)</span></dt><dd><p>[description]</p>
-</dd>
-<dt><strong>zi</strong><span class="classifier">t.Optional[int], optional</span></dt><dd><p>[description], by default None</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mi</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_features</em><em>,</em><em>)</em>) – [description]</p></li>
+<li><p><strong>zi</strong> (<em>t.Optional</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description], by default None</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>np.ndarray</dt><dd><p>[description]</p>
-</dd>
-<dt>t.Optional[int]</dt><dd><p>index of the unregularized latent dimension with the highest MI, <cite>None</cite> if <cite>zi</cite> is <cite>None</cite></p>
-</dd>
-</dl>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>np.ndarray</em> – [description]</p></li>
+<li><p><em>t.Optional[int]</em> – index of the unregularized latent dimension with the highest MI, <cite>None</cite> if <cite>zi</cite> is <cite>None</cite></p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -249,20 +235,17 @@
 <dd><p>[summary]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>mi</strong><span class="classifier">np.ndarray, (n_features,)</span></dt><dd><p>[description]</p>
-</dd>
-<dt><strong>zi</strong><span class="classifier">t.Optional[int], optional</span></dt><dd><p>[description], by default None</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mi</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_features</em><em>,</em><em>)</em>) – [description]</p></li>
+<li><p><strong>zi</strong> (<em>t.Optional</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description], by default None</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>np.ndarray</dt><dd><p>[description]</p>
-</dd>
-<dt>t.Optional[int]</dt><dd><p>index of the unregularized latent dimension with the highest MI, <cite>None</cite> if <cite>zi</cite> is <cite>None</cite></p>
-</dd>
-</dl>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>np.ndarray</em> – [description]</p></li>
+<li><p><em>t.Optional[int]</em> – index of the unregularized latent dimension with the highest MI, <cite>None</cite> if <cite>zi</cite> is <cite>None</cite></p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -273,22 +256,18 @@
 <dd><p>[summary]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>z</strong><span class="classifier">np.ndarray, (n_samples, n_features)</span></dt><dd><p>[description]</p>
-</dd>
-<dt><strong>a</strong><span class="classifier">np.ndarray, (n_samples, n_attributes)</span></dt><dd><p>[description]</p>
-</dd>
-<dt><strong>reg_dim</strong><span class="classifier">t.Optional[t.List], optional</span></dt><dd><p>[description], by default None</p>
-</dd>
-<dt><strong>discrete</strong><span class="classifier">bool, optional</span></dt><dd><p>[description], by default False</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – [description]</p></li>
+<li><p><strong>a</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_samples</em><em>, </em><em>n_attributes</em><em>)</em>) – [description]</p></li>
+<li><p><strong>reg_dim</strong> (<em>t.Optional</em><em>[</em><em>t.List</em><em>]</em><em>, </em><em>optional</em>) – [description], by default None</p></li>
+<li><p><strong>discrete</strong> (<em>bool</em><em>, </em><em>optional</em>) – [description], by default False</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>np.ndarray, (n_attributes,)</dt><dd><p>[description]</p>
+<dd class="field-even"><p>[description]</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray, (n_attributes,)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -299,22 +278,18 @@
 <dd><p>[summary]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>z</strong><span class="classifier">np.ndarray, (n_samples, n_features)</span></dt><dd><p>[description]</p>
-</dd>
-<dt><strong>a</strong><span class="classifier">np.ndarray, (n_samples, n_attributes)</span></dt><dd><p>[description]</p>
-</dd>
-<dt><strong>reg_dim</strong><span class="classifier">t.Optional[t.List], optional</span></dt><dd><p>[description], by default None</p>
-</dd>
-<dt><strong>discrete</strong><span class="classifier">bool, optional</span></dt><dd><p>[description], by default False</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – [description]</p></li>
+<li><p><strong>a</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_samples</em><em>, </em><em>n_attributes</em><em>)</em>) – [description]</p></li>
+<li><p><strong>reg_dim</strong> (<em>t.Optional</em><em>[</em><em>t.List</em><em>]</em><em>, </em><em>optional</em>) – [description], by default None</p></li>
+<li><p><strong>discrete</strong> (<em>bool</em><em>, </em><em>optional</em>) – [description], by default False</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>np.ndarray, (n_attributes,)</dt><dd><p>[description]</p>
+<dd class="field-even"><p>[description]</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray, (n_attributes,)</p>
 </dd>
 </dl>
 </dd></dl>

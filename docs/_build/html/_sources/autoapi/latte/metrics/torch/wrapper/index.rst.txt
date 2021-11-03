@@ -68,26 +68,23 @@ Functions
    ``add_state()`` to register metric state variables which keep track of state on each
    call of ``update()`` and are synchronized across processes when ``compute()`` is called.
 
-   Note:
-       Metric state variables can either be ``torch.Tensors`` or an empty list which can we used
-       to store `torch.Tensors``.
+   .. note::
 
-   Note:
-       Different metrics only override ``update()`` and not ``forward()``. A call to ``update()``
-       is valid, but it won't return the metric value at the current step. A call to ``forward()``
-       automatically calls ``update()`` and also returns the metric value at the current step.
+      Metric state variables can either be ``torch.Tensors`` or an empty list which can we used
+      to store `torch.Tensors``.
 
-   Args:
-       compute_on_step:
-           Forward only calls ``update()`` and returns None if this is set to False. default: True
-       dist_sync_on_step:
-           Synchronize metric state across processes at each ``forward()``
-           before returning the value at the step.
-       process_group:
-           Specify the process group on which synchronization is called. default: None (which selects the entire world)
-       dist_sync_fn:
-           Callback that performs the allgather operation on the metric state. When `None`, DDP
-           will be used to perform the allgather.
+   .. note::
+
+      Different metrics only override ``update()`` and not ``forward()``. A call to ``update()``
+      is valid, but it won't return the metric value at the current step. A call to ``forward()``
+      automatically calls ``update()`` and also returns the metric value at the current step.
+
+   :param compute_on_step: Forward only calls ``update()`` and returns None if this is set to False. default: True
+   :param dist_sync_on_step: Synchronize metric state across processes at each ``forward()``
+                             before returning the value at the step.
+   :param process_group: Specify the process group on which synchronization is called. default: None (which selects the entire world)
+   :param dist_sync_fn: Callback that performs the allgather operation on the metric state. When `None`, DDP
+                        will be used to perform the allgather.
 
 
 
@@ -167,26 +164,23 @@ Functions
    ``add_state()`` to register metric state variables which keep track of state on each
    call of ``update()`` and are synchronized across processes when ``compute()`` is called.
 
-   Note:
-       Metric state variables can either be ``torch.Tensors`` or an empty list which can we used
-       to store `torch.Tensors``.
+   .. note::
 
-   Note:
-       Different metrics only override ``update()`` and not ``forward()``. A call to ``update()``
-       is valid, but it won't return the metric value at the current step. A call to ``forward()``
-       automatically calls ``update()`` and also returns the metric value at the current step.
+      Metric state variables can either be ``torch.Tensors`` or an empty list which can we used
+      to store `torch.Tensors``.
 
-   Args:
-       compute_on_step:
-           Forward only calls ``update()`` and returns None if this is set to False. default: True
-       dist_sync_on_step:
-           Synchronize metric state across processes at each ``forward()``
-           before returning the value at the step.
-       process_group:
-           Specify the process group on which synchronization is called. default: None (which selects the entire world)
-       dist_sync_fn:
-           Callback that performs the allgather operation on the metric state. When `None`, DDP
-           will be used to perform the allgather.
+   .. note::
+
+      Different metrics only override ``update()`` and not ``forward()``. A call to ``update()``
+      is valid, but it won't return the metric value at the current step. A call to ``forward()``
+      automatically calls ``update()`` and also returns the metric value at the current step.
+
+   :param compute_on_step: Forward only calls ``update()`` and returns None if this is set to False. default: True
+   :param dist_sync_on_step: Synchronize metric state across processes at each ``forward()``
+                             before returning the value at the step.
+   :param process_group: Specify the process group on which synchronization is called. default: None (which selects the entire world)
+   :param dist_sync_fn: Callback that performs the allgather operation on the metric state. When `None`, DDP
+                        will be used to perform the allgather.
 
 
 

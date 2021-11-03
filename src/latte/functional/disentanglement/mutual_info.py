@@ -1,7 +1,6 @@
 from inspect import getmembers
 import numpy as np
 from sklearn import feature_selection as fs
-from numpy import typing as npt
 import typing as t
 
 
@@ -55,7 +54,7 @@ def latent_attr_mutual_info(
     np.ndarray, (n_features,)
         mutual information between each latent vector dimension and the attribute
     """
-    
+
     return get_mi_func(discrete)(z, a)
 
 

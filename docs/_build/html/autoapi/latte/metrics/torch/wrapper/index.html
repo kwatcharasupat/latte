@@ -114,26 +114,27 @@ handle distributed synchronization and per-step metric computation.</p>
 <p>Override <code class="docutils literal notranslate"><span class="pre">update()</span></code> and <code class="docutils literal notranslate"><span class="pre">compute()</span></code> functions to implement your own metric. Use
 <code class="docutils literal notranslate"><span class="pre">add_state()</span></code> to register metric state variables which keep track of state on each
 call of <code class="docutils literal notranslate"><span class="pre">update()</span></code> and are synchronized across processes when <code class="docutils literal notranslate"><span class="pre">compute()</span></code> is called.</p>
-<dl class="simple">
-<dt>Note:</dt><dd><p>Metric state variables can either be <code class="docutils literal notranslate"><span class="pre">torch.Tensors</span></code> or an empty list which can we used
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Metric state variables can either be <code class="docutils literal notranslate"><span class="pre">torch.Tensors</span></code> or an empty list which can we used
 to store <cite>torch.Tensors`</cite>.</p>
-</dd>
-<dt>Note:</dt><dd><p>Different metrics only override <code class="docutils literal notranslate"><span class="pre">update()</span></code> and not <code class="docutils literal notranslate"><span class="pre">forward()</span></code>. A call to <code class="docutils literal notranslate"><span class="pre">update()</span></code>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Different metrics only override <code class="docutils literal notranslate"><span class="pre">update()</span></code> and not <code class="docutils literal notranslate"><span class="pre">forward()</span></code>. A call to <code class="docutils literal notranslate"><span class="pre">update()</span></code>
 is valid, but it won’t return the metric value at the current step. A call to <code class="docutils literal notranslate"><span class="pre">forward()</span></code>
 automatically calls <code class="docutils literal notranslate"><span class="pre">update()</span></code> and also returns the metric value at the current step.</p>
-</dd>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>compute_on_step:</dt><dd><p>Forward only calls <code class="docutils literal notranslate"><span class="pre">update()</span></code> and returns None if this is set to False. default: True</p>
-</dd>
-<dt>dist_sync_on_step:</dt><dd><p>Synchronize metric state across processes at each <code class="docutils literal notranslate"><span class="pre">forward()</span></code>
-before returning the value at the step.</p>
-</dd>
-<dt>process_group:</dt><dd><p>Specify the process group on which synchronization is called. default: None (which selects the entire world)</p>
-</dd>
-<dt>dist_sync_fn:</dt><dd><p>Callback that performs the allgather operation on the metric state. When <cite>None</cite>, DDP
-will be used to perform the allgather.</p>
-</dd>
-</dl>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compute_on_step</strong> – Forward only calls <code class="docutils literal notranslate"><span class="pre">update()</span></code> and returns None if this is set to False. default: True</p></li>
+<li><p><strong>dist_sync_on_step</strong> – Synchronize metric state across processes at each <code class="docutils literal notranslate"><span class="pre">forward()</span></code>
+before returning the value at the step.</p></li>
+<li><p><strong>process_group</strong> – Specify the process group on which synchronization is called. default: None (which selects the entire world)</p></li>
+<li><p><strong>dist_sync_fn</strong> – Callback that performs the allgather operation on the metric state. When <cite>None</cite>, DDP
+will be used to perform the allgather.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
@@ -161,26 +162,27 @@ handle distributed synchronization and per-step metric computation.</p>
 <p>Override <code class="docutils literal notranslate"><span class="pre">update()</span></code> and <code class="docutils literal notranslate"><span class="pre">compute()</span></code> functions to implement your own metric. Use
 <code class="docutils literal notranslate"><span class="pre">add_state()</span></code> to register metric state variables which keep track of state on each
 call of <code class="docutils literal notranslate"><span class="pre">update()</span></code> and are synchronized across processes when <code class="docutils literal notranslate"><span class="pre">compute()</span></code> is called.</p>
-<dl class="simple">
-<dt>Note:</dt><dd><p>Metric state variables can either be <code class="docutils literal notranslate"><span class="pre">torch.Tensors</span></code> or an empty list which can we used
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Metric state variables can either be <code class="docutils literal notranslate"><span class="pre">torch.Tensors</span></code> or an empty list which can we used
 to store <cite>torch.Tensors`</cite>.</p>
-</dd>
-<dt>Note:</dt><dd><p>Different metrics only override <code class="docutils literal notranslate"><span class="pre">update()</span></code> and not <code class="docutils literal notranslate"><span class="pre">forward()</span></code>. A call to <code class="docutils literal notranslate"><span class="pre">update()</span></code>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Different metrics only override <code class="docutils literal notranslate"><span class="pre">update()</span></code> and not <code class="docutils literal notranslate"><span class="pre">forward()</span></code>. A call to <code class="docutils literal notranslate"><span class="pre">update()</span></code>
 is valid, but it won’t return the metric value at the current step. A call to <code class="docutils literal notranslate"><span class="pre">forward()</span></code>
 automatically calls <code class="docutils literal notranslate"><span class="pre">update()</span></code> and also returns the metric value at the current step.</p>
-</dd>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>compute_on_step:</dt><dd><p>Forward only calls <code class="docutils literal notranslate"><span class="pre">update()</span></code> and returns None if this is set to False. default: True</p>
-</dd>
-<dt>dist_sync_on_step:</dt><dd><p>Synchronize metric state across processes at each <code class="docutils literal notranslate"><span class="pre">forward()</span></code>
-before returning the value at the step.</p>
-</dd>
-<dt>process_group:</dt><dd><p>Specify the process group on which synchronization is called. default: None (which selects the entire world)</p>
-</dd>
-<dt>dist_sync_fn:</dt><dd><p>Callback that performs the allgather operation on the metric state. When <cite>None</cite>, DDP
-will be used to perform the allgather.</p>
-</dd>
-</dl>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compute_on_step</strong> – Forward only calls <code class="docutils literal notranslate"><span class="pre">update()</span></code> and returns None if this is set to False. default: True</p></li>
+<li><p><strong>dist_sync_on_step</strong> – Synchronize metric state across processes at each <code class="docutils literal notranslate"><span class="pre">forward()</span></code>
+before returning the value at the step.</p></li>
+<li><p><strong>process_group</strong> – Specify the process group on which synchronization is called. default: None (which selects the entire world)</p></li>
+<li><p><strong>dist_sync_fn</strong> – Callback that performs the allgather operation on the metric state. When <cite>None</cite>, DDP
+will be used to perform the allgather.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">

@@ -67,10 +67,9 @@ Functions
    
    Encapsulates metric logic and state.
 
-   Args:
-     name: (Optional) string name of the metric instance.
-     dtype: (Optional) data type of the metric result.
-     **kwargs: Additional layer keywords arguments.
+   :param name: (Optional) string name of the metric instance.
+   :param dtype: (Optional) data type of the metric result.
+   :param \*\*kwargs: Additional layer keywords arguments.
 
    Standalone usage:
 

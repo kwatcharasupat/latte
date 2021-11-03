@@ -83,22 +83,17 @@ Functions
    
    Calculate mutual information between latent vectors and a target attribute.
 
+   :param z: a batch of latent vectors
+   :type z: np.ndarray, (n_samples, n_features)
+   :param a: a batch of one attribute
+   :type a: np.ndarray, (n_samples,)
+   :param discrete: whether the attribute is discrete, by default False
+   :type discrete: bool, optional
 
-   :Parameters:
+   :returns: mutual information between each latent vector dimension and the attribute
+   :rtype: np.ndarray, (n_features,)
 
-       **z** : np.ndarray, (n_samples, n_features)
-           a batch of latent vectors
 
-       **a** : np.ndarray, (n_samples,)
-           a batch of one attribute
-
-       **discrete** : bool, optional
-           whether the attribute is discrete, by default False
-
-   :Returns:
-
-       np.ndarray, (n_features,)
-           mutual information between each latent vector dimension and the attribute
 
 
 
@@ -120,22 +115,17 @@ Functions
    
    [summary]
 
+   :param a: [description]
+   :type a: np.ndarray, (n_samples,)
+   :param b: [description]
+   :type b: np.ndarray, (n_samples,)
+   :param discrete: [description]
+   :type discrete: bool
 
-   :Parameters:
+   :returns: [description]
+   :rtype: np.float
 
-       **a** : np.ndarray, (n_samples,)
-           [description]
 
-       **b** : np.ndarray, (n_samples,)
-           [description]
-
-       **discrete** : bool
-           [description]
-
-   :Returns:
-
-       np.float
-           [description]
 
 
 
@@ -157,19 +147,15 @@ Functions
    
    [summary]
 
+   :param a: [description]
+   :type a: np.ndarray, (n_samples,)
+   :param discrete: [description], by default False
+   :type discrete: bool, optional
 
-   :Parameters:
+   :returns: [description]
+   :rtype: np.float
 
-       **a** : np.ndarray, (n_samples,)
-           [description]
 
-       **discrete** : bool, optional
-           [description], by default False
-
-   :Returns:
-
-       np.float
-           [description]
 
 
 
@@ -191,22 +177,17 @@ Functions
    
    [summary]
 
+   :param ai: [description]
+   :type ai: np.ndarray, (n_samples,)
+   :param aj: [description]
+   :type aj: np.ndarray, (n_samples,)
+   :param discrete: [description], by default False
+   :type discrete: bool, optional
 
-   :Parameters:
+   :returns: H(ai|aj) = H(ai) - I(ai, aj)
+   :rtype: np.float
 
-       **ai** : np.ndarray, (n_samples,)
-           [description]
 
-       **aj** : np.ndarray, (n_samples,)
-           [description]
-
-       **discrete** : bool, optional
-           [description], by default False
-
-   :Returns:
-
-       np.float
-           H(ai|aj) = H(ai) - I(ai, aj)
 
 
 
@@ -228,22 +209,15 @@ Functions
    
    [summary]
 
+   :param mi: [description]
+   :type mi: np.ndarray, (n_features,)
+   :param zi: [description], by default None
+   :type zi: t.Optional[int], optional
 
-   :Parameters:
+   :returns: * *np.ndarray* -- [description]
+             * *t.Optional[int]* -- index of the unregularized latent dimension with the highest MI, `None` if `zi` is `None`
 
-       **mi** : np.ndarray, (n_features,)
-           [description]
 
-       **zi** : t.Optional[int], optional
-           [description], by default None
-
-   :Returns:
-
-       np.ndarray
-           [description]
-
-       t.Optional[int]
-           index of the unregularized latent dimension with the highest MI, `None` if `zi` is `None`
 
 
 
@@ -265,22 +239,15 @@ Functions
    
    [summary]
 
+   :param mi: [description]
+   :type mi: np.ndarray, (n_features,)
+   :param zi: [description], by default None
+   :type zi: t.Optional[int], optional
 
-   :Parameters:
+   :returns: * *np.ndarray* -- [description]
+             * *t.Optional[int]* -- index of the unregularized latent dimension with the highest MI, `None` if `zi` is `None`
 
-       **mi** : np.ndarray, (n_features,)
-           [description]
 
-       **zi** : t.Optional[int], optional
-           [description], by default None
-
-   :Returns:
-
-       np.ndarray
-           [description]
-
-       t.Optional[int]
-           index of the unregularized latent dimension with the highest MI, `None` if `zi` is `None`
 
 
 
@@ -302,25 +269,19 @@ Functions
    
    [summary]
 
+   :param z: [description]
+   :type z: np.ndarray, (n_samples, n_features)
+   :param a: [description]
+   :type a: np.ndarray, (n_samples, n_attributes)
+   :param reg_dim: [description], by default None
+   :type reg_dim: t.Optional[t.List], optional
+   :param discrete: [description], by default False
+   :type discrete: bool, optional
 
-   :Parameters:
+   :returns: [description]
+   :rtype: np.ndarray, (n_attributes,)
 
-       **z** : np.ndarray, (n_samples, n_features)
-           [description]
 
-       **a** : np.ndarray, (n_samples, n_attributes)
-           [description]
-
-       **reg_dim** : t.Optional[t.List], optional
-           [description], by default None
-
-       **discrete** : bool, optional
-           [description], by default False
-
-   :Returns:
-
-       np.ndarray, (n_attributes,)
-           [description]
 
 
 
@@ -342,25 +303,19 @@ Functions
    
    [summary]
 
+   :param z: [description]
+   :type z: np.ndarray, (n_samples, n_features)
+   :param a: [description]
+   :type a: np.ndarray, (n_samples, n_attributes)
+   :param reg_dim: [description], by default None
+   :type reg_dim: t.Optional[t.List], optional
+   :param discrete: [description], by default False
+   :type discrete: bool, optional
 
-   :Parameters:
+   :returns: [description]
+   :rtype: np.ndarray, (n_attributes,)
 
-       **z** : np.ndarray, (n_samples, n_features)
-           [description]
 
-       **a** : np.ndarray, (n_samples, n_attributes)
-           [description]
-
-       **reg_dim** : t.Optional[t.List], optional
-           [description], by default None
-
-       **discrete** : bool, optional
-           [description], by default False
-
-   :Returns:
-
-       np.ndarray, (n_attributes,)
-           [description]
 
 
 

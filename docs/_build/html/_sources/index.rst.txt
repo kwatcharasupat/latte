@@ -6,16 +6,12 @@
 Welcome to Latte's documentation!
 =================================
 
+.. automodule:: latte
+    :members:
 
-
-.. autosummary::
-   :toctree: _autosummary
-   :recursive:
-
-   latte
-
-
-
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
 
 Indices and tables
 ==================
