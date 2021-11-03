@@ -1,0 +1,37 @@
+:py:mod:`latte.functional`
+==========================
+
+.. py:module:: latte.functional
+
+.. autoapi-nested-parse::
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   disentanglement/index.rst
+
+

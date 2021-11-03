@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>latte.metrics.keras.wrapper &mdash; Latte  documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../index.html" class="icon icon-home"> Latte
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Latte</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras.wrapper</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../_sources/autoapi/latte/metrics/keras/wrapper/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-latte.metrics.keras.wrapper">
+<span id="latte-metrics-keras-wrapper"></span><h1><a class="reference internal" href="#module-latte.metrics.keras.wrapper" title="latte.metrics.keras.wrapper"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras.wrapper</span></code></a><a class="headerlink" href="#module-latte.metrics.keras.wrapper" title="Permalink to this headline"></a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper" title="latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KerasMetricsFunctionalWrapper</span></code></a></p></td>
+<td><p>Encapsulates metric logic and state.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.keras.wrapper.to_numpy" title="latte.metrics.keras.wrapper.to_numpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_numpy</span></code></a>(args, kwargs)</p></td>
+<td><p>[summary]</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.to_numpy">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.keras.wrapper.</span></span><span class="sig-name descname"><span class="pre">to_numpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.to_numpy" title="Permalink to this definition"></a></dt>
+<dd><p>[summary]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>kwargs</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[type]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">latte.metrics.keras.wrapper.</span></span><span class="sig-name descname"><span class="pre">KerasMetricsFunctionalWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">tensorflow.keras.metrics.Metric</span></code></p>
+<p>Encapsulates metric logic and state.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name: (Optional) string name of the metric instance.
+dtype: (Optional) data type of the metric result.
+<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional layer keywords arguments.</p>
+</dd>
+</dl>
+<p>Standalone usage:</p>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a><a href="#id5"><span class="problematic" id="id6">`</span></a>python
+m = SomeMetric(…)
+for input in …:</p>
+<blockquote>
+<div><p>m.update_state(input)</p>
+</div></blockquote>
+<p>print(‘Final result: ‘, m.result().numpy())
+<a href="#id7"><span class="problematic" id="id8">``</span></a><a href="#id9"><span class="problematic" id="id10">`</span></a></p>
+<p>Usage with <cite>compile()</cite> API:</p>
+<p><a href="#id11"><span class="problematic" id="id12">``</span></a><a href="#id13"><span class="problematic" id="id14">`</span></a>python
+model = tf.keras.Sequential()
+model.add(tf.keras.layers.Dense(64, activation=’relu’))
+model.add(tf.keras.layers.Dense(64, activation=’relu’))
+model.add(tf.keras.layers.Dense(10, activation=’softmax’))</p>
+<dl class="simple">
+<dt>model.compile(optimizer=tf.keras.optimizers.RMSprop(0.01),</dt><dd><p>loss=tf.keras.losses.CategoricalCrossentropy(),
+metrics=[tf.keras.metrics.CategoricalAccuracy()])</p>
+</dd>
+</dl>
+<p>data = np.random.random((1000, 32))
+labels = np.random.random((1000, 10))</p>
+<p>dataset = tf.data.Dataset.from_tensor_slices((data, labels))
+dataset = dataset.batch(32)</p>
+<p>model.fit(dataset, epochs=10)
+<a href="#id15"><span class="problematic" id="id16">``</span></a><a href="#id17"><span class="problematic" id="id18">`</span></a></p>
+<p>To be implemented by subclasses:
+* <cite>__init__()</cite>: All state variables should be created in this method by</p>
+<blockquote>
+<div><p>calling <cite>self.add_weight()</cite> like: <cite>self.var = self.add_weight(…)</cite></p>
+</div></blockquote>
+<ul class="simple">
+<li><p><cite>update_state()</cite>: Has all updates to the state variables like:
+self.var.assign_add(…).</p></li>
+<li><p><cite>result()</cite>: Computes and returns a value for the metric
+from the state variables.</p></li>
+</ul>
+<p>Example subclass implementation:</p>
+<p><a href="#id19"><span class="problematic" id="id20">``</span></a><a href="#id21"><span class="problematic" id="id22">`</span></a>python
+class BinaryTruePositives(tf.keras.metrics.Metric):</p>
+<blockquote>
+<div><dl>
+<dt>def __init__(self, name=’binary_true_positives’, <a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs):</dt><dd><p>super(BinaryTruePositives, self).__init__(name=name, <a href="#id25"><span class="problematic" id="id26">**</span></a>kwargs)
+self.true_positives = self.add_weight(name=’tp’, initializer=’zeros’)</p>
+</dd>
+<dt>def update_state(self, y_true, y_pred, sample_weight=None):</dt><dd><p>y_true = tf.cast(y_true, tf.bool)
+y_pred = tf.cast(y_pred, tf.bool)</p>
+<p>values = tf.logical_and(tf.equal(y_true, True), tf.equal(y_pred, True))
+values = tf.cast(values, self.dtype)
+if sample_weight is not None:</p>
+<blockquote>
+<div><p>sample_weight = tf.cast(sample_weight, self.dtype)
+sample_weight = tf.broadcast_to(sample_weight, values.shape)
+values = tf.multiply(values, sample_weight)</p>
+</div></blockquote>
+<p>self.true_positives.assign_add(tf.reduce_sum(values))</p>
+</dd>
+<dt>def result(self):</dt><dd><p>return self.true_positives</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><a href="#id27"><span class="problematic" id="id28">``</span></a><a href="#id29"><span class="problematic" id="id30">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper.update" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper.compute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Karn N. Watcharasupat and Alexander Lerch.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
