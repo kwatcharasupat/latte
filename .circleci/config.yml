@@ -33,6 +33,7 @@ jobs:
           name: Install dependencies
           command: |
             pip install .
+            pip install pytest
       - run:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
