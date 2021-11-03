@@ -6,15 +6,15 @@
 ## Installation
 
 ### Core (NumPy only)
-```
+```console
 pip install latte
 ```
 ### PyTorch (TorchMetrics API)
-```
+```console
 pip install latte[pytorch]
 ```
 ### TensorFlow (Keras Metric API)
-```
+```console
 pip install latte[keras]
 ```
 
@@ -58,7 +58,14 @@ Coming Soon
 ## Cite 
 
 If you find our package useful please cite us as
-```
+```bibtex
+@software{
+  watcharasupat2021latte,
+  author = {Watcharasupat, Karn N. and Lerch, Alexander},
+  title = {{Latte: Cross-framework Python Package for Evaluation of Latent-based Generative Models}},
+  url = {https://github.com/karnwatcharasupat/latte},
+  version = {0.0.1-beta}
+}
 ```
 
 For individual metrics, please cite the paper according to the link in the 📝 icon in front of each metric.
