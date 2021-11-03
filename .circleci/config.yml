@@ -17,9 +17,9 @@ jobs:
           command: |
             pip install --upgrade pip
             pip install .[tests]
-            pytest --cov=./ --cov-report=xml
+            pytest --cov=./src --cov-report=xml
       - codecov/upload:
-          file: .coverage
+          file: coverage.xml
 
 workflows:
   test:
