@@ -19,42 +19,17 @@ Functions
 
 .. autoapisummary::
 
-   latte.functional.disentanglement.mutual_info._validate_za_shape
    latte.functional.disentanglement.mutual_info.get_mi_func
    latte.functional.disentanglement.mutual_info.latent_attr_mutual_info
    latte.functional.disentanglement.mutual_info.single_mutual_info
    latte.functional.disentanglement.mutual_info.entropy
    latte.functional.disentanglement.mutual_info.conditional_entropy
-   latte.functional.disentanglement.mutual_info._mgap
-   latte.functional.disentanglement.mutual_info._xgap
    latte.functional.disentanglement.mutual_info.mig
    latte.functional.disentanglement.mutual_info.dmig
    latte.functional.disentanglement.mutual_info.dlig
    latte.functional.disentanglement.mutual_info.xmig
 
 
-
-.. py:function:: _validate_za_shape(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List], fill_reg_dim: bool = False) -> Tuple[numpy.ndarray, numpy.ndarray]
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
 
 .. py:function:: get_mi_func(discrete: bool) -> Callable
 
@@ -186,66 +161,6 @@ Functions
 
    :returns: H(ai|aj) = H(ai) - I(ai, aj)
    :rtype: np.float
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: _mgap(mi: numpy.ndarray, zi: Optional[int] = None) -> Tuple[numpy.ndarray, Optional[int]]
-
-   
-   [summary]
-
-   :param mi: [description]
-   :type mi: np.ndarray, (n_features,)
-   :param zi: [description], by default None
-   :type zi: t.Optional[int], optional
-
-   :returns: * *np.ndarray* -- [description]
-             * *t.Optional[int]* -- index of the unregularized latent dimension with the highest MI, `None` if `zi` is `None`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-.. py:function:: _xgap(mi: numpy.ndarray, zi: int, reg_dim: List) -> Tuple[numpy.ndarray, Optional[int]]
-
-   
-   [summary]
-
-   :param mi: [description]
-   :type mi: np.ndarray, (n_features,)
-   :param zi: [description], by default None
-   :type zi: t.Optional[int], optional
-
-   :returns: * *np.ndarray* -- [description]
-             * *t.Optional[int]* -- index of the unregularized latent dimension with the highest MI, `None` if `zi` is `None`
 
 
 

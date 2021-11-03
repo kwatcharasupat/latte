@@ -77,49 +77,35 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info._validate_za_shape" title="latte.functional.disentanglement.mutual_info._validate_za_shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_validate_za_shape</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List], fill_reg_dim: bool = False) → Tuple[numpy.ndarray, numpy.ndarray]</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.get_mi_func" title="latte.functional.disentanglement.mutual_info.get_mi_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_mi_func</span></code></a>(discrete: bool) → Callable</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.get_mi_func" title="latte.functional.disentanglement.mutual_info.get_mi_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_mi_func</span></code></a>(discrete: bool) → Callable</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.latent_attr_mutual_info" title="latte.functional.disentanglement.mutual_info.latent_attr_mutual_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latent_attr_mutual_info</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, discrete: bool = False) → numpy.ndarray</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.latent_attr_mutual_info" title="latte.functional.disentanglement.mutual_info.latent_attr_mutual_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latent_attr_mutual_info</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, discrete: bool = False) → numpy.ndarray</p></td>
 <td><p>Calculate mutual information between latent vectors and a target attribute.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.single_mutual_info" title="latte.functional.disentanglement.mutual_info.single_mutual_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">single_mutual_info</span></code></a>(a: numpy.ndarray, b: numpy.ndarray, discrete: bool) → numpy.float</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.single_mutual_info" title="latte.functional.disentanglement.mutual_info.single_mutual_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">single_mutual_info</span></code></a>(a: numpy.ndarray, b: numpy.ndarray, discrete: bool) → numpy.float</p></td>
 <td><p>[summary]</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.entropy" title="latte.functional.disentanglement.mutual_info.entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entropy</span></code></a>(a: numpy.ndarray, discrete: bool = False) → numpy.float</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.entropy" title="latte.functional.disentanglement.mutual_info.entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entropy</span></code></a>(a: numpy.ndarray, discrete: bool = False) → numpy.float</p></td>
 <td><p>[summary]</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.conditional_entropy" title="latte.functional.disentanglement.mutual_info.conditional_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conditional_entropy</span></code></a>(ai: numpy.ndarray, aj: numpy.ndarray, discrete: bool = False) → numpy.float</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.conditional_entropy" title="latte.functional.disentanglement.mutual_info.conditional_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conditional_entropy</span></code></a>(ai: numpy.ndarray, aj: numpy.ndarray, discrete: bool = False) → numpy.float</p></td>
 <td><p>[summary]</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info._mgap" title="latte.functional.disentanglement.mutual_info._mgap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_mgap</span></code></a>(mi: numpy.ndarray, zi: Optional[int] = None) → Tuple[numpy.ndarray, Optional[int]]</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.mig" title="latte.functional.disentanglement.mutual_info.mig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mig</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False) → numpy.ndarray</p></td>
 <td><p>[summary]</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info._xgap" title="latte.functional.disentanglement.mutual_info._xgap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_xgap</span></code></a>(mi: numpy.ndarray, zi: int, reg_dim: List) → Tuple[numpy.ndarray, Optional[int]]</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.dmig" title="latte.functional.disentanglement.mutual_info.dmig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dmig</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False) → numpy.ndarray</p></td>
 <td><p>[summary]</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.mig" title="latte.functional.disentanglement.mutual_info.mig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mig</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False) → numpy.ndarray</p></td>
-<td><p>[summary]</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.dmig" title="latte.functional.disentanglement.mutual_info.dmig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dmig</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False) → numpy.ndarray</p></td>
-<td><p>[summary]</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.dlig" title="latte.functional.disentanglement.mutual_info.dlig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dlig</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.dlig" title="latte.functional.disentanglement.mutual_info.dlig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dlig</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.xmig" title="latte.functional.disentanglement.mutual_info.xmig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xmig</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.mutual_info.xmig" title="latte.functional.disentanglement.mutual_info.xmig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xmig</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py function">
-<dt class="sig sig-object py" id="latte.functional.disentanglement.mutual_info._validate_za_shape">
-<span class="sig-prename descclassname"><span class="pre">latte.functional.disentanglement.mutual_info.</span></span><span class="sig-name descname"><span class="pre">_validate_za_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_reg_dim</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#latte.functional.disentanglement.mutual_info._validate_za_shape" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="latte.functional.disentanglement.mutual_info.get_mi_func">
 <span class="sig-prename descclassname"><span class="pre">latte.functional.disentanglement.mutual_info.</span></span><span class="sig-name descname"><span class="pre">get_mi_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="headerlink" href="#latte.functional.disentanglement.mutual_info.get_mi_func" title="Permalink to this definition"></a></dt>
@@ -204,48 +190,6 @@
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>np.float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="latte.functional.disentanglement.mutual_info._mgap">
-<span class="sig-prename descclassname"><span class="pre">latte.functional.disentanglement.mutual_info.</span></span><span class="sig-name descname"><span class="pre">_mgap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mi</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zi</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#latte.functional.disentanglement.mutual_info._mgap" title="Permalink to this definition"></a></dt>
-<dd><p>[summary]</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mi</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_features</em><em>,</em><em>)</em>) – [description]</p></li>
-<li><p><strong>zi</strong> (<em>t.Optional</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description], by default None</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><em>np.ndarray</em> – [description]</p></li>
-<li><p><em>t.Optional[int]</em> – index of the unregularized latent dimension with the highest MI, <cite>None</cite> if <cite>zi</cite> is <cite>None</cite></p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="latte.functional.disentanglement.mutual_info._xgap">
-<span class="sig-prename descclassname"><span class="pre">latte.functional.disentanglement.mutual_info.</span></span><span class="sig-name descname"><span class="pre">_xgap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mi</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zi</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#latte.functional.disentanglement.mutual_info._xgap" title="Permalink to this definition"></a></dt>
-<dd><p>[summary]</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mi</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_features</em><em>,</em><em>)</em>) – [description]</p></li>
-<li><p><strong>zi</strong> (<em>t.Optional</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description], by default None</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><em>np.ndarray</em> – [description]</p></li>
-<li><p><em>t.Optional[int]</em> – index of the unregularized latent dimension with the highest MI, <cite>None</cite> if <cite>zi</cite> is <cite>None</cite></p></li>
-</ul>
-</p>
 </dd>
 </dl>
 </dd></dl>
