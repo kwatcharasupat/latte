@@ -3,6 +3,9 @@ import numpy as np
 from sklearn import feature_selection as fs
 import typing as t
 
+from functools import partial
+
+RANDOM_STATE = 42
 
 def _validate_za_shape(
     z: np.ndarray,
@@ -18,7 +21,6 @@ def _validate_za_shape(
 
     assert z.ndim == 2
     assert z.shape[0] == a.shape[0]
-
     assert z.shape[1] >= a.shape[1]
 
     _, n_attr = a.shape
@@ -36,7 +38,7 @@ def _validate_za_shape(
 
 
 def get_mi_func(discrete: bool) -> t.Callable:
-    return fs.mutual_info_classif if discrete else fs.mutual_info_regression
+    return partial(fs.mutual_info_classif if discrete else fs.mutual_info_regression, random_state=RANDOM_STATE)
 
 
 def latent_attr_mutual_info(
