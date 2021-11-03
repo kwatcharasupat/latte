@@ -3,6 +3,7 @@
 
 [![CircleCI](https://circleci.com/gh/karnwatcharasupat/latte/tree/main.svg?style=shield&circle-token=0c9b78ee4a89415f93953a0677d7b531e0f5361a)](https://circleci.com/gh/karnwatcharasupat/latte/tree/main)
 [![codecov](https://codecov.io/gh/karnwatcharasupat/latte/branch/main/graph/badge.svg?token=9JXSESGPHA)](https://codecov.io/gh/karnwatcharasupat/latte)
+<img src="https://img.shields.io/badge/license-MIT-brightgreen"/>
 
 ## Installation
 
@@ -29,34 +30,36 @@ Coming Soon
 
 ## Supported metrics
 
-🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 👀 Potential Addition
+🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
 
 | Metric                                        | Functional  | TorchMetrics   | Keras Metric |
 | :---                                          | :--:        | :--:      | :--:       |
 | _Disentanglement Metrics_                     |
-| [📝](https://arxiv.org/abs/1802.04942) Mutual Information Gap (MIG)                          |🧪 |🔨|🔨|
-| [📝](https://arxiv.org/abs/2110.05587) Dependency-blind Mutual Infomation Gap (DMIG)         |🧪 |🔨|🔨|
-| Dependency-aware Mutual Information Gap (XMIG)                                                |🧪 |🔨|🔨|
-| Dependency-aware Latent Information Gap (DLIG)                                                |🧪 |🔨|🔨|
-| [📝](https://arxiv.org/abs/1711.00848) Separate Attribute Predictability (SAP)                |🔨|🔨|🔨|
-| [📝](https://arxiv.org/abs/1802.05312) Modularity                                             |🔨|🔨|🔨|
-| [📝](https://openreview.net/forum?id=Sy2fzU9gl) Disentanglement metric score (β-VAE paper)    |🔨|🔨|🔨|
+| [📝](https://arxiv.org/abs/1802.04942) Mutual Information Gap (MIG)                          |🔨|🕣|🕣|
+| [📝](https://arxiv.org/abs/2110.05587) Dependency-blind Mutual Infomation Gap (DMIG)         |🔨|🕣|🕣|
+| Dependency-aware Mutual Information Gap (XMIG)                                                |🔨|🕣|🕣|
+| Dependency-aware Latent Information Gap (DLIG)                                                |🔨|🕣|🕣|
+| [📝](https://arxiv.org/abs/1711.00848) Separate Attribute Predictability (SAP)                |🕣|🕣|🕣|
+| [📝](https://arxiv.org/abs/1802.05312) Modularity                                             |🕣|🕣|🕣|
+| [📝](https://openreview.net/forum?id=Sy2fzU9gl) Disentanglement metric score (β-VAE paper)    |🕣|🕣|🕣|
 | _Interpolatability Metrics_                     |
-| Smoothness                                                |🔨|🔨|🔨|
-| Monotonicity                                              |🔨|🔨|🔨|
+| Smoothness                                                |🕣|🕣|🕣|
+| Monotonicity                                              |🕣|🕣|🕣|
 
 
 
 ## Bundled metric modules
-🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 👀 Potential Addition
+🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
 
 | Metric Bundle                                 | Functional  | TorchMetrics   | Keras Metric | Included
 | :---                                          | :--:        | :--:      | :--:       | :---|
-| Classic Disentanglement                       |🔨|🔨|🔨| MIG, SAP, Modularity |
-| Dependency-aware Disentanglement              |🔨|🔨|🔨| MIG, DMIG, XMIG, DLIG |
-| Interpolatability                             |🔨|🔨|🔨| Smoothness, Monotonicity |
+| Classic Disentanglement                       |🕣|🕣|🕣| MIG, SAP, Modularity |
+| Dependency-aware Disentanglement              |🕣|🕣|🕣| MIG, DMIG, XMIG, DLIG |
+| Interpolatability                             |🕣|🕣|🕣| Smoothness, Monotonicity |
 
 ## Cite 
+
+For individual metrics, please cite the paper according to the link in the 📝 icon in front of each metric.
 
 If you find our package useful please cite us as
 ```bibtex
@@ -65,8 +68,8 @@ If you find our package useful please cite us as
   author = {Watcharasupat, Karn N. and Lerch, Alexander},
   title = {{Latte: Cross-framework Python Package for Evaluation of Latent-based Generative Models}},
   url = {https://github.com/karnwatcharasupat/latte},
-  version = {0.0.1-beta}
+  version = {0.0.1-alpha}
 }
 ```
 
-For individual metrics, please cite the paper according to the link in the 📝 icon in front of each metric.
+
