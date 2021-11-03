@@ -29,12 +29,12 @@ author = 'Karn N. Watcharasupat and Alexander Lerch'
 # ones.
 extensions = ['sphinx.ext.autodoc', 
               'numpydoc',
-              'sphinx.ext.autosummary', 
-              'autoapi.extension']
+              'sphinx.ext.autosummary']
 
-autoapi_type = 'python'
-autoapi_dirs = ['../src']
-autoapi_root = 'autoapi'
+autosummary_generate = True
+# autoapi_type = 'python'
+# autoapi_dirs = ['../src']
+# autoapi_root = 'autoapi'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
