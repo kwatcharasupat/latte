@@ -7,17 +7,13 @@
 
 ## Installation
 
-### Core (NumPy only)
+For developers working on local clone, `cd` to the repo and replace `latte` with `.`. For example, `pip install .[tests]`
+
 ```console
-pip install latte
-```
-### PyTorch (TorchMetrics API)
-```console
-pip install latte[pytorch]
-```
-### TensorFlow (Keras Metric API)
-```console
-pip install latte[keras]
+pip install latte           # core (numpy only)
+pip install latte[pytorch]  # with torchmetrics wrapper
+pip install latte[keras]    # with tensorflow wrapper
+pip install latte[tests]    # for testing
 ```
 
 ## Getting Started
@@ -26,13 +22,61 @@ Coming Soon
 
 ## Documentation
 
-Coming Soon
+#TODO: Auto-generate doc with CI/CD
+
+https://karnwatcharasupat.github.io/latte/_build/html/index.html
+
+## Modules
+Modules are untested unless marked with :ok_hand: (Some files/modules do not yet exist.)
+
+```
+.
+├── functional                # functional API with NumPy
+│   ├── disentanglement         # disentanglement metrics
+│   │   ├── mutual_info.py        # MIG-based metrics
+│   │   ├── sap.py                # separate attribute predictability (Kumar et al., 2017)
+│   │   ├── ridgeway.py           # modularity and explicitness (Ridgeway & Mozer, 2018)
+│   │   ├── beta_vae.py           # disentanglement metric score (Higgins et al., 2017)
+│   │   └── <TBA>
+│   └── interpolatability       # intepolatabililty metrics
+│       ├── liad.py               # LIAD-based metrics (smoothness, monotonicity)
+│       └── <TBA>
+└── metrics                   # module API with TorchMetrics/Keras
+    ├── common.py               # common utils
+    ├── numpy                     # base modular classes with native Python + NumPy
+    │   └── <TBA>                   # implement class versions of the functional metrics 
+    ├── keras                     # for tf.keras
+    │   └── wrapper.py              # keras wrapper on base classes
+    └── torch                     # for torch
+        └── wrapper.py              # torchmetrics wrapper on base classes
+```
+
+## Method Chart for Modular API
+
+TorchMetrics: https://torchmetrics.readthedocs.io/en/latest/pages/implement.html
+
+Keras Metric: https://www.tensorflow.org/api_docs/python/tf/keras/metrics/Metric
+
+Torch/Keras wrapper will
+1. convert torch/tf types to numpy types (and move everything to CPU)
+2. call native class methods
+3. if there are return values, convert numpy types back to torch/tf types
+
+
+|      | Native  |TorchMetrics | Keras Metric |
+| :--- | :--- | :---        | :---         |
+| base class | `latte.metrics.Metric` | `torchmetrics.Metric` | `tf.keras.metrics.Metric` |
+| super class | `object` | `torch.nn.Module` | `tf.keras.layers.Layer` |
+| adding buffer | `self.add_state` | `self.add_state` | `self.add_weight` |
+| updating buffer | `self.update_state` | `self.update` | `self.update_state` |
+| resetting buffer | `self.reset_state` | `self.reset` | `self.reset_state` |
+| computing metric values | `self.compute` | `self.compute` | `self.result` |
 
 ## Supported metrics
 
 🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
 
-| Metric                                        | Functional  | TorchMetrics   | Keras Metric |
+| Metric                                        | Functional  | TorchMetrics   | Keras Metric | 
 | :---                                          | :--:        | :--:      | :--:       |
 | _Disentanglement Metrics_                     |
 | [📝](https://arxiv.org/abs/1802.04942) Mutual Information Gap (MIG)                          |🔨|🕣|🕣|
@@ -46,8 +90,6 @@ Coming Soon
 | Smoothness                                                |🕣|🕣|🕣|
 | Monotonicity                                              |🕣|🕣|🕣|
 
-
-
 ## Bundled metric modules
 🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
 
@@ -60,7 +102,7 @@ Coming Soon
 ## Cite 
 
 For individual metrics, please cite the paper according to the link in the 📝 icon in front of each metric.
-
+<!-- 
 If you find our package useful please cite us as
 ```bibtex
 @software{
@@ -70,6 +112,6 @@ If you find our package useful please cite us as
   url = {https://github.com/karnwatcharasupat/latte},
   version = {0.0.1-alpha}
 }
-```
+``` -->
 
 
