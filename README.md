@@ -16,6 +16,12 @@ pip install latte[keras]    # with tensorflow wrapper
 pip install latte[tests]    # for testing
 ```
 
+## CI/CD
+
+CircleCI: https://app.circleci.com/pipelines/github/karnwatcharasupat/latte
+CodeCov: https://app.codecov.io/gh/karnwatcharasupat/latte/
+
+
 ## Getting Started
 
 Coming Soon
