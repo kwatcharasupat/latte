@@ -6,7 +6,7 @@ authors:
   orcid: "https://orcid.org/0000-0002-3878-5048"
 - family-names: "Lerch"
   given-names: "Alexander"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
+  orcid: "https://orcid.org/0000-0001-6319-578X"
 title: "Latte: Cross-framework Python Package for Evaluation of Latent-based Generative Models"
 version: 0.0.1-beta
 date-released: 2021
