@@ -19,8 +19,14 @@ pip install latte[tests]    # for testing
 ## CI/CD
 
 CircleCI: https://app.circleci.com/pipelines/github/karnwatcharasupat/latte
+
 CodeCov: https://app.codecov.io/gh/karnwatcharasupat/latte/
 
+### Running tests locally
+```
+pip install .[tests]
+pytest --cov=latte
+```
 
 ## Getting Started
 
@@ -28,9 +34,15 @@ Coming Soon
 
 ## Documentation
 
-#TODO: Auto-generate doc with CI/CD
+numpydoc: https://numpydoc.readthedocs.io/en/latest/format.html
 
-https://karnwatcharasupat.github.io/latte/_build/html/index.html
+Generated Docs: https://karnwatcharasupat.github.io/latte
+
+```console
+#TODO: Auto-generate doc with CI/CD
+cd docs
+make html
+```
 
 ## Modules
 Modules are untested unless marked with :ok_hand: (Some files/modules do not yet exist.)
