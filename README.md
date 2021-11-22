@@ -97,7 +97,7 @@ Torch/Keras wrapper will
 | Metric                                        | Functional  | TorchMetrics   | Keras Metric | 
 | :---                                          | :--:        | :--:      | :--:       |
 | _Disentanglement Metrics_                     |
-| [📝](https://arxiv.org/abs/1802.04942) Mutual Information Gap (MIG)                          |🔨|🕣|🕣|
+| [📝](https://arxiv.org/abs/1802.04942) Mutual Information Gap (MIG)                          |✔️|🕣|🕣|
 | [📝](https://arxiv.org/abs/2110.05587) Dependency-blind Mutual Infomation Gap (DMIG)         |🔨|🕣|🕣|
 | Dependency-aware Mutual Information Gap (XMIG)                                                |🔨|🕣|🕣|
 | Dependency-aware Latent Information Gap (DLIG)                                                |🔨|🕣|🕣|

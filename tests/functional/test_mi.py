@@ -164,3 +164,40 @@ class TestConditionalEntropy:
             mi.conditional_entropy(a, b, False),
             mi.entropy(a, False) - mi.single_mutual_info(a, b, False),
         )
+
+class TestMGaps:
+    def test_mgap_no_z(self):
+        minfo = np.array([4, 3, 1, 9])
+        
+        gap, zmax = mi._mgap(minfo)
+        
+        assert gap == 5
+        assert zmax is None
+        
+    def test_mgap_w_z_max(self):
+        minfo = np.array([4, 3, 1, 9])
+        
+        gap, zmax = mi._mgap(minfo, zi=3)
+        
+        assert gap == 5
+        assert zmax == 0
+        
+    def test_mgap_w_z_notmax(self):
+        minfo = np.array([4, 3, 1, 9])
+        
+        gap, zmax = mi._mgap(minfo, zi=0)
+        
+        assert gap == -5
+        assert zmax == 3
+        
+        
+class TestMIG:
+    def test_mig(self):
+        z = np.random.randn(16, 16)
+        a = np.random.randn(16, 3)
+        
+        mig = mi.mig(z, a)
+        
+        assert mig.ndim == 1
+        assert mig.shape[0] == a.shape[-1]
+        
