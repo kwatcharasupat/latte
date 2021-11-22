@@ -5,7 +5,6 @@ import typing as t
 
 from functools import partial
 
-RANDOM_STATE = 42
 
 def _validate_za_shape(
     z: np.ndarray,
@@ -13,7 +12,7 @@ def _validate_za_shape(
     reg_dim: t.Optional[t.List] = None,
     fill_reg_dim: bool = False,
 ) -> t.Tuple[np.ndarray, np.ndarray]:
-    
+
     assert a.ndim <= 2
 
     if a.ndim == 1:
@@ -38,7 +37,15 @@ def _validate_za_shape(
 
 
 def get_mi_func(discrete: bool) -> t.Callable:
-    return partial(fs.mutual_info_classif if discrete else fs.mutual_info_regression, random_state=RANDOM_STATE)
+
+    from ... import (
+        RANDOM_STATE,
+    )  # this should be imported inside a function, in case the seed changes after this file is imported
+
+    return partial(
+        fs.mutual_info_classif if discrete else fs.mutual_info_regression,
+        random_state=RANDOM_STATE,
+    )
 
 
 def latent_attr_mutual_info(

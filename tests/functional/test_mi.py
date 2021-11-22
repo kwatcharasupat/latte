@@ -1,4 +1,5 @@
 from latte.functional.disentanglement import mutual_info as mi
+import latte
 import numpy as np
 import pytest
 from sklearn import feature_selection as fs
@@ -26,10 +27,13 @@ class TestShape:
         with pytest.raises(AssertionError):
             mi._validate_za_shape(np.random.randn(16, 32), np.random.randn(16, 32, 3))
 
-    def test_bad_adim(self):
+    def test_vector_adim(self):
 
         with pytest.raises(AssertionError):
-            mi._validate_za_shape(np.random.randn(16, 32), np.random.randn(16, 32, 3))
+            _, a, _ = mi._validate_za_shape(
+                np.random.randn(16, 32), np.random.randn(16,)
+            )
+            assert a.shape == [16, 1]
 
     def test_no_regdim(self):
         z = np.random.randn(16, 32)
@@ -84,23 +88,23 @@ class TestSingleMiEntropy:
     def test_single_discrete(self):
         a = np.random.randint(16, size=(16,))
         b = np.random.randint(16, size=(16,))
+        
+        print("test_single_discrete", latte.RANDOM_STATE)
 
         np.testing.assert_almost_equal(
             mi.single_mutual_info(a, b, True),
-            fs.mutual_info_classif(a[:, None], b, random_state=mi.RANDOM_STATE)[0],
+            fs.mutual_info_classif(a[:, None], b, random_state=latte.RANDOM_STATE)[0],
         )
 
     def test_single_continuous(self):
-        a = np.random.randn(
-            16,
-        )
-        b = np.random.randn(
-            16,
-        )
+        a = np.random.randn(16,)
+        b = np.random.randn(16,)
 
         np.testing.assert_almost_equal(
             mi.single_mutual_info(a, b, False),
-            fs.mutual_info_regression(a[:, None], b, random_state=mi.RANDOM_STATE)[0],
+            fs.mutual_info_regression(a[:, None], b, random_state=latte.RANDOM_STATE)[
+                0
+            ],
         )
 
     def test_entropy_discrete(self):
@@ -108,17 +112,17 @@ class TestSingleMiEntropy:
 
         np.testing.assert_almost_equal(
             mi.entropy(a, True),
-            fs.mutual_info_classif(a[:, None], a, random_state=mi.RANDOM_STATE)[0],
+            fs.mutual_info_classif(a[:, None], a, random_state=latte.RANDOM_STATE)[0],
         )
 
     def test_single_continuous(self):
-        a = np.random.randn(
-            16,
-        )
+        a = np.random.randn(16,)
 
         np.testing.assert_almost_equal(
             mi.entropy(a, False),
-            fs.mutual_info_regression(a[:, None], a, random_state=mi.RANDOM_STATE)[0],
+            fs.mutual_info_regression(a[:, None], a, random_state=latte.RANDOM_STATE)[
+                0
+            ],
         )
 
 
@@ -129,7 +133,7 @@ class TestLatentAttr:
 
         np.testing.assert_array_almost_equal(
             mi.latent_attr_mutual_info(z, a, True),
-            fs.mutual_info_classif(z, a, random_state=mi.RANDOM_STATE),
+            fs.mutual_info_classif(z, a, random_state=latte.RANDOM_STATE),
         )
 
     def test_continuous(self):
@@ -138,5 +142,25 @@ class TestLatentAttr:
 
         np.testing.assert_array_almost_equal(
             mi.latent_attr_mutual_info(z, a, False),
-            fs.mutual_info_regression(z, a, random_state=mi.RANDOM_STATE),
+            fs.mutual_info_regression(z, a, random_state=latte.RANDOM_STATE),
+        )
+
+
+class TestConditionalEntropy:
+    def test_discrete(self):
+        a = np.random.randint(16, size=(16,))
+        b = np.random.randint(16, size=(16,))
+
+        np.testing.assert_almost_equal(
+            mi.conditional_entropy(a, b, True),
+            mi.entropy(a, True) - mi.single_mutual_info(a, b, True),
+        )
+
+    def test_continuous(self):
+        a = np.random.randn(16,)
+        b = np.random.randn(16,)
+
+        np.testing.assert_almost_equal(
+            mi.conditional_entropy(a, b, False),
+            mi.entropy(a, False) - mi.single_mutual_info(a, b, False),
         )
