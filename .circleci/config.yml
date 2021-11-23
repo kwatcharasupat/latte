@@ -13,19 +13,19 @@ jobs:
     steps:
       - checkout
       - restore_cache: # **restores saved dependency cache if the Branch key template or requirements.txt files have not changed since the previous run**
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps37-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: Install dependencies
           command: |
-            python -m venv venv
+            python -m venv venv37
             . venv/bin/activate
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
             pytest -n 2 tests/
       - save_cache: # ** special step to save dependency cache **
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps37-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
-            - "venv"
+            - "venv37"
   
   build38:
     docker:
@@ -33,19 +33,19 @@ jobs:
     steps:
       - checkout
       - restore_cache: # **restores saved dependency cache if the Branch key template or requirements.txt files have not changed since the previous run**
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps38-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: Install dependencies
           command: |
-            python -m venv venv
+            python -m venv venv38
             . venv/bin/activate
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
             pytest -n 2 tests/ --cov=latte --cov-report=xml
       - save_cache: # ** special step to save dependency cache **
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps38-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
-            - "venv"
+            - "venv38"
       - codecov/upload:
           file: coverage.xml
 
@@ -55,19 +55,19 @@ jobs:
     steps:
       - checkout
       - restore_cache: # **restores saved dependency cache if the Branch key template or requirements.txt files have not changed since the previous run**
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps39-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: Install dependencies
           command: |
-            python -m venv venv
+            python -m venv venv39
             . venv/bin/activate
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
             pytest -n 2 tests/
       - save_cache: # ** special step to save dependency cache **
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps39-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
-            - "venv"
+            - "venv39"
   
   publish_testpypi:
     docker:
