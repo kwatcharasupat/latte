@@ -99,14 +99,14 @@ Torch/Keras wrapper will
 | _Disentanglement Metrics_                     |
 | [📝](https://arxiv.org/abs/1802.04942) Mutual Information Gap (MIG)                          |🧪|🧪|🔨|🔨|
 | [📝](https://arxiv.org/abs/2110.05587) Dependency-blind Mutual Information Gap (DMIG)         |🔨|🕣|🕣|🕣|
-| Dependency-aware Mutual Information Gap (XMIG)                                                |🔨|🕣|🕣|🕣|
-| Dependency-aware Latent Information Gap (DLIG)                                                |🔨|🕣|🕣|🕣|
+| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Dependency-aware Mutual Information Gap (XMIG)                                                |🔨|🕣|🕣|🕣|
+| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Dependency-aware Latent Information Gap (DLIG)                                                |🔨|🕣|🕣|🕣|
 | [📝](https://arxiv.org/abs/1711.00848) Separate Attribute Predictability (SAP)                |🕣|🕣|🕣|🕣|
 | [📝](https://arxiv.org/abs/1802.05312) Modularity                                             |🕣|🕣|🕣|🕣|
 | [📝](https://openreview.net/forum?id=Sy2fzU9gl) Disentanglement metric score (β-VAE paper)    |🕣|🕣|🕣|🕣|
 | _Interpolatability Metrics_                     |
-| Smoothness                                                |🕣|🕣|🕣|🕣|
-| Monotonicity                                              |🕣|🕣|🕣|🕣|
+| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Smoothness                                                |🕣|🕣|🕣|🕣|
+| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Monotonicity                                              |🕣|🕣|🕣|🕣|
 
 ## Bundled metric modules
 🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
