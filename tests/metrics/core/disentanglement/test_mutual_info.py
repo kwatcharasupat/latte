@@ -1,5 +1,5 @@
 import pytest
-from latte.metrics.core.disentanglement.mutual_info import MutualInformationGap
+from latte.metrics.core.disentanglement import MutualInformationGap
 import numpy as np
 from latte.functional.disentanglement.mutual_info import mig
 

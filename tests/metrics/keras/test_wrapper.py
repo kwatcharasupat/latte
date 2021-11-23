@@ -20,7 +20,7 @@ class DummyMetric(LatteMetric):
 
 class TestConvert:
     def test_tf_to_np(self):
-        from latte.metrics.keras.keras import tf_to_numpy
+        from latte.metrics.keras.wrapper import tf_to_numpy
 
         tf.random.uniform
 
@@ -38,7 +38,7 @@ class TestConvert:
             module.assert_equal(k2, kwargs["k2"])
 
     def test_np_to_tf_scalar(self):
-        from latte.metrics.keras.keras import numpy_to_tf
+        from latte.metrics.keras.wrapper import numpy_to_tf
 
         a1 = np.random.randn(16,)
         a1t = numpy_to_tf(a1)
@@ -48,7 +48,7 @@ class TestConvert:
             module.assert_equal(a1, a1t)
 
     def test_np_to_tf_list(self):
-        from latte.metrics.keras.keras import numpy_to_tf
+        from latte.metrics.keras.wrapper import numpy_to_tf
 
         alist = [np.random.randn(16,) for _ in range(3)]
         alistt = numpy_to_tf(alist)
@@ -58,7 +58,7 @@ class TestConvert:
                 module.assert_equal(a1, a1t)
 
     def test_np_to_tf_dict(self):
-        from latte.metrics.keras.keras import numpy_to_tf
+        from latte.metrics.keras.wrapper import numpy_to_tf
 
         adict = {f"{i}:02d": np.random.randn(16,) for i in range(3)}
         adictt = numpy_to_tf(adict)
@@ -68,7 +68,7 @@ class TestConvert:
                 module.assert_equal(adict[k], adictt[k])
 
     def test_np_to_tf_bad_type(self):
-        from latte.metrics.keras.keras import numpy_to_tf
+        from latte.metrics.keras.wrapper import numpy_to_tf
 
         with pytest.raises(TypeError):
             numpy_to_tf(None)
@@ -76,7 +76,7 @@ class TestConvert:
 
 class TestKerasMetric:
     def test_name(self):
-        from latte.metrics.keras.keras import KerasMetricWrapper
+        from latte.metrics.keras.wrapper import KerasMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = KerasMetricWrapper(metric=DummyMetric, name="dummy", val=val)
@@ -84,7 +84,7 @@ class TestKerasMetric:
         assert dummy_metric.name == "dummy"
 
     def test_update_args(self):
-        from latte.metrics.keras.keras import KerasMetricWrapper
+        from latte.metrics.keras.wrapper import KerasMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = KerasMetricWrapper(metric=DummyMetric, val=val)
@@ -98,7 +98,7 @@ class TestKerasMetric:
         )
 
     def test_update_kwargs(self):
-        from latte.metrics.keras.keras import KerasMetricWrapper
+        from latte.metrics.keras.wrapper import KerasMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = KerasMetricWrapper(metric=DummyMetric, val=val)
@@ -112,7 +112,7 @@ class TestKerasMetric:
         )
 
     def test_update_argskwargs(self):
-        from latte.metrics.keras.keras import KerasMetricWrapper
+        from latte.metrics.keras.wrapper import KerasMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = KerasMetricWrapper(metric=DummyMetric, val=val)
@@ -126,7 +126,7 @@ class TestKerasMetric:
         )
 
     def test_result(self):
-        from latte.metrics.keras.keras import KerasMetricWrapper
+        from latte.metrics.keras.wrapper import KerasMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = KerasMetricWrapper(metric=DummyMetric, val=val)
@@ -141,7 +141,7 @@ class TestKerasMetric:
         tf.assert_equal(out, 2.0 * newval * mult)
 
     def test_reset(self):
-        from latte.metrics.keras.keras import KerasMetricWrapper
+        from latte.metrics.keras.wrapper import KerasMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = KerasMetricWrapper(metric=DummyMetric, val=val)
@@ -155,7 +155,7 @@ class TestKerasMetric:
         np.testing.assert_equal(dummy_metric.test_state, val)
 
     def test_bad_attr(self):
-        from latte.metrics.keras.keras import KerasMetricWrapper
+        from latte.metrics.keras.wrapper import KerasMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = KerasMetricWrapper(metric=DummyMetric, val=val)

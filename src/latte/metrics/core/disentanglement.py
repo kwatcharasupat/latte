@@ -1,5 +1,5 @@
-from latte.functional.disentanglement.mutual_info import mig
-from ...base import LatteMetric
+from ...functional.disentanglement.mutual_info import mig
+from ..base import LatteMetric
 import typing as t
 import numpy as np
 

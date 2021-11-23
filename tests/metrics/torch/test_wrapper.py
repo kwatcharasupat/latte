@@ -21,7 +21,7 @@ class DummyMetric(LatteMetric):
 
 class TestConvert:
     def test_torch_to_np(self):
-        from latte.metrics.torch.torch import torch_to_numpy
+        from latte.metrics.torch.wrapper import torch_to_numpy
 
         a1 = torch.randn(size=(16,))
         a2 = torch.randn(size=(16,))
@@ -37,7 +37,7 @@ class TestConvert:
             module.testing.assert_allclose(k2, kwargs["k2"])
 
     def test_np_to_torch_scalar(self):
-        from latte.metrics.torch.torch import numpy_to_torch
+        from latte.metrics.torch.wrapper import numpy_to_torch
 
         a1 = np.random.randn(16,)
         a1t = numpy_to_torch(a1)
@@ -47,7 +47,7 @@ class TestConvert:
             module.testing.assert_allclose(a1, a1t)
 
     def test_np_to_torch_list(self):
-        from latte.metrics.torch.torch import numpy_to_torch
+        from latte.metrics.torch.wrapper import numpy_to_torch
 
         alist = [np.random.randn(16,) for _ in range(3)]
         alistt = numpy_to_torch(alist)
@@ -57,7 +57,7 @@ class TestConvert:
                 module.testing.assert_allclose(a1, a1t)
 
     def test_np_to_torch_dict(self):
-        from latte.metrics.torch.torch import numpy_to_torch
+        from latte.metrics.torch.wrapper import numpy_to_torch
 
         adict = {f"{i}:02d": np.random.randn(16,) for i in range(3)}
         adictt = numpy_to_torch(adict)
@@ -67,7 +67,7 @@ class TestConvert:
                 module.testing.assert_allclose(adict[k], adictt[k])
 
     def test_np_to_torch_bad_type(self):
-        from latte.metrics.torch.torch import numpy_to_torch
+        from latte.metrics.torch.wrapper import numpy_to_torch
 
         with pytest.raises(TypeError):
             numpy_to_torch(None)
@@ -75,7 +75,7 @@ class TestConvert:
 
 class TestTorchMetric:
     def test_name(self):
-        from latte.metrics.torch.torch import TorchMetricWrapper
+        from latte.metrics.torch.wrapper import TorchMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = TorchMetricWrapper(metric=DummyMetric, name="dummy", val=val)
@@ -83,7 +83,7 @@ class TestTorchMetric:
         assert dummy_metric.name == "dummy"
 
     def test_update_args(self):
-        from latte.metrics.torch.torch import TorchMetricWrapper
+        from latte.metrics.torch.wrapper import TorchMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = TorchMetricWrapper(metric=DummyMetric, val=val)
@@ -97,7 +97,7 @@ class TestTorchMetric:
         )
 
     def test_update_kwargs(self):
-        from latte.metrics.torch.torch import TorchMetricWrapper
+        from latte.metrics.torch.wrapper import TorchMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = TorchMetricWrapper(metric=DummyMetric, val=val)
@@ -111,7 +111,7 @@ class TestTorchMetric:
         )
 
     def test_update_argskwargs(self):
-        from latte.metrics.torch.torch import TorchMetricWrapper
+        from latte.metrics.torch.wrapper import TorchMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = TorchMetricWrapper(metric=DummyMetric, val=val)
@@ -125,7 +125,7 @@ class TestTorchMetric:
         )
 
     def test_compute(self):
-        from latte.metrics.torch.torch import TorchMetricWrapper
+        from latte.metrics.torch.wrapper import TorchMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = TorchMetricWrapper(metric=DummyMetric, val=val)
@@ -140,7 +140,7 @@ class TestTorchMetric:
         torch.testing.assert_allclose(out, 2.0 * newval * mult)
 
     def test_reset(self):
-        from latte.metrics.torch.torch import TorchMetricWrapper
+        from latte.metrics.torch.wrapper import TorchMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = TorchMetricWrapper(metric=DummyMetric, val=val)
@@ -154,7 +154,7 @@ class TestTorchMetric:
         np.testing.assert_equal(dummy_metric.test_state, val)
 
     def test_bad_attr(self):
-        from latte.metrics.torch.torch import TorchMetricWrapper
+        from latte.metrics.torch.wrapper import TorchMetricWrapper
 
         val = np.random.randn(16,)
         dummy_metric = TorchMetricWrapper(metric=DummyMetric, val=val)
