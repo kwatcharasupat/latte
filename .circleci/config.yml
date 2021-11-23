@@ -31,7 +31,7 @@ jobs:
           command: |
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
-            pytest -n 4 tests/--cov=latte --cov-report=xml
+            pytest -n 4 tests/ --cov=latte --cov-report=xml
       - codecov/upload:
           file: coverage.xml
 
@@ -66,7 +66,7 @@ jobs:
             pip install twine build
             python -m build --sdist --wheel
             twine check dist/*
-            twine upload --repository testpypi dist/*
+            twine upload --skip-existing --repository testpypi dist/*
 
   publish_pypi:
     docker:
