@@ -36,7 +36,7 @@ Coming Soon
 
 https://latte.readthedocs.io/en/latest
 
-## Modules
+<!-- ## Modules
 Modules are untested unless marked with :ok_hand: (Some files/modules do not yet exist.)
 
 ```
@@ -59,7 +59,7 @@ Modules are untested unless marked with :ok_hand: (Some files/modules do not yet
     │   └── wrapper.py              # keras wrapper on base classes
     └── torch                     # for torch
         └── wrapper.py              # torchmetrics wrapper on base classes
-```
+``` -->
 
 ## Method Chart for Modular API
 
