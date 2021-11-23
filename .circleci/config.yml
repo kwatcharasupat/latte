@@ -9,7 +9,7 @@ orbs:
 jobs:
   build36:
     docker:
-      - image: cimg/python:3.8
+      - image: cimg/python:3.6
     parallelism: 4
     steps:
       - checkout
@@ -18,11 +18,11 @@ jobs:
           command: |
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
-            pytest --cov=latte --cov-report=xml
+            pytest -n 4 tests/
 
   build37:
     docker:
-      - image: cimg/python:3.8
+      - image: cimg/python:3.7
     parallelism: 4
     steps:
       - checkout
@@ -31,7 +31,7 @@ jobs:
           command: |
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
-            pytest --cov=latte --cov-report=xml
+            pytest -n 4 tests/
   
   build38:
     docker:
@@ -44,13 +44,13 @@ jobs:
           command: |
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
-            pytest --cov=latte --cov-report=xml
+            pytest -n 4 tests/--cov=latte --cov-report=xml
       - codecov/upload:
           file: coverage.xml
 
   build39:
     docker:
-      - image: cimg/python:3.8
+      - image: cimg/python:3.9
     parallelism: 4
     steps:
       - checkout
@@ -59,9 +59,7 @@ jobs:
           command: |
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
-            pytest --cov=latte --cov-report=xml
-      - codecov/upload:
-          file: coverage.xml
+            pytest -n 4 tests/
   
   publish_testpypi:
     docker:
