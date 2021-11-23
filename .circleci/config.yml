@@ -67,7 +67,7 @@ jobs:
       - run:
           name: init .pypirc
           command: |
-            echo -e "[pypi]" >> ~/.pypirc
+            echo -e "[testpypi]" >> ~/.pypirc
             echo -e "username = __token__" >> ~/.pypirc
             echo -e "password = $TESTPYPI_API" >> ~/.pypirc
       - run:
@@ -102,16 +102,10 @@ jobs:
 workflows:
   test:
     jobs:
-      - build36:
-          requires:
-              - build38
-      - build37:
-          requires:
-              - build38
+      - build36
+      - build37
       - build38
-      - build39:
-          requires:
-              - build38
+      - build39
       - publish_testpypi:
           requires:
               - build36
