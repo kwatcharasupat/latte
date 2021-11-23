@@ -97,7 +97,7 @@ Torch/Keras wrapper will
 | Metric                                        | Latte Functional  | Latte Modular | TorchMetrics   | Keras Metric | 
 | :---                                          | :--:        | :--:      | :--:       | :--:       |
 | _Disentanglement Metrics_                     |
-| [📝](https://arxiv.org/abs/1802.04942) Mutual Information Gap (MIG)                          |🧪|🧪|🔨|🔨|
+| [📝](https://arxiv.org/abs/1802.04942) Mutual Information Gap (MIG)                          |🧪|🧪|🧪|🧪|
 | [📝](https://arxiv.org/abs/2110.05587) Dependency-blind Mutual Information Gap (DMIG)         |🔨|🕣|🕣|🕣|
 | [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Dependency-aware Mutual Information Gap (XMIG)                                                |🔨|🕣|🕣|🕣|
 | [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Dependency-aware Latent Information Gap (DLIG)                                                |🔨|🕣|🕣|🕣|
