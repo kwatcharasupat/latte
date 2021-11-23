@@ -18,37 +18,37 @@ class DummyMetric(LatteMetric):
     def compute(self):
         return 2 * self.test_state
 
+
 class TestLatteMetric:
-    
     def test_getattr(self):
         val = np.random.randn(16,)
         dummy_metric = DummyMetric(val)
-        
+
         assert dummy_metric.normal_attr == 0.1234
-        
+
     def test_get_bad_attr(self):
         val = np.random.randn(16,)
         dummy_metric = DummyMetric(val)
-        
+
         with pytest.raises(NameError):
             dummy_metric.nonexistent_attr
-        
+
     def test_setattr(self):
         val = np.random.randn(16,)
         dummy_metric = DummyMetric(val)
-        
+
         dummy_metric.normal_attr = 0.23456
-        
+
         assert dummy_metric.normal_attr == 0.23456
-        
+
     def test_get_buffer(self):
         val = np.random.randn(16,)
         dummy_metric = DummyMetric(val)
-        
+
         dummy_metric.normal_attr = 0.23456
-        
+
         assert dummy_metric.normal_attr == 0.23456
-    
+
     def test_default_state(self):
 
         val = np.random.randn(16,)

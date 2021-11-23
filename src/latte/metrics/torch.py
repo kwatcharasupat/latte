@@ -3,7 +3,10 @@ try:
     import torchmetrics as tm
 except ImportError as e:
     import warnings
-    warnings.warn("Make sure you have Pytorch and TorchMetrics installed.", ImportWarning)
+
+    warnings.warn(
+        "Make sure you have Pytorch and TorchMetrics installed.", ImportWarning
+    )
     raise
 
 import typing as t
@@ -24,7 +27,7 @@ def numpy_to_torch(val):
     elif isinstance(val, list):
         return [torch.from_numpy(v) for v in val]
     elif isinstance(val, dict):
-        return [{k: torch.from_numpy(val[k])} for k in val]
+        return {k: torch.from_numpy(val[k]) for k in val}
     else:
         raise TypeError
 
@@ -34,6 +37,7 @@ class TorchMetricWrapper(tm.Metric):
         self,
         metric: t.Callable[..., LatteMetric],
         name: t.Optional[str] = None,
+        compute_on_step: bool = False,
         dist_sync_on_step: bool = False,
         process_group: t.Optional[t.Any] = None,
         dist_sync_fn: t.Callable = None,
@@ -44,7 +48,7 @@ class TorchMetricWrapper(tm.Metric):
             name = metric.__name__
 
         super().__init__(
-            compute_on_step=True,
+            compute_on_step=compute_on_step,
             dist_sync_on_step=dist_sync_on_step,
             process_group=process_group,
             dist_sync_fn=dist_sync_fn,
@@ -62,3 +66,12 @@ class TorchMetricWrapper(tm.Metric):
 
     def reset(self):
         return self.metric.reset_state()
+
+    def __getattr__(self, name: str):
+
+        metric_dict = self.__dict__["metric"]._buffers
+
+        if name in metric_dict:
+            return metric_dict[name]
+
+        raise NameError

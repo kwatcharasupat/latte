@@ -24,7 +24,7 @@ def numpy_to_tf(val):
     elif isinstance(val, list):
         return [tf.convert_to_tensor(v) for v in val]
     elif isinstance(val, dict):
-        return [{k: tf.convert_to_tensor(val[k])} for k in val]
+        return {k: tf.convert_to_tensor(val[k]) for k in val}
     else:
         raise TypeError
 
