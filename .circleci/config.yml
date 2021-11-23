@@ -121,7 +121,6 @@ workflows:
           filters:
             branches:
               only:
-                - main
                 - /^release\/*/
             tags:
               only: 
