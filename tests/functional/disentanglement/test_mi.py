@@ -192,11 +192,43 @@ class TestMGaps:
         
         
 class TestMIG:
-    def test_mig(self):
+    def test_mig_shape(self):
         z = np.random.randn(16, 16)
         a = np.random.randn(16, 3)
         
         mig = mi.mig(z, a)
+        
+        assert mig.ndim == 1
+        assert mig.shape[0] == a.shape[-1]
+        
+class TestDMIG:
+    def test_dmig_shape(self):
+        for _ in range(10):
+            z = np.random.randn(16, 16)
+            a = np.random.randn(16, 3)
+            
+            mig = mi.dmig(z, a)
+            
+            assert mig.ndim == 1
+            assert mig.shape[0] == a.shape[-1]
+        
+        
+class TestXMIG:
+    def test_xmig_shape(self):
+        z = np.random.randn(16, 16)
+        a = np.random.randn(16, 3)
+        
+        mig = mi.xmig(z, a)
+        
+        assert mig.ndim == 1
+        assert mig.shape[0] == a.shape[-1]
+        
+class TestDLIG:
+    def test_dlig_shape(self):
+        z = np.random.randn(16, 16)
+        a = np.random.randn(16, 3)
+        
+        mig = mi.dlig(z, a)
         
         assert mig.ndim == 1
         assert mig.shape[0] == a.shape[-1]

@@ -278,7 +278,10 @@ def dmig(
 
         gap, zj = _mgap(mi, zi)
 
-        cen = conditional_entropy(ai, a[:, reg_dim.index(zj)], discrete)
+        if zj in reg_dim:
+            cen = conditional_entropy(ai, a[:, reg_dim.index(zj)], discrete)
+        else:
+            cen = entropy(ai, discrete)
 
         ret[i] = gap / cen
 
@@ -293,7 +296,7 @@ def dlig(
 ):
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
-    _, n_attr = a.shape
+    _, n_attr = a.shape # same as len(reg_dim)
 
     ret = np.zeros((n_attr,))
 
