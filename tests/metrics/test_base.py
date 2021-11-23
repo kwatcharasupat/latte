@@ -1,4 +1,4 @@
-from latte.metrics.common import LatteMetric
+from latte.metrics.base import LatteMetric
 
 
 import pytest

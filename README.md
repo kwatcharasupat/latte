@@ -92,21 +92,21 @@ Torch/Keras wrapper will
 
 ## Supported metrics
 
-🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
+🧪 Beta support | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
 
-| Metric                                        | Functional  | TorchMetrics   | Keras Metric | 
-| :---                                          | :--:        | :--:      | :--:       |
+| Metric                                        | Latte Functional  | Latte Modular | TorchMetrics   | Keras Metric | 
+| :---                                          | :--:        | :--:      | :--:       | :--:       |
 | _Disentanglement Metrics_                     |
-| [📝](https://arxiv.org/abs/1802.04942) Mutual Information Gap (MIG)                          |✔️|🕣|🕣|
-| [📝](https://arxiv.org/abs/2110.05587) Dependency-blind Mutual Infomation Gap (DMIG)         |🔨|🕣|🕣|
-| Dependency-aware Mutual Information Gap (XMIG)                                                |🔨|🕣|🕣|
-| Dependency-aware Latent Information Gap (DLIG)                                                |🔨|🕣|🕣|
-| [📝](https://arxiv.org/abs/1711.00848) Separate Attribute Predictability (SAP)                |🕣|🕣|🕣|
-| [📝](https://arxiv.org/abs/1802.05312) Modularity                                             |🕣|🕣|🕣|
-| [📝](https://openreview.net/forum?id=Sy2fzU9gl) Disentanglement metric score (β-VAE paper)    |🕣|🕣|🕣|
+| [📝](https://arxiv.org/abs/1802.04942) Mutual Information Gap (MIG)                          |🧪|🧪|🔨|🔨|
+| [📝](https://arxiv.org/abs/2110.05587) Dependency-blind Mutual Infomation Gap (DMIG)         |🔨|🕣|🕣|🕣|
+| Dependency-aware Mutual Information Gap (XMIG)                                                |🔨|🕣|🕣|🕣|
+| Dependency-aware Latent Information Gap (DLIG)                                                |🔨|🕣|🕣|🕣|
+| [📝](https://arxiv.org/abs/1711.00848) Separate Attribute Predictability (SAP)                |🕣|🕣|🕣|🕣|
+| [📝](https://arxiv.org/abs/1802.05312) Modularity                                             |🕣|🕣|🕣|🕣|
+| [📝](https://openreview.net/forum?id=Sy2fzU9gl) Disentanglement metric score (β-VAE paper)    |🕣|🕣|🕣|🕣|
 | _Interpolatability Metrics_                     |
-| Smoothness                                                |🕣|🕣|🕣|
-| Monotonicity                                              |🕣|🕣|🕣|
+| Smoothness                                                |🕣|🕣|🕣|🕣|
+| Monotonicity                                              |🕣|🕣|🕣|🕣|
 
 ## Bundled metric modules
 🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 🕣 In Queue

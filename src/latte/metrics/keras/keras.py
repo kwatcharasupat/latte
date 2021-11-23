@@ -6,7 +6,7 @@ except ImportError as e:
     warnings.warn("Make sure you have TensorFlow installed.", ImportWarning)
     raise e
 
-from latte.metrics.common import LatteMetric
+from latte.metrics.base import LatteMetric
 import typing as t
 import numpy as np
 
