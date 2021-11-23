@@ -16,7 +16,7 @@ jobs:
           name: Install dependencies
           command: |
             pip install --upgrade pip
-            pip install .[tests]
+            pip install .[tests,pytorch,keras]
             pytest --cov=latte --cov-report=xml
       - codecov/upload:
           file: coverage.xml
