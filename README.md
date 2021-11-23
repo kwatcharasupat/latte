@@ -7,6 +7,8 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/badge/main)](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/overview/main)
 <img src="https://img.shields.io/badge/license-MIT-brightgreen"/>
 
+Latte (for _LATent Tensor Evaluation_) is a cross-framework Python package for evaluation of latent-based generative models. Latte supports calculation of disentanglement and controllability metrics in both PyTorch (via TorchMetrics) and TensorFlow.
+
 
 ## Installation
 
