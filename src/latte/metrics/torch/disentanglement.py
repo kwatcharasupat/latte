@@ -1,9 +1,24 @@
 from .wrapper import TorchMetricWrapper
-from .. import core
+
+from ..core import disentanglement as C
 
 from functools import partial
 
-MutualInformationGap = partial(
-    TorchMetricWrapper, metric=core.disentanglement.MutualInformationGap
+MutualInformationGap = partial(TorchMetricWrapper, metric=C.MutualInformationGap)
+
+DependencyAwareMutualInformationGap = partial(
+    TorchMetricWrapper, metric=C.DependencyAwareMutualInformationGap
 )
 
+DependencyAwareLatentInformationGap = partial(
+    TorchMetricWrapper, metric=C.DependencyAwareLatentInformationGap
+)
+
+DependencyBlindMutualInformationGap = partial(
+    TorchMetricWrapper, metric=C.DependencyBlindMutualInformationGap
+)
+
+MIG = MutualInformationGap
+DMIG = DependencyAwareMutualInformationGap
+DLIG = DependencyAwareLatentInformationGap
+XMIG = DependencyBlindMutualInformationGap

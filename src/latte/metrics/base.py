@@ -12,8 +12,8 @@ class LatteMetric(ABC):
         self._buffers[name] = default
         self._defaults[name] = default
 
-    def __getattr__(self, name: str):   
-        buffers = self.__dict__['_buffers']
+    def __getattr__(self, name: str):
+        buffers = self.__dict__["_buffers"]
         if name in buffers:
             return buffers[name]
 
@@ -22,7 +22,7 @@ class LatteMetric(ABC):
     def __setattr__(self, name: str, value: Any):
 
         if "_buffers" in self.__dict__:
-            buffers = self.__dict__['_buffers']
+            buffers = self.__dict__["_buffers"]
             if name in buffers:
                 buffers[name] = value
                 return

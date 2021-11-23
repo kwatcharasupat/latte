@@ -88,7 +88,7 @@ class TestSingleMiEntropy:
     def test_single_discrete(self):
         a = np.random.randint(16, size=(16,))
         b = np.random.randint(16, size=(16,))
-        
+
         print("test_single_discrete", latte.RANDOM_STATE)
 
         np.testing.assert_almost_equal(
@@ -165,71 +165,73 @@ class TestConditionalEntropy:
             mi.entropy(a, False) - mi.single_mutual_info(a, b, False),
         )
 
+
 class TestMGaps:
     def test_mgap_no_z(self):
         minfo = np.array([4, 3, 1, 9])
-        
+
         gap, zmax = mi._mgap(minfo)
-        
+
         assert gap == 5
         assert zmax is None
-        
+
     def test_mgap_w_z_max(self):
         minfo = np.array([4, 3, 1, 9])
-        
+
         gap, zmax = mi._mgap(minfo, zi=3)
-        
+
         assert gap == 5
         assert zmax == 0
-        
+
     def test_mgap_w_z_notmax(self):
         minfo = np.array([4, 3, 1, 9])
-        
+
         gap, zmax = mi._mgap(minfo, zi=0)
-        
+
         assert gap == -5
         assert zmax == 3
-        
-        
+
+
 class TestMIG:
     def test_mig_shape(self):
         z = np.random.randn(16, 16)
         a = np.random.randn(16, 3)
-        
+
         mig = mi.mig(z, a)
-        
+
         assert mig.ndim == 1
         assert mig.shape[0] == a.shape[-1]
-        
+
+
 class TestDMIG:
     def test_dmig_shape(self):
         for _ in range(10):
             z = np.random.randn(16, 16)
             a = np.random.randn(16, 3)
-            
+
             mig = mi.dmig(z, a)
-            
+
             assert mig.ndim == 1
             assert mig.shape[0] == a.shape[-1]
-        
-        
+
+
 class TestXMIG:
     def test_xmig_shape(self):
         z = np.random.randn(16, 16)
         a = np.random.randn(16, 3)
-        
+
         mig = mi.xmig(z, a)
-        
+
         assert mig.ndim == 1
         assert mig.shape[0] == a.shape[-1]
-        
+
+
 class TestDLIG:
     def test_dlig_shape(self):
         z = np.random.randn(16, 16)
         a = np.random.randn(16, 3)
-        
+
         mig = mi.dlig(z, a)
-        
+
         assert mig.ndim == 1
         assert mig.shape[0] == a.shape[-1]
-        

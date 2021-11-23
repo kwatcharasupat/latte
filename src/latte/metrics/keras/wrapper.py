@@ -3,6 +3,7 @@ try:
     from tensorflow.keras import metrics as tfm
 except ImportError as e:
     import warnings
+
     warnings.warn("Make sure you have TensorFlow installed.", ImportWarning)
     raise e
 
@@ -54,10 +55,9 @@ class KerasMetricWrapper(tfm.Metric):
         return self.metric.reset_state()
 
     def __getattr__(self, name: str):
-        metric_dict = self.__getattribute__('metric')._buffers
+        metric_dict = self.__getattribute__("metric")._buffers
 
         if name in metric_dict:
             return metric_dict[name]
-        
+
         return self.__getattribute__(name)
-    

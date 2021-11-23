@@ -296,7 +296,7 @@ def dlig(
 ):
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
-    _, n_attr = a.shape # same as len(reg_dim)
+    _, n_attr = a.shape  # same as len(reg_dim)
 
     ret = np.zeros((n_attr,))
 

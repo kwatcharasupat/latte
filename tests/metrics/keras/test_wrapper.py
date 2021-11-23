@@ -4,6 +4,7 @@ from latte.metrics.base import LatteMetric
 
 import tensorflow as tf
 
+
 class DummyMetric(LatteMetric):
     def __init__(self, val):
         super().__init__()
@@ -88,7 +89,7 @@ class TestKerasMetric:
 
         val = np.random.randn(16,)
         dummy_metric = KerasMetricWrapper(metric=DummyMetric, val=val)
-        
+
         newval = tf.random.uniform(shape=(16,))
         mult = tf.random.uniform(shape=(1,))
         dummy_metric.update_state(newval, mult)

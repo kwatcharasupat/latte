@@ -1,12 +1,12 @@
 import pytest
-from latte.metrics.core.disentanglement import MutualInformationGap
+from latte.metrics.core.disentanglement import *
 import numpy as np
-from latte.functional.disentanglement.mutual_info import mig
+from latte.functional.disentanglement.mutual_info import dmig, mig
 
 
 class TestMIG:
     def test_mig_noreg_continuous(self):
-        mig_mod = MutualInformationGap()
+        mod = MutualInformationGap()
 
         zl = []
         al = []
@@ -18,16 +18,16 @@ class TestMIG:
             zl.append(z)
             al.append(a)
 
-            mig_mod.update_state(z, a)
+            mod.update_state(z, a)
 
-        mig_val = mig_mod.compute()
+        val = mod.compute()
 
         np.testing.assert_allclose(
-            mig_val, mig(np.concatenate(zl, axis=0), np.concatenate(al, axis=0))
+            val, mig(np.concatenate(zl, axis=0), np.concatenate(al, axis=0))
         )
 
     def test_mig_reg_continuous(self):
-        mig_mod = MutualInformationGap(reg_dim=[2, 3, 4])
+        mod = MutualInformationGap(reg_dim=[2, 3, 4])
 
         zl = []
         al = []
@@ -39,12 +39,12 @@ class TestMIG:
             zl.append(z)
             al.append(a)
 
-            mig_mod.update_state(z, a)
+            mod.update_state(z, a)
 
-        mig_val = mig_mod.compute()
+        val = mod.compute()
 
         np.testing.assert_allclose(
-            mig_val,
+            val,
             mig(
                 np.concatenate(zl, axis=0),
                 np.concatenate(al, axis=0),
@@ -53,7 +53,7 @@ class TestMIG:
         )
 
     def test_mig_noreg_discrete(self):
-        mig_mod = MutualInformationGap(discrete=True)
+        mod = MutualInformationGap(discrete=True)
 
         zl = []
         al = []
@@ -65,16 +65,17 @@ class TestMIG:
             zl.append(z)
             al.append(a)
 
-            mig_mod.update_state(z, a)
+            mod.update_state(z, a)
 
-        mig_val = mig_mod.compute()
+        val = mod.compute()
 
         np.testing.assert_allclose(
-            mig_val, mig(np.concatenate(zl, axis=0), np.concatenate(al, axis=0), discrete=True)
+            val,
+            mig(np.concatenate(zl, axis=0), np.concatenate(al, axis=0), discrete=True),
         )
 
     def test_mig_reg_discrete(self):
-        mig_mod = MutualInformationGap(reg_dim=[2, 3, 4], discrete=True)
+        mod = MutualInformationGap(reg_dim=[2, 3, 4], discrete=True)
 
         zl = []
         al = []
@@ -86,16 +87,88 @@ class TestMIG:
             zl.append(z)
             al.append(a)
 
-            mig_mod.update_state(z, a)
+            mod.update_state(z, a)
 
-        mig_val = mig_mod.compute()
+        val = mod.compute()
 
         np.testing.assert_allclose(
-            mig_val,
+            val,
             mig(
                 np.concatenate(zl, axis=0),
                 np.concatenate(al, axis=0),
                 reg_dim=[2, 3, 4],
-                discrete=True
+                discrete=True,
             ),
         )
+
+
+class TestDependencyAware:
+    def test_dmig(self):
+        mod = DependencyAwareMutualInformationGap()
+
+        zl = []
+        al = []
+
+        for _ in range(3):
+            z = np.random.randn(16, 16)
+            a = np.random.randn(16, 3)
+
+            zl.append(z)
+            al.append(a)
+
+            mod.update_state(z, a)
+
+        val = mod.compute()
+
+        np.testing.assert_allclose(
+            val, dmig(np.concatenate(zl, axis=0), np.concatenate(al, axis=0))
+        )
+
+    def test_dlig(self):
+        mod = DependencyAwareLatentInformationGap()
+
+        zl = []
+        al = []
+
+        for _ in range(3):
+            z = np.random.randn(16, 16)
+            a = np.random.randn(16, 3)
+
+            zl.append(z)
+            al.append(a)
+
+            mod.update_state(z, a)
+
+        val = mod.compute()
+
+        np.testing.assert_allclose(
+            val, dlig(np.concatenate(zl, axis=0), np.concatenate(al, axis=0))
+        )
+
+    def test_xmig(self):
+        mod = DependencyBlindMutualInformationGap()
+
+        zl = []
+        al = []
+
+        for _ in range(3):
+            z = np.random.randn(16, 16)
+            a = np.random.randn(16, 3)
+
+            zl.append(z)
+            al.append(a)
+
+            mod.update_state(z, a)
+
+        val = mod.compute()
+
+        np.testing.assert_allclose(
+            val, xmig(np.concatenate(zl, axis=0), np.concatenate(al, axis=0))
+        )
+
+
+def test_aliases():
+    assert MutualInformationGap == MIG
+    assert DependencyAwareMutualInformationGap == DMIG
+    assert DependencyAwareLatentInformationGap == DLIG
+    assert DependencyBlindMutualInformationGap == XMIG

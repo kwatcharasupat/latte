@@ -91,4 +91,3 @@ class TestLatteMetric:
         dummy_metric.update_state(newval)
 
         np.testing.assert_allclose(dummy_metric.compute(), 2.0 * newval)
-
