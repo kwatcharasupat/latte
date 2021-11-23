@@ -1,9 +1,12 @@
 <p align=center><img width="50%" src="./assets/logo.png"/></p>
 <p align=center><b>Cross-framework Python Package for Evaluation of Latent-based Generative Models</b></p>
 
+[![Documentation Status](https://readthedocs.org/projects/latte/badge/?version=latest)](https://latte.readthedocs.io/en/latest/?badge=latest)
 [![CircleCI](https://circleci.com/gh/karnwatcharasupat/latte/tree/main.svg?style=shield&circle-token=0c9b78ee4a89415f93953a0677d7b531e0f5361a)](https://circleci.com/gh/karnwatcharasupat/latte/tree/main)
 [![codecov](https://codecov.io/gh/karnwatcharasupat/latte/branch/main/graph/badge.svg?token=9JXSESGPHA)](https://codecov.io/gh/karnwatcharasupat/latte)
+[![CodeFactor](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/badge/main)](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/overview/main)
 <img src="https://img.shields.io/badge/license-MIT-brightgreen"/>
+
 
 ## Installation
 
