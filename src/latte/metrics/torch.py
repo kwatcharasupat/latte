@@ -1,13 +1,13 @@
 try:
     import torch
     import torchmetrics as tm
-except ImportError as e:
+except ModuleNotFoundError as e:
     import warnings
 
     warnings.warn(
         "Make sure you have Pytorch and TorchMetrics installed.", ImportWarning
     )
-    raise
+    raise e
 
 import typing as t
 import numpy as np

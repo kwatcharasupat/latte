@@ -52,3 +52,12 @@ class KerasMetricWrapper(tfm.Metric):
 
     def reset_state(self):
         return self.metric.reset_state()
+
+    def __getattr__(self, name: str):
+        metric_dict = self.__getattribute__('metric')._buffers
+
+        if name in metric_dict:
+            return metric_dict[name]
+        
+        return self.__getattribute__(name)
+    

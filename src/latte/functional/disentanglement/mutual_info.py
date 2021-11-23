@@ -72,7 +72,7 @@ def latent_attr_mutual_info(
     return get_mi_func(discrete)(z, a)
 
 
-def single_mutual_info(a: np.ndarray, b: np.ndarray, discrete: bool) -> np.float:
+def single_mutual_info(a: np.ndarray, b: np.ndarray, discrete: bool) -> float:
     """
     [summary]
 
@@ -87,13 +87,13 @@ def single_mutual_info(a: np.ndarray, b: np.ndarray, discrete: bool) -> np.float
 
     Returns
     -------
-    np.float
+    float
         [description]
     """
     return get_mi_func(discrete)(a[:, None], b)[0]
 
 
-def entropy(a: np.ndarray, discrete: bool = False) -> np.float:
+def entropy(a: np.ndarray, discrete: bool = False) -> float:
     """
     [summary]
 
@@ -106,7 +106,7 @@ def entropy(a: np.ndarray, discrete: bool = False) -> np.float:
 
     Returns
     -------
-    np.float
+    float
         [description]
     """
     return single_mutual_info(a, a, discrete)
@@ -114,7 +114,7 @@ def entropy(a: np.ndarray, discrete: bool = False) -> np.float:
 
 def conditional_entropy(
     ai: np.ndarray, aj: np.ndarray, discrete: bool = False
-) -> np.float:
+) -> float:
     """
     [summary]
 
@@ -129,7 +129,7 @@ def conditional_entropy(
 
     Returns
     -------
-    np.float
+    float
         H(ai|aj) = H(ai) - I(ai, aj)
     """
     return entropy(ai, discrete) - single_mutual_info(ai, aj, discrete)
