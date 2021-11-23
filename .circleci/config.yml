@@ -21,6 +21,9 @@ jobs:
             . venv37/bin/activate
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
+      - run:
+          name: Run tests
+          command: |
             pytest -n 2 tests/
       - save_cache: # ** special step to save dependency cache **
           key: deps37-{{ .Branch }}-{{ checksum "requirements.txt" }}
@@ -41,6 +44,9 @@ jobs:
             . venv38/bin/activate
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
+      - run:
+          name: Run tests
+          command: |
             pytest -n 2 tests/ --cov=latte --cov-report=xml
       - save_cache: # ** special step to save dependency cache **
           key: deps38-{{ .Branch }}-{{ checksum "requirements.txt" }}
@@ -63,6 +69,9 @@ jobs:
             . venv39/bin/activate
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
+      - run:
+          name: Run tests
+          command: |
             pytest -n 2 tests/
       - save_cache: # ** special step to save dependency cache **
           key: deps39-{{ .Branch }}-{{ checksum "requirements.txt" }}
