@@ -12,7 +12,7 @@ jobs:
       - image: cimg/python:3.7
     steps:
       - checkout
-      - restore_cache: # **restores saved dependency cache if the Branch key template or requirements.txt files have not changed since the previous run**
+      - restore_cache:
           key: deps37-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: Install dependencies
@@ -25,7 +25,7 @@ jobs:
           name: Run tests
           command: |
             pytest -n 2 tests/
-      - save_cache: # ** special step to save dependency cache **
+      - save_cache:
           key: deps37-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - "venv37"
@@ -35,7 +35,7 @@ jobs:
       - image: cimg/python:3.8
     steps:
       - checkout
-      - restore_cache: # **restores saved dependency cache if the Branch key template or requirements.txt files have not changed since the previous run**
+      - restore_cache:
           key: deps38-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: Install dependencies
@@ -48,7 +48,7 @@ jobs:
           name: Run tests
           command: |
             pytest -n 2 tests/ --cov=latte --cov-report=xml
-      - save_cache: # ** special step to save dependency cache **
+      - save_cache:
           key: deps38-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - "venv38"
@@ -60,7 +60,7 @@ jobs:
       - image: cimg/python:3.9
     steps:
       - checkout
-      - restore_cache: # **restores saved dependency cache if the Branch key template or requirements.txt files have not changed since the previous run**
+      - restore_cache:
           key: deps39-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: Install dependencies
@@ -73,7 +73,7 @@ jobs:
           name: Run tests
           command: |
             pytest -n 2 tests/
-      - save_cache: # ** special step to save dependency cache **
+      - save_cache:
           key: deps39-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - "venv39"
@@ -131,8 +131,7 @@ workflows:
               - build39
           filters:
             branches:
-              only:
-                - /^release\/*/
+              ignore: /.*/
             tags:
               only: 
                 - /^v[0-9]+(\.[0-9]+)*/
@@ -144,8 +143,7 @@ workflows:
               - publish_testpypi
           filters:
             branches:
-              only:
-                /^release\/*/
+              ignore: /.*/
             tags:
               only: 
                 - /^v[0-9]+(\.[0-9]+)*/
