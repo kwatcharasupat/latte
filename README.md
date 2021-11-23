@@ -34,15 +34,7 @@ Coming Soon
 
 ## Documentation
 
-numpydoc: https://numpydoc.readthedocs.io/en/latest/format.html
-
-Generated Docs: https://karnwatcharasupat.github.io/latte
-
-```console
-#TODO: Auto-generate doc with CI/CD
-cd docs
-make html
-```
+https://latte.readthedocs.io/en/latest
 
 ## Modules
 Modules are untested unless marked with :ok_hand: (Some files/modules do not yet exist.)
