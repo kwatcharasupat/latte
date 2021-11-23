@@ -18,7 +18,7 @@ jobs:
           name: Install dependencies
           command: |
             python -m venv venv37
-            . venv/bin/activate
+            . venv37/bin/activate
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
             pytest -n 2 tests/
@@ -38,7 +38,7 @@ jobs:
           name: Install dependencies
           command: |
             python -m venv venv38
-            . venv/bin/activate
+            . venv38/bin/activate
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
             pytest -n 2 tests/ --cov=latte --cov-report=xml
@@ -60,7 +60,7 @@ jobs:
           name: Install dependencies
           command: |
             python -m venv venv39
-            . venv/bin/activate
+            . venv39/bin/activate
             pip install --upgrade pip
             pip install .[tests,pytorch,keras]
             pytest -n 2 tests/
