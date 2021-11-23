@@ -24,6 +24,7 @@ jobs:
       - run:
           name: Run tests
           command: |
+            . venv37/bin/activate
             pytest -n 2 tests/
       - save_cache:
           key: deps37-{{ .Branch }}-{{ checksum "requirements.txt" }}
@@ -47,6 +48,7 @@ jobs:
       - run:
           name: Run tests
           command: |
+            . venv38/bin/activate
             pytest -n 2 tests/ --cov=latte --cov-report=xml
       - save_cache:
           key: deps38-{{ .Branch }}-{{ checksum "requirements.txt" }}
@@ -72,6 +74,7 @@ jobs:
       - run:
           name: Run tests
           command: |
+            . venv39/bin/activate
             pytest -n 2 tests/
       - save_cache:
           key: deps39-{{ .Branch }}-{{ checksum "requirements.txt" }}
