@@ -67,8 +67,9 @@ jobs:
       - run:
           name: Publish to TestPyPI
           command: |
+            pip install --upgrade pip
+            pip install twine build
             python -m build --sdist --wheel
-            pip install twine
             twine check dist/*
             twine upload --repository testpypi dist/*
 
