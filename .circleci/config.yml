@@ -7,7 +7,31 @@ orbs:
   codecov: codecov/codecov@3.2.0
 
 jobs:
-  build-core:
+  build36:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            pip install --upgrade pip
+            pip install .[tests,pytorch,keras]
+            pytest --cov=latte --cov-report=xml
+
+  build37:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            pip install --upgrade pip
+            pip install .[tests,pytorch,keras]
+            pytest --cov=latte --cov-report=xml
+  
+  build38:
     docker:
       - image: cimg/python:3.8
     steps:
@@ -21,8 +45,50 @@ jobs:
       - codecov/upload:
           file: coverage.xml
 
+  build39:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            pip install --upgrade pip
+            pip install .[tests,pytorch,keras]
+            pytest --cov=latte --cov-report=xml
+      - codecov/upload:
+          file: coverage.xml
+  
+  publish_testpypi:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - run:
+          name: Publish to TestPyPI
+          command: |
+            python -m build --sdist --wheel
+            pip install twine
+            twine check dist/*
+            twine upload --repository testpypi dist/*
+
 workflows:
   test:
     jobs:
-      - build-core
+      - build36
+      - build37
+      - build38
+      - build39
+      - publish_testpypi:
+          requires:
+              - build36
+              - build37
+              - build38
+              - build39
+          filters:
+            branches:
+              only:
+                - main
+
+
       
