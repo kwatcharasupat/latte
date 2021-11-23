@@ -83,7 +83,7 @@ Torch/Keras wrapper will
 
 |      | Native  |TorchMetrics | Keras Metric |
 | :--- | :--- | :---        | :---         |
-| base class | `latte.metrics.Metric` | `torchmetrics.Metric` | `tf.keras.metrics.Metric` |
+| base class | `latte.metrics.LatteMetric` | `torchmetrics.Metric` | `tf.keras.metrics.Metric` |
 | super class | `object` | `torch.nn.Module` | `tf.keras.layers.Layer` |
 | adding buffer | `self.add_state` | `self.add_state` | `self.add_weight` |
 | updating buffer | `self.update_state` | `self.update` | `self.update_state` |
