@@ -1,8 +1,14 @@
-from latte.metrics.common import LatteMetric
-import torch
-import torchmetrics as tm
+try:
+    import torch
+    import torchmetrics as tm
+except ImportError as e:
+    import warnings
+    warnings.warn("Make sure you have Pytorch and TorchMetrics installed.", ImportWarning)
+    raise
+
 import typing as t
 import numpy as np
+from latte.metrics.common import LatteMetric
 
 
 def torch_to_numpy(args, kwargs):
@@ -10,6 +16,7 @@ def torch_to_numpy(args, kwargs):
     kwargs = {k: kwargs[k].detach().cpu().numpy() for k in kwargs}
 
     return args, kwargs
+
 
 def numpy_to_torch(val):
     if isinstance(val, np.ndarray):
@@ -52,6 +59,6 @@ class TorchMetricWrapper(tm.Metric):
 
     def compute(self):
         return numpy_to_torch(self.metric.compute())
-    
+
     def reset(self):
         return self.metric.reset_state()

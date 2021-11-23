@@ -1,6 +1,12 @@
+try:
+    import tensorflow as tf
+    from tensorflow.keras import metrics as tfm
+except ImportError as e:
+    import warnings
+    warnings.warn("Make sure you have TensorFlow installed.", ImportWarning)
+    raise e
+
 from latte.metrics.common import LatteMetric
-import tensorflow as tf
-from tensorflow.keras import metrics as tfm
 import typing as t
 import numpy as np
 
