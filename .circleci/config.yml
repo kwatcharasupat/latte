@@ -10,6 +10,7 @@ jobs:
   build36:
     docker:
       - image: cimg/python:3.8
+    parallelism: 4
     steps:
       - checkout
       - run:
@@ -22,6 +23,7 @@ jobs:
   build37:
     docker:
       - image: cimg/python:3.8
+    parallelism: 4
     steps:
       - checkout
       - run:
@@ -34,6 +36,7 @@ jobs:
   build38:
     docker:
       - image: cimg/python:3.8
+    parallelism: 4
     steps:
       - checkout
       - run:
@@ -48,6 +51,7 @@ jobs:
   build39:
     docker:
       - image: cimg/python:3.8
+    parallelism: 4
     steps:
       - checkout
       - run:
