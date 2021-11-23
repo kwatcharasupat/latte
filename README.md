@@ -98,7 +98,7 @@ Torch/Keras wrapper will
 | :---                                          | :--:        | :--:      | :--:       | :--:       |
 | _Disentanglement Metrics_                     |
 | [📝](https://arxiv.org/abs/1802.04942) Mutual Information Gap (MIG)                          |🧪|🧪|🔨|🔨|
-| [📝](https://arxiv.org/abs/2110.05587) Dependency-blind Mutual Infomation Gap (DMIG)         |🔨|🕣|🕣|🕣|
+| [📝](https://arxiv.org/abs/2110.05587) Dependency-blind Mutual Information Gap (DMIG)         |🔨|🕣|🕣|🕣|
 | Dependency-aware Mutual Information Gap (XMIG)                                                |🔨|🕣|🕣|🕣|
 | Dependency-aware Latent Information Gap (DLIG)                                                |🔨|🕣|🕣|🕣|
 | [📝](https://arxiv.org/abs/1711.00848) Separate Attribute Predictability (SAP)                |🕣|🕣|🕣|🕣|
