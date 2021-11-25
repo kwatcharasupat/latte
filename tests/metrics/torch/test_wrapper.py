@@ -19,19 +19,19 @@ except:
 has_torch_and_tm = has_torch and has_tm
 
 
-@pytest.mark.skipif(has_torch)
+@pytest.mark.skipif(has_torch, 'requires missing torch')
 def test_import_warning():
     with pytest.raises(ImportError):
         from latte.metrics.torch import wrapper
 
 
-@pytest.mark.skipif(has_tm)
+@pytest.mark.skipif(has_tm, 'requires missing torchmetrics')
 def test_import_warning():
     with pytest.raises(ImportError):
         from latte.metrics.torch import wrapper
 
 
-@pytest.skipif(not has_torch_and_tm)
+@pytest.mark.skipif(not has_torch_and_tm, 'requires torch and torchmetrics')
 class DummyMetric(LatteMetric):
     def __init__(self, val):
         super().__init__()
@@ -45,7 +45,7 @@ class DummyMetric(LatteMetric):
     def compute(self):
         return 2 * self.test_state
 
-
+@pytest.mark.skipif(not has_torch_and_tm, 'requires torch and torchmetrics')
 class TestConvert:
     def test_torch_to_np(self):
         from latte.metrics.torch.wrapper import torch_to_numpy
@@ -99,7 +99,7 @@ class TestConvert:
         with pytest.raises(TypeError):
             numpy_to_torch(None)
 
-
+@pytest.mark.skipif(not has_torch_and_tm, 'requires torch and torchmetrics')
 class TestTorchMetric:
     def test_name(self):
         from latte.metrics.torch.wrapper import TorchMetricWrapper
