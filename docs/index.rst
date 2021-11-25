@@ -6,9 +6,6 @@
 Welcome to Latte's documentation!
 =================================
 
-.. automodule:: latte
-    :members:
-
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
