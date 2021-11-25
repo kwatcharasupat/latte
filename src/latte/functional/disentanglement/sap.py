@@ -92,7 +92,7 @@ def sap(
     l2_reg : float, optional
         regularization parameter for linear classifier, by default 1.0. Ignored if `discrete` is `False`.
     thresh : float, optional
-        threshold for latent vector variance, by default 1e-12. Latent dimensions with variance below `thresh` will have SAP contribiution zeroed. Ignored if `discrete` is `True`.
+        threshold for latent vector variance, by default 1e-12. Latent dimensions with variance below `thresh` will have SAP contribution zeroed. Ignored if `discrete` is `True`.
 
     Returns
     -------

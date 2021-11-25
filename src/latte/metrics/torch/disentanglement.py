@@ -1,3 +1,4 @@
+from latte.metrics.keras.disentanglement import Modularity
 from .wrapper import TorchMetricWrapper
 
 from ..core import disentanglement as C
@@ -20,6 +21,10 @@ DependencyBlindMutualInformationGap = partial(
 
 SeparateAttributePredictability = partial(
     TorchMetricWrapper, metric=C.SeparateAttributePredictability
+)
+
+Modularity = partial(
+    TorchMetricWrapper, metric=C.Modularity
 )
 
 MIG = MutualInformationGap

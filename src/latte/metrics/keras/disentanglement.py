@@ -1,3 +1,4 @@
+from tensorflow.keras import metrics
 from .wrapper import KerasMetricWrapper
 from ..core import disentanglement as C
 
@@ -20,6 +21,10 @@ DependencyBlindMutualInformationGap = partial(
 
 SeparateAttributePredictability = partial(
     KerasMetricWrapper, metric=C.SeparateAttributePredictability
+)
+
+Modularity = partial(
+    KerasMetricWrapper, metric=C.Modularity
 )
 
 MIG = MutualInformationGap

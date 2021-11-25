@@ -13,6 +13,34 @@ def modularity(
     discrete: bool = False,
     thresh: float = 1e-12,
 ):
+    """
+    Calculate Modularity between latent vectors and attributes
+
+
+    Parameters
+    ----------
+    z : np.ndarray, (n_samples, n_features)
+        a batch of latent vectors
+    a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
+        a batch of attribute(s)
+    reg_dim : Optional[List], optional
+        regularized dimensions, by default None
+        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
+    discrete : bool, optional
+        Whether the attributes are discrete, by default False
+    thresh : float, optional
+        threshold for mutual information, by default 1e-12. Latent-attribute pair with variance below `thresh` will have modularity contribution zeroed.
+
+    Returns
+    -------
+    np.ndarray, (n_attributes,)
+        Modularity for each attribute
+        
+    
+    References
+    ----------
+    .. [1] K. Ridgeway and M. C. Mozer, “Learning deep disentangled embeddings with the F-statistic loss,” in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018, pp. 185–194.
+    """
 
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim)
 
