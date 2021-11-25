@@ -1,17 +1,18 @@
 import pytest
-from latte.metrics.keras import disentanglement as K
-from latte.metrics.core import disentanglement as C
 import numpy as np
 
 try:
     import tensorflow as tf
+
+    from latte.metrics.keras import disentanglement as K
+    from latte.metrics.core import disentanglement as C
 
     has_tf = True
 except:
     has_tf = False
 
 
-@pytest.mark.skipif(not has_tf, 'requires tensorflow')
+@pytest.mark.skipif(not has_tf, "requires tensorflow")
 class TestMIG:
     def test_mig(self):
         core_mig = C.MutualInformationGap()

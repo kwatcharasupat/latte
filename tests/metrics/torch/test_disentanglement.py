@@ -1,20 +1,19 @@
 import pytest
-from latte.metrics.torch import disentanglement as T
-from latte.metrics.core import disentanglement as C
 import numpy as np
-import torch
-
 
 try:
     import torch
     import torchmetrics
+
+    from latte.metrics.torch import disentanglement as T
+    from latte.metrics.core import disentanglement as C
 
     has_torch_and_tm = True
 except:
     has_torch_and_tm = False
 
 
-@pytest.mark.skipif(not has_torch_and_tm, 'requires torch and torchmetrics')
+@pytest.mark.skipif(not has_torch_and_tm, "requires torch and torchmetrics")
 class TestMIG:
     def test_mig(self):
         core_mig = C.MutualInformationGap()
