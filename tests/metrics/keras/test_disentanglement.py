@@ -5,9 +5,11 @@ import numpy as np
 
 try:
     import tensorflow as tf
+
     has_tf = True
 except:
     has_tf = False
+
 
 @pytest.mark.skipif(not has_tf)
 class TestMIG:

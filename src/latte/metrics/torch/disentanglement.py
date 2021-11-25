@@ -23,9 +23,7 @@ SeparateAttributePredictability = partial(
     TorchMetricWrapper, metric=C.SeparateAttributePredictability
 )
 
-Modularity = partial(
-    TorchMetricWrapper, metric=C.Modularity
-)
+Modularity = partial(TorchMetricWrapper, metric=C.Modularity)
 
 MIG = MutualInformationGap
 DMIG = DependencyAwareMutualInformationGap

@@ -23,9 +23,7 @@ SeparateAttributePredictability = partial(
     KerasMetricWrapper, metric=C.SeparateAttributePredictability
 )
 
-Modularity = partial(
-    KerasMetricWrapper, metric=C.Modularity
-)
+Modularity = partial(KerasMetricWrapper, metric=C.Modularity)
 
 MIG = MutualInformationGap
 DMIG = DependencyAwareMutualInformationGap

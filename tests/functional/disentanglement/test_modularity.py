@@ -29,7 +29,7 @@ class TestModularity:
         np.testing.assert_array_almost_equal(
             1.0 - np.array([mod0, mod1]), modularity(z, a)
         )
-        
+
     def test_discrete(self):
         z = np.random.randn(32, 2)
         a = np.random.randn(32, 2) > 0.0

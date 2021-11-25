@@ -65,7 +65,6 @@ def get_discrete_sap_score(z: np.ndarray, a: np.ndarray, l2_reg: float = 1.0):
     return score
 
 
-
 def sap(
     z: np.ndarray,
     a: np.ndarray,
@@ -104,7 +103,7 @@ def sap(
     ----------
     .. [1] A. Kumar, P. Sattigeri, and A. Balakrishnan, “Variational inference of disentangled latent concepts from unlabeled observations”, in Proceedings of the 6th International Conference on Learning Representations, 2018.
     """
-    
+
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim)
 
     _, n_attr = a.shape

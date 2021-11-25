@@ -162,11 +162,10 @@ class TestDLIG:
 
         assert mig.ndim == 1
         assert mig.shape[0] == a.shape[-1]
-        
+
     def test_dlig_single_attr(self):
         z = np.random.randn(16, 8)
         a = np.random.randn(16, 1)
 
         with pytest.raises(AssertionError):
             mi.dlig(z, a)
-

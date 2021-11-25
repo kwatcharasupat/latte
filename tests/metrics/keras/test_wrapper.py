@@ -175,4 +175,3 @@ class TestKerasMetric:
 
         with pytest.raises(AttributeError):
             dummy_metric.nonexistent_attr
-

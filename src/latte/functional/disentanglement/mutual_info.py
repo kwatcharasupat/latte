@@ -281,7 +281,7 @@ def dlig(
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
     _, n_attr = a.shape  # same as len(reg_dim)
-    
+
     assert n_attr > 1, "DLIG requires at least two attributes"
 
     ret = np.zeros((n_attr,))
