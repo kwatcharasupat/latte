@@ -13,7 +13,7 @@ def seed(seed: Optional[int] = 42):
     Parameters
     ----------
     seed : int, optional
-        random seed, by default 42
-        set to None for non-deterministic behavior
+        Random seed, by default 42.
+        Set to None for non-deterministic behavior.
     """
     this.RANDOM_STATE = seed

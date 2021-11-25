@@ -188,10 +188,6 @@ def mig(
 ) -> np.ndarray:
     """
     Calculate Mutual Information Gap (MIG) between latent vectors and attributes
-    
-    References
-    ----------
-    .. [1] T. Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
 
     Parameters
     ----------
@@ -209,6 +205,10 @@ def mig(
     -------
     np.ndarray, (n_attributes,)
         MIG for each attribute
+        
+    Notes
+    ------
+    .. [1] T. Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
     """
 
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim)
@@ -238,11 +238,7 @@ def dmig(
 ) -> np.ndarray:
     """
     Calculate Dependency-Aware Mutual Information Gap (DMIG) between latent vectors and attributes
-    
-    References
-    ----------
-    .. [1] K. N. Watcharasupat and A. Lerch, “Evaluation of Latent Space Disentanglement in the Presence of Interdependent Attributes”, in Extended Abstracts of the Late-Breaking Demo Session of the 22nd International Society for Music Information Retrieval Conference, 2021.
-    .. [2] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
+
 
     Parameters
     ----------
@@ -260,6 +256,12 @@ def dmig(
     -------
     np.ndarray, (n_attributes,)
         DMIG for each attribute
+        
+    
+    Notes
+    ------
+    .. [1] K. N. Watcharasupat and A. Lerch, “Evaluation of Latent Space Disentanglement in the Presence of Interdependent Attributes”, in Extended Abstracts of the Late-Breaking Demo Session of the 22nd International Society for Music Information Retrieval Conference, 2021.
+    .. [2] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
@@ -293,10 +295,6 @@ def dlig(
 ):
     """
     Calculate Dependency-Aware Latent Information Gap (DLIG) between latent vectors and attributes
-    
-    References
-    ----------
-    .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
 
     Parameters
     ----------
@@ -314,6 +312,10 @@ def dlig(
     -------
     np.ndarray, (n_attributes,)
         DLIG for each attribute
+        
+    Notes
+    ------
+    .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
@@ -342,10 +344,6 @@ def xmig(
 ):
     """
     Calculate Dependency-Blind Mutual Information Gap (XMIG) between latent vectors and attributes
-    
-    References
-    ----------
-    .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
 
     Parameters
     ----------
@@ -363,6 +361,10 @@ def xmig(
     -------
     np.ndarray, (n_attributes,)
         XMIG for each attribute
+        
+    Notes
+    ------
+    .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
