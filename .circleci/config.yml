@@ -82,6 +82,8 @@ jobs:
           key: deps38torch-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - "venv38torch"
+      - codecov/upload:
+          file: coverage.xml
 
   build38-tf-only:
     docker:
@@ -106,6 +108,8 @@ jobs:
           key: deps38tf-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - "venv38tf"
+      - codecov/upload:
+          file: coverage.xml
 
   build38-core-only:
     docker:
@@ -130,6 +134,8 @@ jobs:
           key: deps38core-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - "venv38core"
+      - codecov/upload:
+          file: coverage.xml
             
   build39:
     docker:
@@ -154,6 +160,8 @@ jobs:
           key: deps39-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - "venv39"
+      - codecov/upload:
+          file: coverage.xml
   
   publish_testpypi:
     docker:
