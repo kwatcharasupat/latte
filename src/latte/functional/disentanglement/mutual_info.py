@@ -1,13 +1,13 @@
 import numpy as np
 from sklearn import feature_selection as fs
-import typing as t
+from typing import Callable, Optional, List, Tuple
 
 from functools import partial
 
 from .utils import _validate_za_shape
 
 
-def get_mi_func(discrete: bool) -> t.Callable:
+def get_mi_func(discrete: bool) -> Callable:
     """
     Get mutual information function depending on whether the attribute is discrete
 
@@ -18,7 +18,7 @@ def get_mi_func(discrete: bool) -> t.Callable:
 
     Returns
     -------
-    t.Callable
+    Callable
         mutual information function handle
     """
 
@@ -121,26 +121,7 @@ def conditional_entropy(
     return entropy(ai, discrete) - single_mutual_info(ai, aj, discrete)
 
 
-def _mgap(
-    mi: np.ndarray, zi: t.Optional[int] = None
-) -> t.Tuple[np.ndarray, t.Optional[int]]:
-    """
-    [summary]
-
-    Parameters
-    ----------
-    mi : np.ndarray, (n_features,)
-        [description]
-    zi : t.Optional[int], optional
-        [description], by default None
-
-    Returns
-    -------
-    np.ndarray
-        [description]
-    t.Optional[int]
-        index of the unregularized latent dimension with the highest MI, `None` if `zi` is `None`
-    """
+def _mgap(mi: np.ndarray, zi: Optional[int] = None) -> Tuple[np.ndarray, Optional[int]]:
 
     mi_sort = np.sort(mi)
     if zi is None:
@@ -153,27 +134,7 @@ def _mgap(
             return (mi[zi] - mi_sort[-1]), mi_argsort[-1]
 
 
-def _xgap(
-    mi: np.ndarray, zi: int, reg_dim: t.List
-) -> t.Tuple[np.ndarray, t.Optional[int]]:
-    """
-    [summary]
-
-    Parameters
-    ----------
-    mi : np.ndarray, (n_features,)
-        [description]
-    zi : t.Optional[int], optional
-        [description], by default None
-
-    Returns
-    -------
-    np.ndarray
-        [description]
-    t.Optional[int]
-        index of the unregularized latent dimension with the highest MI, `None` if `zi` is `None`
-    """
-
+def _xgap(mi: np.ndarray, zi: int, reg_dim: List) -> Tuple[np.ndarray, Optional[int]]:
     mi = np.delete(mi, reg_dim)
     mi_sort = np.sort(mi)
     mi_argsort = np.argsort(mi)
@@ -183,7 +144,7 @@ def _xgap(
 def mig(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: t.Optional[t.List] = None,
+    reg_dim: Optional[List] = None,
     discrete: bool = False,
 ) -> np.ndarray:
     """
@@ -195,9 +156,9 @@ def mig(
         a batch of latent vectors
     a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
         a batch of attribute(s)
-    reg_dim : t.Optional[t.List], optional
+    reg_dim : Optional[List], optional
         regularized dimensions, by default None
-        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`.
+        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `reg_dim` is provided, the first mutual information is always taken between the regularized dimension and the attribute and MIG may be negative.
     discrete : bool, optional
         Whether the attributes are discrete, by default False
 
@@ -208,7 +169,7 @@ def mig(
         
     References
     ----------
-    .. [1] T. Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
+    .. [1]  Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
     """
 
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim)
@@ -233,7 +194,7 @@ def mig(
 def dmig(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: t.Optional[t.List] = None,
+    reg_dim: Optional[List] = None,
     discrete: bool = False,
 ) -> np.ndarray:
     """
@@ -246,7 +207,7 @@ def dmig(
         a batch of latent vectors
     a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
         a batch of attribute(s)
-    reg_dim : t.Optional[t.List], optional
+    reg_dim : Optional[List], optional
         regularized dimensions, by default None
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
     discrete : bool, optional
@@ -290,7 +251,7 @@ def dmig(
 def dlig(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: t.Optional[t.List] = None,
+    reg_dim: Optional[List] = None,
     discrete: bool = False,
 ):
     """
@@ -300,9 +261,9 @@ def dlig(
     ----------
     z : np.ndarray, (n_samples, n_features)
         a batch of latent vectors
-    a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
-        a batch of attribute(s)
-    reg_dim : t.Optional[t.List], optional
+    a : np.ndarray, (n_samples, n_attributes)
+        a batch of at least two attributes
+    reg_dim : Optional[List], optional
         regularized dimensions, by default None
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
     discrete : bool, optional
@@ -320,6 +281,8 @@ def dlig(
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
     _, n_attr = a.shape  # same as len(reg_dim)
+    
+    assert n_attr > 1, "DLIG requires at least two attributes"
 
     ret = np.zeros((n_attr,))
 
@@ -339,7 +302,7 @@ def dlig(
 def xmig(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: t.Optional[t.List] = None,
+    reg_dim: Optional[List] = None,
     discrete: bool = False,
 ):
     """
@@ -351,7 +314,7 @@ def xmig(
         a batch of latent vectors
     a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
         a batch of attribute(s)
-    reg_dim : t.Optional[t.List], optional
+    reg_dim : Optional[List], optional
         regularized dimensions, by default None
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
     discrete : bool, optional

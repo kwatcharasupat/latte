@@ -1,3 +1,4 @@
+from latte.functional.disentanglement.modularity import modularity
 from ...functional.disentanglement.mutual_info import mig, dmig, xmig, dlig
 from ...functional.disentanglement.sap import sap
 from ..base import LatteMetric
@@ -90,13 +91,21 @@ class DependencyBlindMutualInformationGap(LatteMetric):
 
 
 class SeparateAttributePredictability(LatteMetric):
-    def __init__(self, reg_dim: t.Optional[t.List] = None, discrete: bool = False):
+    def __init__(
+        self,
+        reg_dim: t.Optional[t.List] = None,
+        discrete: bool = False,
+        l2_reg: float = 1.0,
+        thresh: float = 1e-12,
+    ):
         super().__init__()
 
         self.add_state("z", [])
         self.add_state("a", [])
         self.reg_dim = reg_dim
         self.discrete = discrete
+        self.l2_reg = l2_reg
+        self.thresh = thresh
 
     def update_state(self, z, a):
         self.z.append(z)
@@ -107,7 +116,36 @@ class SeparateAttributePredictability(LatteMetric):
         z = np.concatenate(self.z, axis=0)
         a = np.concatenate(self.a, axis=0)
 
-        return sap(z, a, self.reg_dim, self.discrete)
+        return sap(
+            z, a, self.reg_dim, self.discrete, l2_reg=self.l2_reg, thresh=self.thresh
+        )
+
+
+class Modularity(LatteMetric):
+    def __init__(
+        self,
+        reg_dim: t.Optional[t.List] = None,
+        discrete: bool = False,
+        thresh: float = 1e-12,
+    ):
+        super().__init__()
+
+        self.add_state("z", [])
+        self.add_state("a", [])
+        self.reg_dim = reg_dim
+        self.discrete = discrete
+        self.thresh = thresh
+
+    def update_state(self, z, a):
+        self.z.append(z)
+        self.a.append(a)
+
+    def compute(self):
+
+        z = np.concatenate(self.z, axis=0)
+        a = np.concatenate(self.a, axis=0)
+
+        return modularity(z, a, self.reg_dim, self.discrete, thresh=self.thresh)
 
 
 MIG = MutualInformationGap

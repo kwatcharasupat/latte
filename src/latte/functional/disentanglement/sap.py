@@ -1,36 +1,15 @@
 from inspect import getmembers
 import numpy as np
 from sklearn import feature_selection as fs
-import typing as t
+from typing import List, Tuple, Optional
 from sklearn import svm
-
-from functools import partial
-
 
 from .utils import _validate_za_shape
 
 
 def _sgap(
-    score: np.ndarray, zi: t.Optional[int] = None
-) -> t.Tuple[np.ndarray, t.Optional[int]]:
-    """
-    [summary]
-
-    Parameters
-    ----------
-    mi : np.ndarray, (n_features,)
-        [description]
-    zi : t.Optional[int], optional
-        [description], by default None
-
-    Returns
-    -------
-    np.ndarray
-        [description]
-    t.Optional[int]
-        index of the unregularized latent dimension with the highest MI, `None` if `zi` is `None`
-    """
-
+    score: np.ndarray, zi: Optional[int] = None
+) -> Tuple[np.ndarray, Optional[int]]:
     sc_sort = np.sort(score)
     if zi is None:
         return (sc_sort[-1] - sc_sort[-2]), None
@@ -86,15 +65,46 @@ def get_discrete_sap_score(z: np.ndarray, a: np.ndarray, l2_reg: float = 1.0):
     return score
 
 
+
 def sap(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: t.Optional[t.List] = None,
+    reg_dim: Optional[List] = None,
     discrete: bool = False,
     l2_reg: float = 1.0,
     thresh: float = 1e-12,
 ) -> np.ndarray:
+    """
+    Calculate Separate Attribute Predictability (SAP) between latent vectors and attributes
 
+
+    Parameters
+    ----------
+    z : np.ndarray, (n_samples, n_features)
+        a batch of latent vectors
+    a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
+        a batch of attribute(s)
+    reg_dim : Optional[List], optional
+        regularized dimensions, by default None
+        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
+    discrete : bool, optional
+        Whether the attributes are discrete, by default False
+    l2_reg : float, optional
+        regularization parameter for linear classifier, by default 1.0. Ignored if `discrete` is `False`.
+    thresh : float, optional
+        threshold for latent vector variance, by default 1e-12. Latent dimensions with variance below `thresh` will have SAP contribiution zeroed. Ignored if `discrete` is `True`.
+
+    Returns
+    -------
+    np.ndarray, (n_attributes,)
+        SAP for each attribute
+        
+    
+    References
+    ----------
+    .. [1] A. Kumar, P. Sattigeri, and A. Balakrishnan, “Variational inference of disentangled latent concepts from unlabeled observations”, in Proceedings of the 6th International Conference on Learning Representations, 2018.
+    """
+    
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim)
 
     _, n_attr = a.shape

@@ -1,3 +1,4 @@
+import pytest
 from latte.functional.disentanglement import mutual_info as mi
 import latte
 import numpy as np
@@ -120,7 +121,7 @@ class TestMGaps:
 
 class TestMIG:
     def test_mig_shape(self):
-        z = np.random.randn(16, 16)
+        z = np.random.randn(16, 8)
         a = np.random.randn(16, 3)
 
         mig = mi.mig(z, a)
@@ -132,7 +133,7 @@ class TestMIG:
 class TestDMIG:
     def test_dmig_shape(self):
         for _ in range(10):
-            z = np.random.randn(16, 16)
+            z = np.random.randn(16, 8)
             a = np.random.randn(16, 3)
 
             mig = mi.dmig(z, a)
@@ -143,7 +144,7 @@ class TestDMIG:
 
 class TestXMIG:
     def test_xmig_shape(self):
-        z = np.random.randn(16, 16)
+        z = np.random.randn(16, 8)
         a = np.random.randn(16, 3)
 
         mig = mi.xmig(z, a)
@@ -154,10 +155,18 @@ class TestXMIG:
 
 class TestDLIG:
     def test_dlig_shape(self):
-        z = np.random.randn(16, 16)
+        z = np.random.randn(16, 8)
         a = np.random.randn(16, 3)
 
         mig = mi.dlig(z, a)
 
         assert mig.ndim == 1
         assert mig.shape[0] == a.shape[-1]
+        
+    def test_dlig_single_attr(self):
+        z = np.random.randn(16, 8)
+        a = np.random.randn(16, 1)
+
+        with pytest.raises(AssertionError):
+            mi.dlig(z, a)
+

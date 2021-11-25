@@ -5,7 +5,7 @@ import pytest
 from latte.functional.disentanglement import sap
 
 
-class TestSap:
+class TestSAP:
     def test_continuous_below_thresh(self):
 
         z = np.zeros(shape=(16, 8))
