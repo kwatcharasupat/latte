@@ -149,8 +149,26 @@ class Modularity(LatteMetric):
 
 
 MIG = MutualInformationGap
+'''
+alias for :class:`MutualInformationGap`
+'''
+
 DMIG = DependencyAwareMutualInformationGap
+'''
+alias for :class:`DependencyAwareMutualInformationGap`
+'''
+
 DLIG = DependencyAwareLatentInformationGap
+'''
+alias for :class:`DependencyAwareLatentInformationGap`
+'''
+
 XMIG = DependencyBlindMutualInformationGap
+'''
+alias for :class:`DependencyBlindMutualInformationGap`
+'''
 
 SAP = SeparateAttributePredictability
+'''
+alias for :class:`SeparateAttributePredictability`
+'''
