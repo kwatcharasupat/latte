@@ -1,6 +1,7 @@
 import numpy as np
 import typing as t
 
+
 def _validate_za_shape(
     z: np.ndarray,
     a: np.ndarray,

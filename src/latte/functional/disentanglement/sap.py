@@ -77,9 +77,7 @@ def get_discrete_sap_score(z: np.ndarray, a: np.ndarray, l2_reg: float = 1.0):
     for i in range(n_features):
         for j in range(n_attr):
             score[i, j] = np.mean(
-                svm.LinearSVC(
-                    C=l2_reg, random_state=RANDOM_STATE
-                )
+                svm.LinearSVC(C=l2_reg, random_state=RANDOM_STATE)
                 .fit(z[:, [i]], a[:, j])
                 .predict(z[:, [i]])
                 == a[:, j]

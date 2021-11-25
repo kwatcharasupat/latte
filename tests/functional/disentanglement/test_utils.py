@@ -1,7 +1,7 @@
-
 import pytest
 import numpy as np
 from latte.functional.disentanglement import utils
+
 
 class TestShape:
     def test_bad_samples(self):
@@ -17,12 +17,16 @@ class TestShape:
     def test_bad_zdim(self):
 
         with pytest.raises(AssertionError):
-            utils._validate_za_shape(np.random.randn(16, 32, 3), np.random.randn(16, 32))
+            utils._validate_za_shape(
+                np.random.randn(16, 32, 3), np.random.randn(16, 32)
+            )
 
     def test_bad_adim(self):
 
         with pytest.raises(AssertionError):
-            utils._validate_za_shape(np.random.randn(16, 32), np.random.randn(16, 32, 3))
+            utils._validate_za_shape(
+                np.random.randn(16, 32), np.random.randn(16, 32, 3)
+            )
 
     def test_vector_adim(self):
 
@@ -71,4 +75,3 @@ class TestShape:
             utils._validate_za_shape(
                 np.random.randn(16, 32), np.random.randn(16, 2), list(range(3))
             )
-
