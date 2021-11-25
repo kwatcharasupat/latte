@@ -2,9 +2,36 @@ import numpy as np
 import pytest
 from latte.metrics.base import LatteMetric
 
-import torch
+try:
+    import torch
+
+    has_torch = True
+except:
+    has_torch = False
+
+try:
+    import torchmetrics
+
+    has_tm = True
+except:
+    has_tm = False
+
+has_torch_and_tm = has_torch and has_tm
 
 
+@pytest.mark.skipif(has_torch)
+def test_import_warning():
+    with pytest.raises(ImportError):
+        from latte.metrics.torch import wrapper
+
+
+@pytest.mark.skipif(has_tm)
+def test_import_warning():
+    with pytest.raises(ImportError):
+        from latte.metrics.torch import wrapper
+
+
+@pytest.skipif(not has_torch_and_tm)
 class DummyMetric(LatteMetric):
     def __init__(self, val):
         super().__init__()

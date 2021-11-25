@@ -2,9 +2,21 @@ import numpy as np
 import pytest
 from latte.metrics.base import LatteMetric
 
-import tensorflow as tf
+try:
+    import tensorflow as tf
+
+    has_tf = True
+except:
+    has_tf = False
 
 
+@pytest.mark.skipif(has_tf)
+def test_import_warning():
+    with pytest.raises(ImportError):
+        from latte.metrics.keras import wrapper
+
+
+@pytest.mark.skipif(not has_tf)
 class DummyMetric(LatteMetric):
     def __init__(self, val):
         super().__init__()
@@ -163,3 +175,4 @@ class TestKerasMetric:
 
         with pytest.raises(AttributeError):
             dummy_metric.nonexistent_attr
+
