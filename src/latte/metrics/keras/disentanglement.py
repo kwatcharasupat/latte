@@ -18,7 +18,13 @@ DependencyBlindMutualInformationGap = partial(
     KerasMetricWrapper, metric=C.DependencyBlindMutualInformationGap
 )
 
+SeparateAttributePredictability = partial(
+    KerasMetricWrapper, metric=C.SeparateAttributePredictability
+)
+
 MIG = MutualInformationGap
 DMIG = DependencyAwareMutualInformationGap
 DLIG = DependencyAwareLatentInformationGap
 XMIG = DependencyBlindMutualInformationGap
+
+SAP = SeparateAttributePredictability

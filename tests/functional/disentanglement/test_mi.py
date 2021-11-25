@@ -17,8 +17,6 @@ class TestSingleMiEntropy:
         a = np.random.randint(16, size=(16,))
         b = np.random.randint(16, size=(16,))
 
-        print("test_single_discrete", latte.RANDOM_STATE)
-
         np.testing.assert_almost_equal(
             mi.single_mutual_info(a, b, True),
             fs.mutual_info_classif(a[:, None], b, random_state=latte.RANDOM_STATE)[0],

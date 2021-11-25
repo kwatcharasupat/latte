@@ -18,7 +18,13 @@ DependencyBlindMutualInformationGap = partial(
     TorchMetricWrapper, metric=C.DependencyBlindMutualInformationGap
 )
 
+SeparateAttributePredictability = partial(
+    TorchMetricWrapper, metric=C.SeparateAttributePredictability
+)
+
 MIG = MutualInformationGap
 DMIG = DependencyAwareMutualInformationGap
 DLIG = DependencyAwareLatentInformationGap
 XMIG = DependencyBlindMutualInformationGap
+
+SAP = SeparateAttributePredictability
