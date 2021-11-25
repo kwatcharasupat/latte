@@ -25,11 +25,13 @@ jobs:
           name: Run tests
           command: |
             . venv37/bin/activate
-            pytest -n 2 tests/
+            pytest -n 2 tests/ --cov=latte --cov-report=xml
       - save_cache:
           key: deps37-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - "venv37"
+      - codecov/upload:
+          file: coverage.xml
   
   build38:
     docker:
@@ -57,6 +59,78 @@ jobs:
       - codecov/upload:
           file: coverage.xml
 
+  build38-torch-only:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps38torch-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install dependencies
+          command: |
+            python -m venv venv38torch
+            . venv38torch/bin/activate
+            pip install --upgrade pip
+            pip install .[tests,pytorch]
+      - run:
+          name: Run tests
+          command: |
+            . venv38torch/bin/activate
+            pytest -n 2 tests/metrics/ --cov=latte.metrics --cov-report=xml
+      - save_cache:
+          key: deps38torch-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv38torch"
+
+  build38-tf-only:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps38tf-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install dependencies
+          command: |
+            python -m venv venv38tf
+            . venv38tf/bin/activate
+            pip install --upgrade pip
+            pip install .[tests,keras]
+      - run:
+          name: Run tests
+          command: |
+            . venv38tf/bin/activate
+            pytest -n 2 tests/metrics/ --cov=latte.metrics --cov-report=xml
+      - save_cache:
+          key: deps38tf-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv38tf"
+
+  build38-core-only:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps38core-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install dependencies
+          command: |
+            python -m venv venv38core
+            . venv38core/bin/activate
+            pip install --upgrade pip
+            pip install .[tests]
+      - run:
+          name: Run tests
+          command: |
+            . venv38core/bin/activate
+            pytest -n 2 tests/metrics/ --cov=latte.metrics --cov-report=xml
+      - save_cache:
+          key: deps38core-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv38core"
+            
   build39:
     docker:
       - image: cimg/python:3.9
@@ -75,7 +149,7 @@ jobs:
           name: Run tests
           command: |
             . venv39/bin/activate
-            pytest -n 2 tests/
+            pytest -n 2 tests/ --cov=latte --cov-report=xml
       - save_cache:
           key: deps39-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
@@ -126,11 +200,17 @@ workflows:
     jobs:
       - build37
       - build38
+      - build38-torch-only
+      - build38-tf-only
+      - build38-core-only
       - build39
       - publish_testpypi:
           requires:
               - build37
               - build38
+              - build38-torch-only
+              - build38-tf-only
+              - build38-core-only
               - build39
           filters:
             branches:
@@ -141,7 +221,10 @@ workflows:
       - publish_pypi:
           requires:
               - build37
-              - build38
+              - build38              
+              - build38-torch-only
+              - build38-tf-only
+              - build38-core-only
               - build39
               - publish_testpypi
           filters:
