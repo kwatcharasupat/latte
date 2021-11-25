@@ -15,27 +15,31 @@ Latte (for _LATent Tensor Evaluation_) is a cross-framework Python package for e
 For developers working on local clone, `cd` to the repo and replace `latte` with `.`. For example, `pip install .[tests]`
 
 ```console
-pip install latte           # core (numpy only)
-pip install latte[pytorch]  # with torchmetrics wrapper
-pip install latte[keras]    # with tensorflow wrapper
-pip install latte[tests]    # for testing
+pip install latte-metrics           # core (numpy only)
+pip install latte-metrics[pytorch]  # with torchmetrics wrapper
+pip install latte-metrics[keras]    # with tensorflow wrapper
+pip install latte-metrics[tests]    # for testing
 ```
-
-## CI/CD
-
-CircleCI: https://app.circleci.com/pipelines/github/karnwatcharasupat/latte
-
-CodeCov: https://app.codecov.io/gh/karnwatcharasupat/latte/
 
 ### Running tests locally
 ```
 pip install .[tests]
-pytest --cov=latte
+pytest tests/ --cov=latte
 ```
 
-## Getting Started
+## Example
+```python
+import latte
+from latte.functional.disentanglement.mutual_info import mig
+import numpy as np
 
-Coming Soon
+latte.seed(42)
+
+z = np.random.randn(16, 8)
+a = np.random.randn(16, 2)
+
+mutual_info_gap = mig(z, a, discrete=False, reg_dim=[4, 3])
+```
 
 ## Documentation
 
