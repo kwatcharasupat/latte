@@ -206,8 +206,8 @@ def mig(
     np.ndarray, (n_attributes,)
         MIG for each attribute
         
-    Notes
-    ------
+    References
+    ----------
     .. [1] T. Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
     """
 
@@ -258,8 +258,8 @@ def dmig(
         DMIG for each attribute
         
     
-    Notes
-    ------
+    References
+    ----------
     .. [1] K. N. Watcharasupat and A. Lerch, “Evaluation of Latent Space Disentanglement in the Presence of Interdependent Attributes”, in Extended Abstracts of the Late-Breaking Demo Session of the 22nd International Society for Music Information Retrieval Conference, 2021.
     .. [2] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
@@ -313,8 +313,8 @@ def dlig(
     np.ndarray, (n_attributes,)
         DLIG for each attribute
         
-    Notes
-    ------
+    References
+    ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
@@ -362,8 +362,8 @@ def xmig(
     np.ndarray, (n_attributes,)
         XMIG for each attribute
         
-    Notes
-    ------
+    References
+    ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
