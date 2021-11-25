@@ -12,7 +12,7 @@ except:
     has_tf = False
 
 
-@pytest.mark.skipif(not has_tf, "requires tensorflow")
+@pytest.mark.skipif(not has_tf, reason="requires tensorflow")
 class TestMIG:
     def test_mig(self):
         core_mig = C.MutualInformationGap()

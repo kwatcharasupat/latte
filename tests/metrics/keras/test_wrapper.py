@@ -16,7 +16,7 @@ def test_import_warning():
         from latte.metrics.keras import wrapper
 
 
-@pytest.mark.skipif(not has_tf, "requires tensorflow")
+@pytest.mark.skipif(not has_tf, reason="requires tensorflow")
 class DummyMetric(LatteMetric):
     def __init__(self, val):
         super().__init__()
@@ -31,7 +31,7 @@ class DummyMetric(LatteMetric):
         return 2 * self.test_state
 
 
-@pytest.mark.skipif(not has_tf, "requires tensorflow")
+@pytest.mark.skipif(not has_tf, reason="requires tensorflow")
 class TestConvert:
     def test_tf_to_np(self):
         from latte.metrics.keras.wrapper import tf_to_numpy
@@ -88,7 +88,7 @@ class TestConvert:
             numpy_to_tf(None)
 
 
-@pytest.mark.skipif(not has_tf, "requires tensorflow")
+@pytest.mark.skipif(not has_tf, reason="requires tensorflow")
 class TestKerasMetric:
     def test_name(self):
         from latte.metrics.keras.wrapper import KerasMetricWrapper

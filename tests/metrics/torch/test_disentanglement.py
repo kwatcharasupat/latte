@@ -13,7 +13,7 @@ except:
     has_torch_and_tm = False
 
 
-@pytest.mark.skipif(not has_torch_and_tm, "requires torch and torchmetrics")
+@pytest.mark.skipif(not has_torch_and_tm, reason="requires torch and torchmetrics")
 class TestMIG:
     def test_mig(self):
         core_mig = C.MutualInformationGap()
