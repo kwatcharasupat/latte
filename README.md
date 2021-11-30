@@ -4,7 +4,7 @@
 [![Documentation Status](https://readthedocs.org/projects/latte/badge/?version=latest)](https://latte.readthedocs.io/en/latest/?badge=latest)
 [![CircleCI](https://circleci.com/gh/karnwatcharasupat/latte/tree/dev.svg?style=shield&circle-token=0c9b78ee4a89415f93953a0677d7b531e0f5361a)](https://circleci.com/gh/karnwatcharasupat/latte/tree/dev)
 [![codecov](https://codecov.io/gh/karnwatcharasupat/latte/branch/dev/graph/badge.svg?token=9JXSESGPHA)](https://codecov.io/gh/karnwatcharasupat/latte)
-[![CodeFactor](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/badge/dev)](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/overview/main)
+[![CodeFactor](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/badge/dev)](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/overview/dev)
 <img src="https://img.shields.io/badge/license-MIT-brightgreen"/>
 [![PyPI version](https://badge.fury.io/py/latte-metrics.svg)](https://badge.fury.io/py/latte-metrics)
 
