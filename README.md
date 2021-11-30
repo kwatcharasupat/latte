@@ -84,7 +84,7 @@ Torch/Keras wrapper will
 | _Interpolatability Metrics_                     |
 | [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Smoothness                                                |🔨|🕣|🕣|🕣|
 | [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Monotonicity                                              |🔨|🕣|🕣|🕣|
-| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Latent Density Ratio                                              |🕣|🕣|🕣|🕣|
+| [📝](https://archives.ismir.net/ismir2021/paper/000064.pdf) Latent Density Ratio                                              |🕣|🕣|🕣|🕣|
 
 ## Bundled metric modules
 🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
