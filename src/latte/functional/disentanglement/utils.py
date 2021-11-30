@@ -1,13 +1,13 @@
+from typing import List, Optional, Tuple
 import numpy as np
-import typing as t
 
 
 def _validate_za_shape(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: t.Optional[t.List] = None,
+    reg_dim: Optional[List] = None,
     fill_reg_dim: bool = False,
-) -> t.Tuple[np.ndarray, np.ndarray, t.List]:
+) -> Tuple[np.ndarray, np.ndarray, List]:
 
     assert a.ndim <= 2
 
