@@ -80,8 +80,8 @@ class TestShape:
 
 class TestFiniteDiff:
     def test_first_order(self):
-        z = np.stack([np.linspace(0.0, 1.0, 10) for _ in range(8)], axis=0)
-        a = np.stack([np.linspace(0.0, 0.5, 10) for _ in range(8)], axis=0)
+        z = np.repeat(np.linspace(0.0, 1.0, 10)[None, :], 8, axis=0)
+        a = np.repeat(np.linspace(0.0, 0.5, 10)[None, :], 8, axis=0)
 
         dadz, zv = utils.finite_diff(z, a, order=1, mode="forward", return_list=False)
 
@@ -89,8 +89,8 @@ class TestFiniteDiff:
         np.testing.assert_allclose(zv, 0.5 * (z[:, 1:] + z[:, :-1]))
 
     def test_second_order(self):
-        z = np.stack([np.linspace(0.0, 1.0, 10) for _ in range(8)], axis=0)
-        a = np.stack([np.linspace(0.0, 0.5, 10) for _ in range(8)], axis=0)
+        z = np.repeat(np.linspace(0.0, 1.0, 10)[None, :], 8, axis=0)
+        a = np.repeat(np.linspace(0.0, 0.5, 10)[None, :], 8, axis=0)
 
         dadz, zv = utils.finite_diff(z, a, order=2, mode="forward", return_list=False)
 
@@ -100,8 +100,8 @@ class TestFiniteDiff:
         np.testing.assert_allclose(zv, z2)
 
     def test_list_return(self):
-        z = np.stack([np.linspace(0.0, 1.0, 10) for _ in range(8)], axis=0)
-        a = np.stack([np.linspace(0.0, 0.5, 10) for _ in range(8)], axis=0)
+        z = np.repeat(np.linspace(0.0, 1.0, 10)[None, :], 8, axis=0)
+        a = np.repeat(np.linspace(0.0, 0.5, 10)[None, :], 8, axis=0)
 
         rets = utils.finite_diff(z, a, order=2, mode="forward", return_list=True)
 
@@ -118,16 +118,16 @@ class TestFiniteDiff:
         np.testing.assert_allclose(z2v, z2)
 
     def test_list_return3(self):
-        z = np.stack([np.linspace(0.0, 1.0, 10) for _ in range(8)], axis=0)
-        a = np.stack([np.linspace(0.0, 0.5, 10) for _ in range(8)], axis=0)
+        z = np.repeat(np.linspace(0.0, 1.0, 10)[None, :], 8, axis=0)
+        a = np.repeat(np.linspace(0.0, 0.5, 10)[None, :], 8, axis=0)
 
         rets = utils.finite_diff(z, a, order=3, mode="forward", return_list=True)
 
         assert len(rets) == 3
 
     def test_mode(self):
-        z = np.stack([np.linspace(0.0, 1.0, 10) for _ in range(8)], axis=0)
-        a = np.stack([np.linspace(0.0, 0.5, 10) for _ in range(8)], axis=0)
+        z = np.repeat(np.linspace(0.0, 1.0, 10)[None, :], 8, axis=0)
+        a = np.repeat(np.linspace(0.0, 0.5, 10)[None, :], 8, axis=0)
 
         with pytest.raises(NotImplementedError):
             utils.finite_diff(z, a, order=1, mode="central", return_list=False)

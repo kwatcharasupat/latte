@@ -53,7 +53,7 @@ def monotonicity(
 
     if np.isnan(degenerate_val) and nanmean is False and reduce_mode != "none":
         warnings.warn(
-            "`nanmean` is set to False and `degenerate_val` is set to NaN. This may result in NaN values in the return array. Set `nanmean` to True to ignore NaN values during mean calculation."
+            "`nanmean` is set to False and `degenerate_val` is set to NaN. This may result in NaN values in the return array. Set `nanmean` to True to ignore NaN values during mean calculation.", RuntimeWarning
         )
 
     z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=2)
