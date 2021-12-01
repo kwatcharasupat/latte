@@ -204,7 +204,7 @@ jobs:
             twine upload --repository pypi dist/*
 
 workflows:
-  test:
+  build-test-publish:
     jobs:
       - build37
       - build38
