@@ -110,4 +110,3 @@ def smoothness(
         return np.mean(smth)
     else:
         return smth
-

@@ -89,7 +89,6 @@ def liad(
 
 
 def lehmer_mean(x: np.ndarray, p: float):
-    
 
     if p == 1.0:
         den = np.ones_like(x)
@@ -99,8 +98,7 @@ def lehmer_mean(x: np.ndarray, p: float):
 
     with np.errstate(divide="ignore", invalid="ignore"):
         out = np.sum(num, axis=-1) / np.sum(den, axis=-1)
-    
+
     # catch constant array, particularly all-zero axes
     out[np.all(x == x[..., [0]], axis=-1)] = x[np.all(x == x[..., [0]], axis=-1), 0]
     return out
-

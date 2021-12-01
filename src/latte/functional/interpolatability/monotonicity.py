@@ -53,9 +53,10 @@ def monotonicity(
 
     if np.isnan(degenerate_val) and nanmean is False and reduce_mode != "none":
         warnings.warn(
-            "`nanmean` is set to False and `degenerate_val` is set to NaN. This may result in NaN values in the return array. Set `nanmean` to True to ignore NaN values during mean calculation.", RuntimeWarning
+            "`nanmean` is set to False and `degenerate_val` is set to NaN. This may result in NaN values in the return array. Set `nanmean` to True to ignore NaN values during mean calculation.",
+            RuntimeWarning,
         )
-    
+
     if np.any(np.all(z == z[..., [0]], axis=-1)):
         raise ValueError("`z` must not be constant along the interpolation axis.")
 
@@ -85,4 +86,3 @@ def monotonicity(
             return meanfunc(mntc)
         else:
             return mntc
-

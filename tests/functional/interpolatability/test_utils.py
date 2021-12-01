@@ -3,80 +3,105 @@ import numpy as np
 import pytest
 
 
-
 class TestShape:
     def test_bad_samples(self):
 
         with pytest.raises(AssertionError):
             utils._validate_za_shape(np.random.randn(16, 32), np.random.randn(15, 32))
-            
+
     def test_bad_interp(self):
 
         with pytest.raises(AssertionError):
-            utils._validate_za_shape(np.random.randn(16, 1, 32), np.random.randn(16, 1, 2))
-            
+            utils._validate_za_shape(
+                np.random.randn(16, 1, 32), np.random.randn(16, 1, 2)
+            )
+
     def test_bad_features(self):
 
         with pytest.raises(AssertionError):
-            utils._validate_za_shape(np.random.randn(16, 1, 32), np.random.randn(16, 3, 2))
-            
+            utils._validate_za_shape(
+                np.random.randn(16, 1, 32), np.random.randn(16, 3, 2)
+            )
+
     def test_bad_min_size(self):
 
         with pytest.raises(AssertionError):
-            utils._validate_za_shape(np.random.randn(16, 1, 2), np.random.randn(16, 1, 2), min_size=3)
-            
+            utils._validate_za_shape(
+                np.random.randn(16, 1, 2), np.random.randn(16, 1, 2), min_size=3
+            )
+
     def test_bad_regdim_shape(self):
 
         with pytest.raises(AssertionError):
-            utils._validate_za_shape(np.random.randn(16, 8, 32), np.random.randn(16, 3, 32), reg_dim=[2, 0, 3, 4])
-            
+            utils._validate_za_shape(
+                np.random.randn(16, 8, 32),
+                np.random.randn(16, 3, 32),
+                reg_dim=[2, 0, 3, 4],
+            )
+
     def test_bad_regdim_neg(self):
 
         with pytest.raises(AssertionError):
-            utils._validate_za_shape(np.random.randn(16, 8, 32), np.random.randn(16, 3, 32), reg_dim=[2, -1, 3])
-            
+            utils._validate_za_shape(
+                np.random.randn(16, 8, 32),
+                np.random.randn(16, 3, 32),
+                reg_dim=[2, -1, 3],
+            )
+
     def test_bad_regdim_over(self):
 
         with pytest.raises(AssertionError):
-            utils._validate_za_shape(np.random.randn(16, 8, 32), np.random.randn(16, 3, 32), reg_dim=[2, 8, 3])
-            
+            utils._validate_za_shape(
+                np.random.randn(16, 8, 32),
+                np.random.randn(16, 3, 32),
+                reg_dim=[2, 8, 3],
+            )
+
     def test_regdim_slice(self):
         zin = np.random.randn(16, 8, 32)
-        z, _ = utils._validate_za_shape(zin, np.random.randn(16, 3, 32), reg_dim=[3, 4, 5])
-        
+        z, _ = utils._validate_za_shape(
+            zin, np.random.randn(16, 3, 32), reg_dim=[3, 4, 5]
+        )
+
         np.testing.assert_equal(zin[:, [3, 4, 5], :], z)
-        
+
     def test_regdim_auto(self):
         zin = np.random.randn(16, 8, 32)
         z, _ = utils._validate_za_shape(zin, np.random.randn(16, 3, 32), reg_dim=None)
-        
+
         np.testing.assert_equal(zin[:, :3, :], z)
-        
+
     def test_regdim_auto_eq(self):
         zin = np.random.randn(16, 3, 32)
         z, _ = utils._validate_za_shape(zin, np.random.randn(16, 3, 32))
-        
+
         np.testing.assert_equal(zin, z)
-        
+
     def test_auto_expand(self):
-        z, a = utils._validate_za_shape(np.random.randn(16, 32), np.random.randn(16, 32))
-        
+        z, a = utils._validate_za_shape(
+            np.random.randn(16, 32), np.random.randn(16, 32)
+        )
+
         assert z.shape == (16, 1, 32)
         assert a.shape == (16, 1, 32)
-        
+
     def test_bad_za_shapes(self):
         with pytest.raises(AssertionError):
             utils._validate_za_shape(np.random.randn(16,), np.random.randn(16, 32))
-            
+
         with pytest.raises(AssertionError):
-            utils._validate_za_shape(np.random.randn(16,1,4,5), np.random.randn(16, 32))
-            
+            utils._validate_za_shape(
+                np.random.randn(16, 1, 4, 5), np.random.randn(16, 32)
+            )
+
         with pytest.raises(AssertionError):
-            utils._validate_za_shape(np.random.randn(16,1), np.random.randn(16, 32, 1, 3))
-            
+            utils._validate_za_shape(
+                np.random.randn(16, 1), np.random.randn(16, 32, 1, 3)
+            )
+
         with pytest.raises(AssertionError):
-            utils._validate_za_shape(np.random.randn(16,1), np.random.randn(16,))
-        
+            utils._validate_za_shape(np.random.randn(16, 1), np.random.randn(16,))
+
 
 class TestFiniteDiff:
     def test_first_order(self):
@@ -166,10 +191,14 @@ class TestLehmerMean:
         x = np.random.rand(8, 16)
 
         m = utils.lehmer_mean(x, p=2.0)
-        np.testing.assert_allclose(m, np.sum(np.square(x), axis=-1) / np.sum(x, axis=-1))
-        
+        np.testing.assert_allclose(
+            m, np.sum(np.square(x), axis=-1) / np.sum(x, axis=-1)
+        )
+
     def test_p0(self):
         x = np.random.rand(8, 16)
 
         m = utils.lehmer_mean(x, p=0.0)
-        np.testing.assert_allclose(m, np.sum(np.ones_like(x), axis=-1) / np.sum(1.0/x, axis=-1))
+        np.testing.assert_allclose(
+            m, np.sum(np.ones_like(x), axis=-1) / np.sum(1.0 / x, axis=-1)
+        )

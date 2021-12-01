@@ -115,4 +115,3 @@ class Monotonicity(LatteMetric):
             self.degenerate_val,
             self.nanmean,
         )
-

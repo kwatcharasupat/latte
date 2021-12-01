@@ -141,26 +141,26 @@ class TestSmoothness:
     def test_sample_mean(self):
         z = np.repeat(np.repeat(np.arange(16)[None, None, :], 8, axis=0), 3, axis=1)
         a = np.square(z)
-        
+
         smth = smoothness(z, a, reduce_mode="sample")
-        
+
         assert smth.shape == (8,)
-        np.testing.assert_allclose(smth, np.ones(shape=(8,)) - 1.0/14.0)
-        
+        np.testing.assert_allclose(smth, np.ones(shape=(8,)) - 1.0 / 14.0)
+
     def test_no_mean(self):
         z = np.repeat(np.repeat(np.arange(16)[None, None, :], 8, axis=0), 3, axis=1)
         a = np.square(z)
-        
+
         smth = smoothness(z, a, reduce_mode="none")
-        
+
         assert smth.shape == (8, 3)
-        np.testing.assert_allclose(smth, np.ones(shape=(8, 3)) - 1.0/14.0)
-        
+        np.testing.assert_allclose(smth, np.ones(shape=(8, 3)) - 1.0 / 14.0)
+
     def test_all_mean(self):
         z = np.repeat(np.repeat(np.arange(16)[None, None, :], 8, axis=0), 3, axis=1)
         a = np.square(z)
-        
+
         smth = smoothness(z, a, reduce_mode="all")
-        
+
         assert smth.shape == tuple()
-        np.testing.assert_allclose(smth, 13.0/14.0)
+        np.testing.assert_allclose(smth, 13.0 / 14.0)
