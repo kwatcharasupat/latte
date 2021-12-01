@@ -1,13 +1,13 @@
-from latte.functional.disentanglement.modularity import modularity
+from typing import List, Optional
+from ...functional.disentanglement.modularity import modularity
 from ...functional.disentanglement.mutual_info import mig, dmig, xmig, dlig
 from ...functional.disentanglement.sap import sap
 from ..base import LatteMetric
-import typing as t
 import numpy as np
 
 
 class MutualInformationGap(LatteMetric):
-    def __init__(self, reg_dim: t.Optional[t.List] = None, discrete: bool = False):
+    def __init__(self, reg_dim: Optional[List] = None, discrete: bool = False):
         super().__init__()
 
         self.add_state("z", [])
@@ -28,7 +28,7 @@ class MutualInformationGap(LatteMetric):
 
 
 class DependencyAwareMutualInformationGap(LatteMetric):
-    def __init__(self, reg_dim: t.Optional[t.List] = None, discrete: bool = False):
+    def __init__(self, reg_dim: Optional[List] = None, discrete: bool = False):
         super().__init__()
 
         self.add_state("z", [])
@@ -49,7 +49,7 @@ class DependencyAwareMutualInformationGap(LatteMetric):
 
 
 class DependencyAwareLatentInformationGap(LatteMetric):
-    def __init__(self, reg_dim: t.Optional[t.List] = None, discrete: bool = False):
+    def __init__(self, reg_dim: Optional[List] = None, discrete: bool = False):
         super().__init__()
 
         self.add_state("z", [])
@@ -70,7 +70,7 @@ class DependencyAwareLatentInformationGap(LatteMetric):
 
 
 class DependencyBlindMutualInformationGap(LatteMetric):
-    def __init__(self, reg_dim: t.Optional[t.List] = None, discrete: bool = False):
+    def __init__(self, reg_dim: Optional[List] = None, discrete: bool = False):
         super().__init__()
 
         self.add_state("z", [])
@@ -93,7 +93,7 @@ class DependencyBlindMutualInformationGap(LatteMetric):
 class SeparateAttributePredictability(LatteMetric):
     def __init__(
         self,
-        reg_dim: t.Optional[t.List] = None,
+        reg_dim: Optional[List] = None,
         discrete: bool = False,
         l2_reg: float = 1.0,
         thresh: float = 1e-12,
@@ -124,7 +124,7 @@ class SeparateAttributePredictability(LatteMetric):
 class Modularity(LatteMetric):
     def __init__(
         self,
-        reg_dim: t.Optional[t.List] = None,
+        reg_dim: Optional[List] = None,
         discrete: bool = False,
         thresh: float = 1e-12,
     ):

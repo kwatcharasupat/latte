@@ -2,9 +2,9 @@
 <p align=center><b>Cross-framework Python Package for Evaluation of Latent-based Generative Models</b></p>
 
 [![Documentation Status](https://readthedocs.org/projects/latte/badge/?version=latest)](https://latte.readthedocs.io/en/latest/?badge=latest)
-[![CircleCI](https://circleci.com/gh/karnwatcharasupat/latte/tree/main.svg?style=shield&circle-token=0c9b78ee4a89415f93953a0677d7b531e0f5361a)](https://circleci.com/gh/karnwatcharasupat/latte/tree/main)
-[![codecov](https://codecov.io/gh/karnwatcharasupat/latte/branch/main/graph/badge.svg?token=9JXSESGPHA)](https://codecov.io/gh/karnwatcharasupat/latte)
-[![CodeFactor](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/badge/main)](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/overview/main)
+[![CircleCI](https://circleci.com/gh/karnwatcharasupat/latte/tree/dev.svg?style=shield&circle-token=0c9b78ee4a89415f93953a0677d7b531e0f5361a)](https://circleci.com/gh/karnwatcharasupat/latte/tree/dev)
+[![codecov](https://codecov.io/gh/karnwatcharasupat/latte/branch/dev/graph/badge.svg?token=9JXSESGPHA)](https://codecov.io/gh/karnwatcharasupat/latte/branches/dev)
+[![CodeFactor](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/badge/dev)](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/overview/dev)
 <img src="https://img.shields.io/badge/license-MIT-brightgreen"/>
 [![PyPI version](https://badge.fury.io/py/latte-metrics.svg)](https://badge.fury.io/py/latte-metrics)
 
@@ -29,6 +29,8 @@ pytest tests/ --cov=latte
 ```
 
 ## Example
+
+### Functional API
 ```python
 import latte
 from latte.functional.disentanglement.mutual_info import mig
@@ -42,34 +44,77 @@ a = np.random.randn(16, 2)
 mutual_info_gap = mig(z, a, discrete=False, reg_dim=[4, 3])
 ```
 
+
+### Modular API
+```python
+import latte
+from latte.metrics.core.disentanglement import MutualInformationGap
+import numpy as np
+
+latte.seed(42)
+
+mig = MutualInformationGap()
+
+# ... 
+# initialize data and model
+# ...
+
+for data, attributes in range(batches):
+  recon, z = model(data)
+
+  mig.update_state(z, attributes)
+
+mig_val = mig.compute()
+```
+
+### TorchMetrics API
+```python
+import latte
+from latte.metrics.torch.disentanglement import MutualInformationGap
+import torch
+
+latte.seed(42)
+
+mig = MutualInformationGap()
+
+# ... 
+# initialize data and model
+# ...
+
+for data, attributes in range(batches):
+  recon, z = model(data)
+
+  mig.update(z, attributes)
+
+mig_val = mig.compute()
+```
+
+### Keras Metric API
+```python
+import latte
+from latte.metrics.keras.disentanglement import MutualInformationGap
+from tensorflow import keras as tfk
+
+latte.seed(42)
+
+mig = MutualInformationGap()
+
+# ... 
+# initialize data and model
+# ...
+
+for data, attributes in range(batches):
+  recon, z = model(data)
+
+  mig.update_state(z, attributes)
+
+mig_val = mig.result()
+```
+
+
 ## Documentation
 
 https://latte.readthedocs.io/en/latest
-
-<!-- ## Modules
-Modules are untested unless marked with :ok_hand: (Some files/modules do not yet exist.)
-
-```
-.
-├── functional                # functional API with NumPy
-│   ├── disentanglement         # disentanglement metrics
-│   │   ├── mutual_info.py        # MIG-based metrics
-│   │   ├── sap.py                # separate attribute predictability (Kumar et al., 2017)
-│   │   ├── ridgeway.py           # modularity and explicitness (Ridgeway & Mozer, 2018)
-│   │   ├── beta_vae.py           # disentanglement metric score (Higgins et al., 2017)
-│   │   └── <TBA>
-│   └── interpolatability       # intepolatabililty metrics
-│       ├── liad.py               # LIAD-based metrics (smoothness, monotonicity)
-│       └── <TBA>
-└── metrics                   # module API with TorchMetrics/Keras
-    ├── common.py               # common utils
-    ├── numpy                     # base modular classes with native Python + NumPy
-    │   └── <TBA>                   # implement class versions of the functional metrics 
-    ├── keras                     # for tf.keras
-    │   └── wrapper.py              # keras wrapper on base classes
-    └── torch                     # for torch
-        └── wrapper.py              # torchmetrics wrapper on base classes
-``` -->
 
 ## Method Chart for Modular API
 
@@ -107,8 +152,9 @@ Torch/Keras wrapper will
 | [📝](https://arxiv.org/abs/1802.05312) Modularity                                             |🧪|🧪|🧪|🧪|
 | [📝](https://openreview.net/forum?id=Sy2fzU9gl) Disentanglement metric score (β-VAE paper)    |🕣|🕣|🕣|🕣|
 | _Interpolatability Metrics_                     |
-| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Smoothness                                                |🔨|🕣|🕣|🕣|
-| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Monotonicity                                              |🔨|🕣|🕣|🕣|
+| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Smoothness                                                |🧪|🧪|🧪|🧪|
+| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Monotonicity                                              |🧪|🧪|🧪|🧪|
+| [📝](https://archives.ismir.net/ismir2021/paper/000064.pdf) Latent Density Ratio                                              |🕣|🕣|🕣|🕣|
 
 ## Bundled metric modules
 🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 🕣 In Queue

@@ -221,6 +221,8 @@ workflows:
               - build38-core-only
               - build39
           filters:
+            branches:
+              only: main
             tags:
               only: 
                 - /^v[0-9]+(\.[0-9]+).*/
@@ -234,6 +236,8 @@ workflows:
               - build39
               - publish_testpypi
           filters:
+            branches:
+              only: main
             tags:
               only: 
                 - /^v[0-9]+(\.[0-9]+).*/
