@@ -34,9 +34,9 @@ def monotonicity(
     liad_thresh : float, optional
         threshold for ignoring noisy 1st order LIAD, by default 1e-3
     degenerate_val : float, optional
-        fill value for samples with all noisy LIAD, by default np.nan. Another possible option is to set this to 0.0.
+        fill value for samples with all noisy LIAD (i.e., absolute value below `liad_thresh`), by default np.nan. Another possible option is to set this to 0.0.
     nanmean : bool, optional
-        whether to ignore the NaN values in calculating the return array, by default True. Ignored if `reduce_mode` is "none".
+        whether to ignore the NaN values in calculating the return array, by default True. Ignored if `reduce_mode` is "none". If all LIAD in an axis are NaNs, the return array in that axis is filled with NaNs.
 
     Returns
     -------
@@ -55,6 +55,9 @@ def monotonicity(
         warnings.warn(
             "`nanmean` is set to False and `degenerate_val` is set to NaN. This may result in NaN values in the return array. Set `nanmean` to True to ignore NaN values during mean calculation.", RuntimeWarning
         )
+    
+    if np.any(np.all(z == z[..., [0]], axis=-1)):
+        raise ValueError("`z` must not be constant along the interpolation axis.")
 
     z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=2)
 
@@ -72,12 +75,14 @@ def monotonicity(
 
     meanfunc = np.nanmean if nanmean else np.mean
 
-    if reduce_mode == "attribute":
-        return meanfunc(mntc, axis=0)
-    elif reduce_mode == "sample":
-        return meanfunc(mntc, axis=-1)
-    elif reduce_mode == "all":
-        return meanfunc(mntc)
-    else:
-        return mntc
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        if reduce_mode == "attribute":
+            return meanfunc(mntc, axis=0)
+        elif reduce_mode == "sample":
+            return meanfunc(mntc, axis=-1)
+        elif reduce_mode == "all":
+            return meanfunc(mntc)
+        else:
+            return mntc
 

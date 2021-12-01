@@ -3,7 +3,7 @@ import numpy as np
 
 __VALID_LIAD_MODE__ = ["forward"]  # ["forward", "central", "spline"]
 __VALID_MAX_MODE__ = ["naive", "lehmer"]
-__VALID_PTP_MODE__ = ["naive", "interdecile"]
+__VALID_PTP_MODE__ = ["naive"]
 __VALID_REDUCE_MODE__ = ["all", "attribute", "sample", "none"]
 
 
@@ -89,6 +89,7 @@ def liad(
 
 
 def lehmer_mean(x: np.ndarray, p: float):
+    
 
     if p == 1.0:
         den = np.ones_like(x)
@@ -96,5 +97,10 @@ def lehmer_mean(x: np.ndarray, p: float):
         den = np.power(x, p - 1.0)
     num = x * den
 
-    return np.sum(num, axis=-1) / np.sum(den, axis=-1)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        out = np.sum(num, axis=-1) / np.sum(den, axis=-1)
+    
+    # catch constant array, particularly all-zero axes
+    out[np.all(x == x[..., [0]], axis=-1)] = x[np.all(x == x[..., [0]], axis=-1), 0]
+    return out
 

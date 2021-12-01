@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Union
 import numpy as np
 
 from . import utils
@@ -10,8 +10,9 @@ def smoothness(
     reg_dim: Optional[List] = None,
     liad_mode: str = "forward",
     max_mode: str = "lehmer",
-    ptp_mode: str = "naive",
+    ptp_mode: Union[float, str] = "naive",
     reduce_mode: str = "attribute",
+    clamp: bool = False,
     p: float = 2.0,
 ) -> np.ndarray:
     """
@@ -31,7 +32,7 @@ def smoothness(
     max_mode : str, optional
         options for calculating array maximum of 2nd order LIAD, by default "lehmer". Must be one of {"lehmer", "naive"}. If "lehmer", the maximum is calculated using the Lehmer mean with power `p`. If "naive", the maximum is calculated using the naive array maximum.
     ptp_mode : str, optional
-        options for calculating range of 1st order LIAD for normalization, by default "naive". Must be one of {"naive", "interdecile"}. If "naive", the range is calculated using the naive peak-to-peak range. If "interdecile", the range is calculated using the interdecile range.
+        options for calculating range of 1st order LIAD for normalization, by default "naive". Must be either "naive" or a float value in (0.0, 1.0]. If "naive", the range is calculated using the naive peak-to-peak range. If float, the range is taken to be the range between quantile `0.5-0.5*ptp_mode` and quantile `0.5+0.5*ptp_mode`.
     reduce_mode : str, optional
         options for reduction of the return array, by default "attribute". Must be one of {"attribute", "samples", "all", "none"}. If "all", returns a scalar. If "attribute", an average is taken along the sample axis and the return array is of shape `(n_attributes,)`. If "samples", an average is taken along the attribute axis and the return array is of shape `(n_samples,)`. If "none", returns a smoothness matrix of shape `(n_samples, n_attributes,)`.
     p : float, optional
@@ -46,11 +47,19 @@ def smoothness(
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
-    
+
     assert liad_mode in utils.__VALID_LIAD_MODE__
     assert max_mode in utils.__VALID_MAX_MODE__
-    assert ptp_mode in utils.__VALID_PTP_MODE__
-    assert p > 1.0
+    if isinstance(ptp_mode, str):
+        assert ptp_mode in utils.__VALID_PTP_MODE__
+    elif isinstance(ptp_mode, float):
+        if not (0.0 < ptp_mode <= 1.0):
+            raise ValueError("`ptp_mode` must be in (0.0, 1.0].")
+    else:
+        raise TypeError("`ptp_mode` must be either a string or a float.")
+
+    if not (p > 1.0):
+        raise ValueError("`p` must be greater than 1.0.")
 
     z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=3)
 
@@ -58,7 +67,10 @@ def smoothness(
     if not np.allclose(d2z, np.zeros_like(d2z)):
         raise NotImplementedError("Unequal `z` spacing is currently not supported.")
 
-    liads = utils.liad(z, a, order=2, mode=liad_mode)
+    if np.any(np.all(z == z[..., [0]], axis=-1)):
+        raise ValueError("`z` must not be constant along the interpolation axis.")
+
+    liads = utils.liad(z, a, order=2, mode=liad_mode, return_list=True)
 
     liad1, _ = liads[0]
     liad2, _ = liads[1]
@@ -66,23 +78,28 @@ def smoothness(
     liad2abs = np.abs(liad2)
 
     if max_mode == "naive":
-        num = np.max(liad2abs)
+        num = np.max(liad2abs, axis=-1)
     elif max_mode == "lehmer":
-        assert p > 1.0
         num = utils.lehmer_mean(liad2abs, p=p)
     else:
         raise NotImplementedError
 
     if ptp_mode == "naive":
         den = np.ptp(liad1, axis=-1)
-    elif ptp_mode == "interdecile":
-        den = np.quantile(liad1, q=0.90, axis=-1) - np.quantile(liad1, q=0.10, axis=-1)
+    elif isinstance(ptp_mode, float):
+        den = np.quantile(liad1, q=0.5 + 0.5 * ptp_mode, axis=-1) - np.quantile(
+            liad1, q=0.5 - 0.5 * ptp_mode, axis=-1
+        )
     else:
         raise NotImplementedError
 
-    den = den / (z[1] - z[0])
+    den = den / (z[..., 1] - z[..., 0])
+    with np.errstate(divide="ignore", invalid="ignore"):
+        smth = 1.0 - num / den
+    smth[:, np.all(num == 0, axis=0)] = 1.0
 
-    smth = num / den
+    if clamp:
+        smth = np.clip(smth, 0.0, 1.0)
 
     if reduce_mode == "attribute":
         return np.mean(smth, axis=0)

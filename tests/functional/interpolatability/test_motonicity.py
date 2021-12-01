@@ -49,3 +49,12 @@ class TestMonotonicity:
         
         assert mntc.shape == (8, 3)
         np.testing.assert_allclose(mntc, np.ones(shape=(8, 3)))
+        
+    def test_z_const(self):
+        z = np.random.randn(8, 3, 16)
+        z[0, 0, :] = 3.14
+        a = np.random.randn(8, 3, 16)
+        
+        with pytest.raises(ValueError):
+            monotonicity(z, a)
+            
