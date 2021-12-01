@@ -29,6 +29,8 @@ pytest tests/ --cov=latte
 ```
 
 ## Example
+
+### Functional API
 ```python
 import latte
 from latte.functional.disentanglement.mutual_info import mig
@@ -41,6 +43,74 @@ a = np.random.randn(16, 2)
 
 mutual_info_gap = mig(z, a, discrete=False, reg_dim=[4, 3])
 ```
+
+
+### Modular API
+```python
+import latte
+from latte.metrics.core.disentanglement import MutualInformationGap
+import numpy as np
+
+latte.seed(42)
+
+mig = MutualInformationGap()
+
+# ... 
+# initialize data and model
+# ...
+
+for data, attributes in range(batches):
+  recon, z = model(data)
+
+  mig.update_state(z, attributes)
+
+mig_val = mig.compute()
+```
+
+### TorchMetrics API
+```python
+import latte
+from latte.metrics.torch.disentanglement import MutualInformationGap
+import torch
+
+latte.seed(42)
+
+mig = MutualInformationGap()
+
+# ... 
+# initialize data and model
+# ...
+
+for data, attributes in range(batches):
+  recon, z = model(data)
+
+  mig.update(z, attributes)
+
+mig_val = mig.compute()
+```
+
+### Keras Metric API
+```python
+import latte
+from latte.metrics.keras.disentanglement import MutualInformationGap
+from tensorflow import keras as tfk
+
+latte.seed(42)
+
+mig = MutualInformationGap()
+
+# ... 
+# initialize data and model
+# ...
+
+for data, attributes in range(batches):
+  recon, z = model(data)
+
+  mig.update_state(z, attributes)
+
+mig_val = mig.result()
+```
+
 
 ## Documentation
 
@@ -82,8 +152,8 @@ Torch/Keras wrapper will
 | [📝](https://arxiv.org/abs/1802.05312) Modularity                                             |🧪|🧪|🧪|🧪|
 | [📝](https://openreview.net/forum?id=Sy2fzU9gl) Disentanglement metric score (β-VAE paper)    |🕣|🕣|🕣|🕣|
 | _Interpolatability Metrics_                     |
-| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Smoothness                                                |🔨|🕣|🕣|🕣|
-| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Monotonicity                                              |🔨|🕣|🕣|🕣|
+| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Smoothness                                                |🧪|🧪|🧪|🧪|
+| [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Monotonicity                                              |🧪|🧪|🧪|🧪|
 | [📝](https://archives.ismir.net/ismir2021/paper/000064.pdf) Latent Density Ratio                                              |🕣|🕣|🕣|🕣|
 
 ## Bundled metric modules
