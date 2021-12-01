@@ -4,6 +4,28 @@ import numpy as np
 from . import utils
 
 
+def _validate_smoothness_args(
+    liad_mode: str,
+    max_mode: str,
+    ptp_mode: Union[float, str],
+    reduce_mode: str,
+    p: float,
+):
+    assert liad_mode in utils.__VALID_LIAD_MODE__
+    assert max_mode in utils.__VALID_MAX_MODE__
+    assert reduce_mode in utils.__VALID_REDUCE_MODE__
+    if isinstance(ptp_mode, str):
+        assert ptp_mode in utils.__VALID_PTP_MODE__
+    elif isinstance(ptp_mode, float):
+        if not (0.0 < ptp_mode <= 1.0):
+            raise ValueError("`ptp_mode` must be in (0.0, 1.0].")
+    else:
+        raise TypeError("`ptp_mode` must be either a string or a float.")
+
+    if not (p > 1.0):
+        raise ValueError("`p` must be greater than 1.0.")
+
+
 def smoothness(
     z: np.ndarray,
     a: np.ndarray,
@@ -48,28 +70,17 @@ def smoothness(
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
-    assert liad_mode in utils.__VALID_LIAD_MODE__
-    assert max_mode in utils.__VALID_MAX_MODE__
-    assert reduce_mode in utils.__VALID_REDUCE_MODE__
-    if isinstance(ptp_mode, str):
-        assert ptp_mode in utils.__VALID_PTP_MODE__
-    elif isinstance(ptp_mode, float):
-        if not (0.0 < ptp_mode <= 1.0):
-            raise ValueError("`ptp_mode` must be in (0.0, 1.0].")
-    else:
-        raise TypeError("`ptp_mode` must be either a string or a float.")
-
-    if not (p > 1.0):
-        raise ValueError("`p` must be greater than 1.0.")
-
+    _validate_smoothness_args(
+        liad_mode=liad_mode,
+        max_mode=max_mode,
+        ptp_mode=ptp_mode,
+        reduce_mode=reduce_mode,
+        p=p,
+    )
+    
     z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=3)
-
-    d2z = np.diff(z, n=2, axis=-1)
-    if not np.allclose(d2z, np.zeros_like(d2z)):
-        raise NotImplementedError("Unequal `z` spacing is currently not supported.")
-
-    if np.any(np.all(z == z[..., [0]], axis=-1)):
-        raise ValueError("`z` must not be constant along the interpolation axis.")
+    utils._validate_non_constant_interp(z)
+    utils._validate_equal_interp_deltas(z)
 
     liads = utils.liad(z, a, order=2, mode=liad_mode, return_list=True)
 

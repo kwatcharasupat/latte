@@ -1,9 +1,13 @@
 from typing import List, Optional, Union
-import warnings
 
-from ...functional.interpolatability import utils
-from ...functional.interpolatability.monotonicity import monotonicity
-from ...functional.interpolatability.smoothness import smoothness
+from ...functional.interpolatability.monotonicity import (
+    monotonicity,
+    _validate_monotonicity_args,
+)
+from ...functional.interpolatability.smoothness import (
+    _validate_smoothness_args,
+    smoothness,
+)
 from ..base import LatteMetric
 import numpy as np
 
@@ -21,19 +25,13 @@ class Smoothness(LatteMetric):
     ):
         super().__init__()
 
-        assert liad_mode in utils.__VALID_LIAD_MODE__
-        assert max_mode in utils.__VALID_MAX_MODE__
-        assert reduce_mode in utils.__VALID_REDUCE_MODE__
-        if isinstance(ptp_mode, str):
-            assert ptp_mode in utils.__VALID_PTP_MODE__
-        elif isinstance(ptp_mode, float):
-            if not (0.0 < ptp_mode <= 1.0):
-                raise ValueError("`ptp_mode` must be in (0.0, 1.0].")
-        else:
-            raise TypeError("`ptp_mode` must be either a string or a float.")
-
-        if not (p > 1.0):
-            raise ValueError("`p` must be greater than 1.0.")
+        _validate_smoothness_args(
+            liad_mode=liad_mode,
+            max_mode=max_mode,
+            ptp_mode=ptp_mode,
+            reduce_mode=reduce_mode,
+            p=p,
+        )
 
         self.add_state("z", [])
         self.add_state("a", [])
@@ -77,15 +75,14 @@ class Monotonicity(LatteMetric):
         degenerate_val: float = np.nan,
         nanmean: bool = True,
     ):
+        super().__init__()
 
-        assert liad_mode in utils.__VALID_LIAD_MODE__
-        assert reduce_mode in utils.__VALID_REDUCE_MODE__
-
-        if np.isnan(degenerate_val) and nanmean is False and reduce_mode != "none":
-            warnings.warn(
-                "`nanmean` is set to False and `degenerate_val` is set to NaN. This may result in NaN values in the return array. Set `nanmean` to True to ignore NaN values during mean calculation.",
-                RuntimeWarning,
-            )
+        _validate_monotonicity_args(
+            liad_mode=liad_mode,
+            reduce_mode=reduce_mode,
+            degenerate_val=degenerate_val,
+            nanmean=nanmean,
+        )
 
         self.add_state("z", [])
         self.add_state("a", [])

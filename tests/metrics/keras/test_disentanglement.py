@@ -1,15 +1,15 @@
-import pytest
-import numpy as np
-
 try:
     import tensorflow as tf
 
     from latte.metrics.keras import disentanglement as K
-    from latte.metrics.core import disentanglement as C
 
     has_tf = True
 except:
     has_tf = False
+
+import pytest
+import numpy as np
+from latte.metrics.core import disentanglement as C
 
 
 @pytest.mark.skipif(not has_tf, reason="requires tensorflow")

@@ -5,6 +5,19 @@ from . import utils
 import warnings
 
 
+def _validate_monotonicity_args(
+    liad_mode: str, reduce_mode: str, degenerate_val: float, nanmean: bool,
+):
+    assert liad_mode in utils.__VALID_LIAD_MODE__
+    assert reduce_mode in utils.__VALID_REDUCE_MODE__
+
+    if np.isnan(degenerate_val) and nanmean is False and reduce_mode != "none":
+        warnings.warn(
+            "`nanmean` is set to False and `degenerate_val` is set to NaN. This may result in NaN values in the return array. Set `nanmean` to True to ignore NaN values during mean calculation.",
+            RuntimeWarning,
+        )
+
+
 def monotonicity(
     z: np.ndarray,
     a: np.ndarray,
@@ -48,19 +61,15 @@ def monotonicity(
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
-    assert liad_mode in utils.__VALID_LIAD_MODE__
-    assert reduce_mode in utils.__VALID_REDUCE_MODE__
-
-    if np.isnan(degenerate_val) and nanmean is False and reduce_mode != "none":
-        warnings.warn(
-            "`nanmean` is set to False and `degenerate_val` is set to NaN. This may result in NaN values in the return array. Set `nanmean` to True to ignore NaN values during mean calculation.",
-            RuntimeWarning,
-        )
-
-    if np.any(np.all(z == z[..., [0]], axis=-1)):
-        raise ValueError("`z` must not be constant along the interpolation axis.")
+    _validate_monotonicity_args(
+        liad_mode=liad_mode,
+        reduce_mode=reduce_mode,
+        degenerate_val=degenerate_val,
+        nanmean=nanmean,
+    )
 
     z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=2)
+    utils._validate_non_constant_interp(z)
 
     liad1, _ = utils.liad(z, a, order=1, mode=liad_mode, return_list=False)
 
