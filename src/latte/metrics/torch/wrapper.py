@@ -11,7 +11,7 @@ except ModuleNotFoundError as e:
 
 import typing as t
 import numpy as np
-from latte.metrics.base import LatteMetric
+from ...metrics.base import LatteMetric
 
 
 def torch_to_numpy(args, kwargs):

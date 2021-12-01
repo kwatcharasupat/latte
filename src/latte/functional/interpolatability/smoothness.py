@@ -50,6 +50,7 @@ def smoothness(
 
     assert liad_mode in utils.__VALID_LIAD_MODE__
     assert max_mode in utils.__VALID_MAX_MODE__
+    assert reduce_mode in utils.__VALID_REDUCE_MODE__
     if isinstance(ptp_mode, str):
         assert ptp_mode in utils.__VALID_PTP_MODE__
     elif isinstance(ptp_mode, float):

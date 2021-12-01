@@ -1,4 +1,3 @@
-from tensorflow.keras import metrics
 from .wrapper import KerasMetricWrapper
 from ..core import disentanglement as C
 
