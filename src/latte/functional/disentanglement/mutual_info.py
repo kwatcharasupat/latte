@@ -102,7 +102,9 @@ def conditional_entropy(
     """
     Calculate conditional entropy of a variable given another variable.
     
-    .. math:: H(a_i|a_j) = H(a_i) - I(a_i, a_j)
+    .. math:: \mathcal{H}(a_i|a_j) = \mathcal{H}(a_i) - \mathcal{I}(a_i, a_j),
+    
+    where :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot)` is entropy.
 
     Parameters
     ----------
