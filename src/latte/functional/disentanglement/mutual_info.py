@@ -102,7 +102,9 @@ def conditional_entropy(
     """
     Calculate conditional entropy of a variable given another variable.
     
-    .. math:: H(a_i|a_j) = H(a_i) - I(a_i, a_j)
+    .. math:: \mathcal{H}(a_i|a_j) = \mathcal{H}(a_i) - \mathcal{I}(a_i, a_j),
+    
+    where :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot)` is entropy.
 
     Parameters
     ----------
@@ -148,7 +150,21 @@ def mig(
     discrete: bool = False,
 ) -> np.ndarray:
     """
-    Calculate Mutual Information Gap (MIG) between latent vectors and attributes
+    Calculate Mutual Information Gap (MIG) between latent vectors and attributes. 
+    
+    Mutual Information Gap measures the degree of disentanglement. For each attribute, MIG is calculated by difference in the mutual informations between that of the attribute and its most informative latent dimension, and that of the attribute and its second-most informative latent dimension. Mathematically, MIG is given by
+    
+    .. math:: \operatorname{MIG}(a_i, \mathbf{z}) = \dfrac{\mathcal{I}(a_i, z_j)-\mathcal{I}(a_i, z_k)}{\mathcal{H}(a_i)},
+    
+    where :math:`j=\operatorname{arg}\max_n \mathcal{I}(a_i, z_n)`, :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot)` is entropy. If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)` as usual.
+    
+    MIG is best applied for independent attributes.
+    
+    See Also
+    --------
+    dmig : Dependency-Aware Mutual Information Gap
+    xmig : Dependency-Blind Mutual Information Gap
+    dlig : Dependency-Aware Latent Information Gap
 
     Parameters
     ----------
