@@ -148,7 +148,19 @@ def mig(
     discrete: bool = False,
 ) -> np.ndarray:
     """
-    Calculate Mutual Information Gap (MIG) between latent vectors and attributes
+    Calculate Mutual Information Gap (MIG) between latent vectors and attributes. 
+    
+    Mutual Information Gap measures the degree of disentanglement. For each attribute, MIG is calculated by difference in the mutual informations between that of the attribute and its most informative latent dimension, and that of the attribute and its second-most informative latent dimension. Mathematically, MIG is given by
+    
+    .. math:: \operatorname{MIG}(a_i, \mathbf{z}) = \dfrac{\mathcal{I}(a_i, z_j)-\mathcal{I}(a_i, z_k)}{\mathcal{H}(a_i)},
+    
+    where :math:`j=\arg\max_n \mathcal{I}(a_i, z_n)`, :math:`k=\arg\max_{n\ne j} \mathcal{I}(a_i, z_n)`, :math:`\mathcal{I}(\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot)` is entropy. If `reg_dim` is specified, :math:`j=\mathtt{reg_dim[i]}`.
+    
+    MIG is best applied for independent attributes.
+    
+    See Also
+    --------
+    dmig, xmig
 
     Parameters
     ----------
