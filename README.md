@@ -139,7 +139,7 @@ Torch/Keras wrapper will
 
 ## Supported metrics
 
-🧪 Beta support | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
+🧪 Beta support | ✔️ Stable | 🔨 In Progress | 🕣 In Queue | 👀 KIV |
 
 | Metric                                        | Latte Functional  | Latte Modular | TorchMetrics   | Keras Metric | 
 | :---                                          | :--:        | :--:      | :--:       | :--:       |
@@ -150,20 +150,26 @@ Torch/Keras wrapper will
 | [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Dependency-aware Latent Information Gap (DLIG)                                                |🧪|🧪|🧪|🧪|
 | [📝](https://arxiv.org/abs/1711.00848) Separate Attribute Predictability (SAP)                |🧪|🧪|🧪|🧪|
 | [📝](https://arxiv.org/abs/1802.05312) Modularity                                             |🧪|🧪|🧪|🧪|
-| [📝](https://openreview.net/forum?id=Sy2fzU9gl) Disentanglement metric score (β-VAE paper)    |🕣|🕣|🕣|🕣|
+| [📝](https://openreview.net/forum?id=Sy2fzU9gl) β-VAE Score    |👀|👀|👀|👀|
+| [📝](https://arxiv.org/abs/1802.05983) FactorVAE Score   |👀|👀|👀|👀|
+| [📝](https://openreview.net/forum?id=By-7dz-AZ) DCI Score    |👀|👀|👀|👀|
+| [📝](https://arxiv.org/abs/1811.00007) Interventional Robustness Score (IRS)   |👀|👀|👀|👀|
+| [📝](https://arxiv.org/abs/1910.09772) Consistency   |👀|👀|👀|👀|
+| [📝](https://arxiv.org/abs/1910.09772) Restrictiveness   |👀|👀|👀|👀|
 | _Interpolatability Metrics_                     |
 | [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Smoothness                                                |🧪|🧪|🧪|🧪|
 | [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Monotonicity                                              |🧪|🧪|🧪|🧪|
 | [📝](https://archives.ismir.net/ismir2021/paper/000064.pdf) Latent Density Ratio                                              |🕣|🕣|🕣|🕣|
+| [📝](https://arxiv.org/abs/2007.15474) Linearity                                        |👀|👀|👀|👀|
 
 ## Bundled metric modules
 🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
 
 | Metric Bundle                                 | Functional  | TorchMetrics   | Keras Metric | Included
 | :---                                          | :--:        | :--:      | :--:       | :---|
-| Classic Disentanglement                       |🕣|🕣|🕣| MIG, SAP, Modularity |
-| Dependency-aware Disentanglement              |🕣|🕣|🕣| MIG, DMIG, XMIG, DLIG |
-| Interpolatability                             |🕣|🕣|🕣| Smoothness, Monotonicity |
+| Classic Disentanglement                       |🔨|🕣|🕣| MIG, SAP, Modularity |
+| Dependency-aware Disentanglement              |🔨|🕣|🕣| MIG, DMIG, XMIG, DLIG |
+| Interpolatability                             |🔨|🕣|🕣| Smoothness, Monotonicity |
 
 ## Cite 
 
