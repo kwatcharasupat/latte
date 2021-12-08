@@ -1,0 +1,66 @@
+:py:mod:`latte.functional.disentanglement.modularity`
+=====================================================
+
+.. py:module:: latte.functional.disentanglement.modularity
+
+.. autoapi-nested-parse::
+
+   
+   ..
+       !! processed by numpydoc !!
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   latte.functional.disentanglement.modularity.modularity
+
+
+
+.. py:function:: modularity(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False, thresh: float = 1e-12)
+
+   
+   Calculate Modularity between latent vectors and attributes
+
+   :param z: a batch of latent vectors
+   :type z: np.ndarray, (n_samples, n_features)
+   :param a: a batch of attribute(s)
+   :type a: np.ndarray, (n_samples, n_attributes) or (n_samples,)
+   :param reg_dim: regularized dimensions, by default None
+                   Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
+   :type reg_dim: Optional[List], optional
+   :param discrete: Whether the attributes are discrete, by default False
+   :type discrete: bool, optional
+   :param thresh: threshold for mutual information, by default 1e-12. Latent-attribute pair with variance below `thresh` will have modularity contribution zeroed.
+   :type thresh: float, optional
+
+   :returns: Modularity for each attribute
+   :rtype: np.ndarray, (n_attributes,)
+
+   .. rubric:: References
+
+   .. [Rf06fe3a6065d-1] K. Ridgeway and M. C. Mozer, “Learning deep disentangled embeddings with the F-statistic loss,” in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018, pp. 185–194.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

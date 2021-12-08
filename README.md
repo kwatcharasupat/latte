@@ -5,8 +5,11 @@
 [![CircleCI](https://circleci.com/gh/karnwatcharasupat/latte/tree/dev.svg?style=shield&circle-token=0c9b78ee4a89415f93953a0677d7b531e0f5361a)](https://circleci.com/gh/karnwatcharasupat/latte/tree/dev)
 [![codecov](https://codecov.io/gh/karnwatcharasupat/latte/branch/dev/graph/badge.svg?token=9JXSESGPHA)](https://codecov.io/gh/karnwatcharasupat/latte/branches/dev)
 [![CodeFactor](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/badge/dev)](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/overview/dev)
-<img src="https://img.shields.io/badge/license-MIT-brightgreen"/>
+[![License](https://img.shields.io/badge/license-MIT-brightgreen)](https://opensource.org/licenses/MIT)
 [![PyPI version](https://badge.fury.io/py/latte-metrics.svg)](https://badge.fury.io/py/latte-metrics)
+
+
+# Latte
 
 Latte (for _LATent Tensor Evaluation_) is a cross-framework Python package for evaluation of latent-based generative models. Latte supports calculation of disentanglement and controllability metrics in both PyTorch (via TorchMetrics) and TensorFlow.
 
@@ -174,16 +177,16 @@ Torch/Keras wrapper will
 ## Cite 
 
 For individual metrics, please cite the paper according to the link in the 📝 icon in front of each metric.
-<!-- 
+
 If you find our package useful please cite us as
 ```bibtex
 @software{
   watcharasupat2021latte,
-  author = {Watcharasupat, Karn N. and Lerch, Alexander},
+  author = {Watcharasupat, Karn N. and Lee, Junyoung and Lerch, Alexander},
   title = {{Latte: Cross-framework Python Package for Evaluation of Latent-based Generative Models}},
   url = {https://github.com/karnwatcharasupat/latte},
-  version = {0.0.1-alpha}
+  version = {0.0.1-alpha1}
 }
-``` -->
+```
 
 

@@ -1,0 +1,166 @@
+:py:mod:`latte.metrics.core.interpolatability`
+==============================================
+
+.. py:module:: latte.metrics.core.interpolatability
+
+.. autoapi-nested-parse::
+
+   
+   ..
+       !! processed by numpydoc !!
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   latte.metrics.core.interpolatability.Smoothness
+   latte.metrics.core.interpolatability.Monotonicity
+
+
+
+
+.. py:class:: Smoothness(reg_dim: Optional[List] = None, liad_mode: str = 'forward', max_mode: str = 'lehmer', ptp_mode: Union[float, str] = 'naive', reduce_mode: str = 'attribute', clamp: bool = False, p: float = 2.0)
+
+   Bases: :py:obj:`latte.metrics.base.LatteMetric`
+
+   
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+   .. py:method:: update_state(self, z, a)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: compute(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: Monotonicity(reg_dim: Optional[List] = None, liad_mode: str = 'forward', reduce_mode: str = 'attribute', liad_thresh: float = 0.001, degenerate_val: float = np.nan, nanmean: bool = True)
+
+   Bases: :py:obj:`latte.metrics.base.LatteMetric`
+
+   
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+   .. py:method:: update_state(self, z, a)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: compute(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+

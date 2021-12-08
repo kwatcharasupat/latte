@@ -33,5 +33,6 @@ Subpackages
    :maxdepth: 3
 
    disentanglement/index.rst
+   interpolatability/index.rst
 
 

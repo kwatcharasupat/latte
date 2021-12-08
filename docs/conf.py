@@ -13,14 +13,15 @@
 import os
 import sys
 
+sys.path.insert(0, os.path.abspath(".."))
 sys.path.insert(0, os.path.abspath("../src"))
 
 
 # -- Project information -----------------------------------------------------
 
 project = "Latte"
-copyright = "2021, Karn N. Watcharasupat and Alexander Lerch"
-author = "Karn N. Watcharasupat and Alexander Lerch"
+copyright = "2021, Karn N. Watcharasupat, Junyoung Lee, and Alexander Lerch"
+author = "Karn N. Watcharasupat, Junyoung Lee, and Alexander Lerch"
 
 
 # -- General configuration ---------------------------------------------------
@@ -35,16 +36,21 @@ extensions = [
     "sphinx.ext.mathjax",
     "autoapi.extension",
     "numpydoc",
+    "m2r2",
 ]
+
+source_suffix = ['.rst', '.md']
+
 autoapi_type = "python"
-autoapi_dirs = ["../src"]
+autoapi_dirs = ["../src/latte/"]
 autoapi_options = [
     "members",
     "undoc-members",
     "show-inheritance",
     "show-module-summary",
-    "imported-members",
+    # "imported-members",
 ]
+autoapi_add_toctree_entry = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

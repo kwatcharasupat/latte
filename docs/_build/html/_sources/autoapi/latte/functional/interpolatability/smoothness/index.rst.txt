@@ -1,0 +1,72 @@
+:py:mod:`latte.functional.interpolatability.smoothness`
+=======================================================
+
+.. py:module:: latte.functional.interpolatability.smoothness
+
+.. autoapi-nested-parse::
+
+   
+   ..
+       !! processed by numpydoc !!
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   latte.functional.interpolatability.smoothness.smoothness
+
+
+
+.. py:function:: smoothness(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, liad_mode: str = 'forward', max_mode: str = 'lehmer', ptp_mode: Union[float, str] = 'naive', reduce_mode: str = 'attribute', clamp: bool = False, p: float = 2.0) -> numpy.ndarray
+
+   
+   Calculate latent smoothness.
+
+   :param z: a batch of latent vectors
+   :type z: np.ndarray, (n_samples, n_interp) or (n_samples, n_features or n_attributes, n_interp)
+   :param a: a batch of attribute(s)
+   :type a: np.ndarray, (n_samples, n_interp) or (n_samples, n_attributes, n_interp)
+   :param reg_dim: regularized dimensions, by default None
+                   Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
+   :type reg_dim: Optional[List], optional
+   :param liad_mode: options for calculating LIAD, by default "forward". Only "forward" is currently supported.
+   :type liad_mode: str, optional
+   :param max_mode: options for calculating array maximum of 2nd order LIAD, by default "lehmer". Must be one of {"lehmer", "naive"}. If "lehmer", the maximum is calculated using the Lehmer mean with power `p`. If "naive", the maximum is calculated using the naive array maximum.
+   :type max_mode: str, optional
+   :param ptp_mode: options for calculating range of 1st order LIAD for normalization, by default "naive". Must be either "naive" or a float value in (0.0, 1.0]. If "naive", the range is calculated using the naive peak-to-peak range. If float, the range is taken to be the range between quantile `0.5-0.5*ptp_mode` and quantile `0.5+0.5*ptp_mode`.
+   :type ptp_mode: str, optional
+   :param reduce_mode: options for reduction of the return array, by default "attribute". Must be one of {"attribute", "samples", "all", "none"}. If "all", returns a scalar. If "attribute", an average is taken along the sample axis and the return array is of shape `(n_attributes,)`. If "samples", an average is taken along the attribute axis and the return array is of shape `(n_samples,)`. If "none", returns a smoothness matrix of shape `(n_samples, n_attributes,)`.
+   :type reduce_mode: str, optional
+   :param p: Lehmer mean power, by default 2.0 (i.e., contraharmonic mean). Only used if `max_mode == "lehmer"`. Must be greater than 1.0.
+   :type p: float, optional
+
+   :returns: smoothness array. See `reduce mode` for return shape.
+   :rtype: np.ndarray
+
+   .. rubric:: References
+
+   .. [R1c59b0af545a-1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
