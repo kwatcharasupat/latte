@@ -10,6 +10,9 @@ Welcome to Latte's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   autoapi/latte/functional
+   autoapi/latte/metrics
+
 Indices and tables
 ==================
 
