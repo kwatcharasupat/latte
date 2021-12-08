@@ -35,6 +35,7 @@ extensions = [
     "sphinx.ext.mathjax",
     "autoapi.extension",
     "numpydoc",
+    "myst_parser",
 ]
 autoapi_type = "python"
 autoapi_dirs = ["../src/latte/"]

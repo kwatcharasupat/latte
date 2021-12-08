@@ -1,17 +1,20 @@
-.. Latte documentation master file, created by
-   sphinx-quickstart on Tue Nov  2 21:07:43 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. image:: ../assets/logo.png
+  :width: 400
+  :alt: Latte Logo
 
-Welcome to Latte's documentation!
-=================================
+Latte: Cross-framework Python Package for Evaluation of Latent-based Generative Models
+======================================================================================
+
+Latte (for LATent Tensor Evaluation) is a cross-framework Python package for evaluation of latent-based generative models. Latte supports calculation of disentanglement and controllability metrics in both PyTorch (via TorchMetrics) and TensorFlow.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :glob:
 
-   autoapi/latte/functional/index
-   autoapi/latte/metrics/index
+   ../README.md
+   autoapi/latte/functional/*
+   autoapi/latte/metrics/*
 
 Indices and tables
 ==================
