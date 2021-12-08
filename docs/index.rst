@@ -1,12 +1,13 @@
-.. mdinclude:: ../README.md
+
+.. mdinclude:: readme_head.md
 
 .. toctree::
-   :maxdepth: 3
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Contents
    :glob:
 
-   autoapi/latte/functional/*
-   autoapi/latte/metrics/*
+   autoapi/latte/functional/index
+   autoapi/latte/metrics/index
 
 Indices and tables
 ==================

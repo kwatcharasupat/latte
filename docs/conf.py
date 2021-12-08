@@ -13,6 +13,7 @@
 import os
 import sys
 
+sys.path.insert(0, os.path.abspath(".."))
 sys.path.insert(0, os.path.abspath("../src"))
 
 
@@ -35,8 +36,11 @@ extensions = [
     "sphinx.ext.mathjax",
     "autoapi.extension",
     "numpydoc",
-    "myst_parser",
+    "m2r2",
 ]
+
+source_suffix = ['.rst', '.md']
+
 autoapi_type = "python"
 autoapi_dirs = ["../src/latte/"]
 autoapi_options = [

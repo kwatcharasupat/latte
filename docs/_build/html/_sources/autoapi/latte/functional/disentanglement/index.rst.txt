@@ -32,6 +32,9 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   modularity/index.rst
    mutual_info/index.rst
+   sap/index.rst
+   utils/index.rst
 
 
