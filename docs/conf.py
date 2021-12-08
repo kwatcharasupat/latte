@@ -19,8 +19,8 @@ sys.path.insert(0, os.path.abspath("../src"))
 # -- Project information -----------------------------------------------------
 
 project = "Latte"
-copyright = "2021, Karn N. Watcharasupat and Alexander Lerch"
-author = "Karn N. Watcharasupat and Alexander Lerch"
+copyright = "2021, Karn N. Watcharasupat, Junyoung Lee, and Alexander Lerch"
+author = "Karn N. Watcharasupat, Junyoung Lee, and Alexander Lerch"
 
 
 # -- General configuration ---------------------------------------------------
@@ -37,7 +37,7 @@ extensions = [
     "numpydoc",
 ]
 autoapi_type = "python"
-autoapi_dirs = ["../src"]
+autoapi_dirs = ["../src/latte"]
 autoapi_options = [
     "members",
     "undoc-members",
