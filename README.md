@@ -168,11 +168,10 @@ Torch/Keras wrapper will
 ## Bundled metric modules
 🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
 
-| Metric Bundle                                 | Functional  | TorchMetrics   | Keras Metric | Included
-| :---                                          | :--:        | :--:      | :--:       | :---|
-| Classic Disentanglement                       |🔨|🕣|🕣| MIG, SAP, Modularity |
-| Dependency-aware Disentanglement              |🔨|🕣|🕣| MIG, DMIG, XMIG, DLIG |
-| Interpolatability                             |🔨|🕣|🕣| Smoothness, Monotonicity |
+| Metric Bundle                                 | Latte Functional  | Latte Modular | TorchMetrics   | Keras Metric | Included
+| :---                                          | :--: | :--:        | :--:      | :--:       | :---|
+| Dependency-aware Disentanglement              |🧪|🔨|🕣|🕣| MIG, DMIG, XMIG, DLIG |
+| LIAD-based Interpolatability                  |🧪|🔨|🕣|🕣| Smoothness, Monotonicity |
 
 ## Cite 
 
