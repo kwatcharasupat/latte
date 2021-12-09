@@ -39,7 +39,7 @@ extensions = [
     "m2r2",
 ]
 
-source_suffix = ['.rst', '.md']
+source_suffix = [".rst", ".md"]
 
 autoapi_type = "python"
 autoapi_dirs = ["../src/latte/"]
