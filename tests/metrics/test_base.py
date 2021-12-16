@@ -147,7 +147,7 @@ class TestBundle:
         val = np.random.randn(16,)
 
         bundle = MetricBundle([DummyMetric(val), DummierMetric(val)])
-        
+
         bundle.update_state(val=new_val)
 
         out = bundle.compute()
@@ -167,14 +167,14 @@ class TestBundle:
         val = np.random.randn(16,)
 
         bundle = MetricBundle([DummyMetric(val), DummierMetric(val)])
-        
+
         with pytest.raises(TypeError):
             bundle.update_state(new_val)
-            
+
     def test_bad_init(self):
         with pytest.raises(TypeError):
             MetricBundle(DummyMetric(0.0))
-            
+
     def test_reset(self):
         val = np.random.randn(16,)
         new_val = np.random.randn(16,)
