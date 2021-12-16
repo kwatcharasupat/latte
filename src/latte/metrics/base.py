@@ -76,4 +76,3 @@ class MetricBundle:
 
     def compute(self) -> Dict[str, float]:
         return {name: self.metrics[name].compute() for name in self.metrics}
-

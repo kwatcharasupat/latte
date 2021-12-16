@@ -13,6 +13,7 @@ from ..torch.interpolatability import Smoothness, Monotonicity
 
 # Note: We use `MetricCollection` from TorchMetrics for better efficiency, instead of a `TorchMetricWrapper` around a `MetricBundle`.
 
+
 class DependencyAwareMutualInformationBundle(MetricCollection):
     def __init__(
         self, reg_dim: Optional[List] = None, discrete: bool = False,
@@ -73,4 +74,3 @@ class LiadInterpolatabilityBundle(MetricCollection):
                 ),
             }
         )
-

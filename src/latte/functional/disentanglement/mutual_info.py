@@ -354,7 +354,7 @@ def xmig(
 
     _, n_features = z.shape
     _, n_attr = a.shape
-    
+
     assert n_features > n_attr
 
     ret = np.zeros((n_attr,))

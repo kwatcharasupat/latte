@@ -4,5 +4,5 @@ pytest-cov
 pytest-xdist
 scikit_learn>=1.0
 tensorflow>=2.0
-torchmetrics
-pytorch
+torchmetrics>=0.2.0
+pytorch>=1.3.1

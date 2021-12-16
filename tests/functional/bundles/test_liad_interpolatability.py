@@ -1,5 +1,7 @@
 import numpy as np
-from latte.functional.bundles.liad_interpolatability import liad_interpolatability_bundle
+from latte.functional.bundles.liad_interpolatability import (
+    liad_interpolatability_bundle,
+)
 from latte.functional.interpolatability.monotonicity import monotonicity
 from latte.functional.interpolatability.smoothness import smoothness
 from latte.functional.interpolatability.utils import (
@@ -10,6 +12,7 @@ from latte.functional.interpolatability.utils import (
 )
 
 import warnings
+
 
 class TestLiadInterp:
     def test_values(self):
@@ -26,7 +29,12 @@ class TestLiadInterp:
                                         for nanmean in [True, False]:
                                             for clamp in [True, False]:
                                                 for p in [2.0, 3.0]:
-                                                    z = np.repeat(np.arange(16)[None, None, :] * np.random.rand(8, 1, 1), 8, axis=1)
+                                                    z = np.repeat(
+                                                        np.arange(16)[None, None, :]
+                                                        * np.random.rand(8, 1, 1),
+                                                        8,
+                                                        axis=1,
+                                                    )
                                                     a = np.random.randn(8, 3, 16)
                                                     bundle_out = liad_interpolatability_bundle(
                                                         z,
@@ -66,9 +74,12 @@ class TestLiadInterp:
                                                             nanmean=nanmean,
                                                         ),
                                                     }
-                                                    
-                                                    for key in ['smoothness', 'monotonicity']:
+
+                                                    for key in [
+                                                        "smoothness",
+                                                        "monotonicity",
+                                                    ]:
                                                         np.testing.assert_allclose(
                                                             bundle_out[key],
-                                                            indiv_out[key]
+                                                            indiv_out[key],
                                                         )
