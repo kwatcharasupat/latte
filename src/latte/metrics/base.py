@@ -50,7 +50,7 @@ class MetricBundle:
     ) -> None:
 
         if isinstance(metrics, list):
-            self.metrics = {metric.__name__: metric for metric in metrics}
+            self.metrics = {metric.__class__.__name__: metric for metric in metrics}
         elif isinstance(metrics, dict):
             self.metrics = metrics
         else:
@@ -64,7 +64,7 @@ class MetricBundle:
 
             metric = self.metrics[name]
 
-            argspec = inspect.getargspec(metric.update_state)
+            argspec = inspect.getfullargspec(metric.update_state)
 
             kwargs_to_pass = {k: kwargs[k] for k in kwargs if k in argspec.args}
 

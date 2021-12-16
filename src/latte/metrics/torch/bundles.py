@@ -21,16 +21,16 @@ class DependencyAwareMutualInformationBundle(MetricCollection):
         # need to set `fill_reg_dim=True` for same `reg_dim` behaviour with other metrics
         super().__init__(
             metrics={
-                "mig": MutualInformationGap(
+                "MIG": MutualInformationGap(
                     reg_dim=reg_dim, discrete=discrete, fill_reg_dim=True
                 ),
-                "dmig": DependencyAwareMutualInformationGap(
+                "DMIG": DependencyAwareMutualInformationGap(
                     reg_dim=reg_dim, discrete=discrete
                 ),
-                "xmig": DependencyBlindMutualInformationGap(
+                "XMIG": DependencyBlindMutualInformationGap(
                     reg_dim=reg_dim, discrete=discrete
                 ),
-                "dlig": DependencyAwareLatentInformationGap(
+                "DLIG": DependencyAwareLatentInformationGap(
                     reg_dim=reg_dim, discrete=discrete
                 ),
             }
