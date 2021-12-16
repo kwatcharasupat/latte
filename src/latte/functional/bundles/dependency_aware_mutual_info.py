@@ -1,3 +1,4 @@
+from functools import partial
 from typing import Dict, List, Optional
 
 import numpy as np
@@ -42,12 +43,10 @@ def dependency_aware_mutual_info_bundle(
     .. [2] K. N. Watcharasupat and A. Lerch, “Evaluation of Latent Space Disentanglement in the Presence of Interdependent Attributes”, in Extended Abstracts of the Late-Breaking Demo Session of the 22nd International Society for Music Information Retrieval Conference, 2021.
     .. [3] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
-    
-    # mig doesn't use fill_reg_dim by default, so we call this here to ensure uniform behaviour across all four metrics
-    z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
+    # need to set `fill_reg_dim=True` for same `reg_dim` behaviour with other metrics
     metrics = [
-        ("MIG", mi.mig),
+        ("MIG", partial(mi.mig, fill_reg_dim=True)),
         ("DMIG", mi.dmig),
         ("XMIG", mi.xmig),
         ("DLIG", mi.dlig),

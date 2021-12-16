@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Any, OrderedDict, Union
+from typing import Any, OrderedDict, Union, Dict, List
 import numpy as np
+
+import inspect
 
 
 class LatteMetric(ABC):
@@ -40,3 +42,38 @@ class LatteMetric(ABC):
     @abstractmethod
     def compute(self):
         pass
+
+
+class MetricBundle:
+    def __init__(
+        self, metrics: Union[List[LatteMetric], Dict[str, LatteMetric]]
+    ) -> None:
+
+        if isinstance(metrics, list):
+            self.metrics = {metric.__name__: metric for metric in metrics}
+        elif isinstance(metrics, dict):
+            self.metrics = metrics
+        else:
+            raise TypeError(
+                "`metrics` must be a list of LatteMetric objects or a dict of strings mapping to LatteMetric objects"
+            )
+
+    def update_state(self, **kwargs):
+
+        for name in self.metrics:
+
+            metric = self.metrics[name]
+
+            argspec = inspect.getargspec(metric.update_state)
+
+            kwargs_to_pass = {k: kwargs[k] for k in kwargs if k in argspec.args}
+
+            metric.update_state(**kwargs_to_pass)
+
+    def reset_state(self):
+        for name in self.metrics:
+            self.metrics[name].reset_state()
+
+    def compute(self) -> Dict[str, float]:
+        return {name: self.metrics[name].compute() for name in self.metrics}
+

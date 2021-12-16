@@ -149,6 +149,7 @@ def mig(
     a: np.ndarray,
     reg_dim: Optional[List] = None,
     discrete: bool = False,
+    fill_reg_dim: bool = False,
 ) -> np.ndarray:
     """
     Calculate Mutual Information Gap (MIG) between latent vectors and attributes. 
@@ -178,6 +179,8 @@ def mig(
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `reg_dim` is provided, the first mutual information is always taken between the regularized dimension and the attribute and MIG may be negative.
     discrete : bool, optional
         Whether the attributes are discrete, by default False
+    fill_reg_dim : bool, optional
+        Whether to automatically fill `reg_dim` with `range(n_attributes)`, by default False
 
     Returns
     -------
@@ -189,7 +192,7 @@ def mig(
     .. [1] Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
     """
 
-    z, a, reg_dim = _validate_za_shape(z, a, reg_dim)
+    z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=fill_reg_dim)
 
     _, n_attr = a.shape
 
