@@ -183,8 +183,7 @@ If you find our package useful please cite us as
   watcharasupat2021latte,
   author = {Watcharasupat, Karn N. and Lee, Junyoung and Lerch, Alexander},
   title = {{Latte: Cross-framework Python Package for Evaluation of Latent-based Generative Models}},
-  url = {https://github.com/karnwatcharasupat/latte},
-  version = {0.0.1-alpha1}
+  url = {https://github.com/karnwatcharasupat/latte}
 }
 ```
 
