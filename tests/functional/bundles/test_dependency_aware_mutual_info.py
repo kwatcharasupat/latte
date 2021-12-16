@@ -1,5 +1,5 @@
 import numpy as np
-from latte.functional.bundles.daware_mi import dependency_aware_mutual_info_bundle
+from latte.functional.bundles.dependency_aware_mutual_info import dependency_aware_mutual_info_bundle
 
 from latte.functional.disentanglement.mutual_info import mig, dmig, dlig, xmig
 

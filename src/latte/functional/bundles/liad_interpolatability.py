@@ -6,7 +6,7 @@ from ..interpolatability.smoothness import smoothness
 from ..interpolatability.monotonicity import monotonicity
 
 
-def liad_interpolatability(
+def liad_interpolatability_bundle(
     z: np.ndarray,
     a: np.ndarray,
     reg_dim: Optional[List] = None,

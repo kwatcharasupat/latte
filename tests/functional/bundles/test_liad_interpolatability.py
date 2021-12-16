@@ -1,5 +1,5 @@
 import numpy as np
-from latte.functional.bundles.liad_interp import liad_interpolatability
+from latte.functional.bundles.liad_interpolatability import liad_interpolatability_bundle
 from latte.functional.interpolatability.monotonicity import monotonicity
 from latte.functional.interpolatability.smoothness import smoothness
 from latte.functional.interpolatability.utils import (
