@@ -1,22 +1,21 @@
 try:
     import tensorflow as tf
 
-    from latte.metrics.keras import disentanglement as K
+    from latte.metrics.keras.bundles import (
+        DependencyAwareMutualInformationBundle,
+        LiadInterpolatabilityBundle,
+    )
+    from latte.metrics.keras.disentanglement import (
+        MutualInformationGap,
+        DependencyAwareMutualInformationGap,
+        DependencyAwareLatentInformationGap,
+        DependencyBlindMutualInformationGap,
+    )
 
     has_tf = True
 except:
     has_tf = False
 
-from latte.metrics.keras.bundles import (
-    DependencyAwareMutualInformationBundle,
-    LiadInterpolatabilityBundle,
-)
-from latte.metrics.keras.disentanglement import (
-    MutualInformationGap,
-    DependencyAwareMutualInformationGap,
-    DependencyAwareLatentInformationGap,
-    DependencyBlindMutualInformationGap,
-)
 
 import pytest
 
