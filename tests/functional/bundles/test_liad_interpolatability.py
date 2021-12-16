@@ -28,7 +28,7 @@ class TestLiadInterp:
                                                 for p in [2.0, 3.0]:
                                                     z = np.repeat(np.arange(16)[None, None, :] * np.random.rand(8, 1, 1), 8, axis=1)
                                                     a = np.random.randn(8, 3, 16)
-                                                    bundle_out = liad_interpolatability(
+                                                    bundle_out = liad_interpolatability_bundle(
                                                         z,
                                                         a,
                                                         reg_dim=reg_dim,
