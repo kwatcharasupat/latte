@@ -170,8 +170,8 @@ Torch/Keras wrapper will
 
 | Metric Bundle                                 | Latte Functional  | Latte Modular | TorchMetrics   | Keras Metric | Included
 | :---                                          | :--: | :--:        | :--:      | :--:       | :---|
-| Dependency-aware Disentanglement              |🧪|🔨|🕣|🕣| MIG, DMIG, XMIG, DLIG |
-| LIAD-based Interpolatability                  |🧪|🔨|🕣|🕣| Smoothness, Monotonicity |
+| Dependency-aware Disentanglement              |🧪|🧪|🧪|🧪| MIG, DMIG, XMIG, DLIG |
+| LIAD-based Interpolatability                  |🧪|🧪|🧪|🧪| Smoothness, Monotonicity |
 
 ## Cite 
 
