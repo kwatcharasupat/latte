@@ -81,7 +81,7 @@ jobs:
 workflows:
   build-test-publish:
     jobs:
-      - build
+      - build:
           matrix:
             parameters:
               python-ver: ["3.7", "3.8", "3.9"]
