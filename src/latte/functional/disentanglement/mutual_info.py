@@ -137,10 +137,11 @@ def _mgap(mi: np.ndarray, zi: Optional[int] = None) -> Tuple[np.ndarray, Optiona
 
 
 def _xgap(mi: np.ndarray, zi: int, reg_dim: List) -> Tuple[np.ndarray, Optional[int]]:
+    mizi = mi[zi]
     mi = np.delete(mi, reg_dim)
     mi_sort = np.sort(mi)
     mi_argsort = np.argsort(mi)
-    return (mi[zi] - mi_sort[-1]), mi_argsort[-1] + len(reg_dim)
+    return (mizi - mi_sort[-1]), mi_argsort[-1] + len(reg_dim)
 
 
 def mig(
@@ -148,6 +149,7 @@ def mig(
     a: np.ndarray,
     reg_dim: Optional[List] = None,
     discrete: bool = False,
+    fill_reg_dim: bool = False,
 ) -> np.ndarray:
     """
     Calculate Mutual Information Gap (MIG) between latent vectors and attributes. 
@@ -177,6 +179,8 @@ def mig(
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `reg_dim` is provided, the first mutual information is always taken between the regularized dimension and the attribute and MIG may be negative.
     discrete : bool, optional
         Whether the attributes are discrete, by default False
+    fill_reg_dim : bool, optional
+        Whether to automatically fill `reg_dim` with `range(n_attributes)`, by default False
 
     Returns
     -------
@@ -185,10 +189,10 @@ def mig(
         
     References
     ----------
-    .. [1]  Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
+    .. [1] Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
     """
 
-    z, a, reg_dim = _validate_za_shape(z, a, reg_dim)
+    z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=fill_reg_dim)
 
     _, n_attr = a.shape
 
@@ -315,7 +319,7 @@ def dlig(
 
     for i, zi in enumerate(reg_dim):
 
-        mi = latent_attr_mutual_info(a, z[:, zi], discrete)
+        mi = latent_attr_mutual_info(a, z[:, zi], discrete=False)
 
         gap, j = _mgap(mi, i)
 
@@ -365,7 +369,10 @@ def xmig(
 
     z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
+    _, n_features = z.shape
     _, n_attr = a.shape
+
+    assert n_features > n_attr
 
     ret = np.zeros((n_attr,))
 

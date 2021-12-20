@@ -63,6 +63,8 @@ def smoothness(
         options for calculating range of 1st order LIAD for normalization, by default "naive". Must be either "naive" or a float value in (0.0, 1.0]. If "naive", the range is calculated using the naive peak-to-peak range. If float, the range is taken to be the range between quantile `0.5-0.5*ptp_mode` and quantile `0.5+0.5*ptp_mode`.
     reduce_mode : str, optional
         options for reduction of the return array, by default "attribute". Must be one of {"attribute", "samples", "all", "none"}. If "all", returns a scalar. If "attribute", an average is taken along the sample axis and the return array is of shape `(n_attributes,)`. If "samples", an average is taken along the attribute axis and the return array is of shape `(n_samples,)`. If "none", returns a smoothness matrix of shape `(n_samples, n_attributes,)`.
+    clamp : bool, optional
+        Whether to clamp smoothness to [0, 1], by default False
     p : float, optional
         Lehmer mean power, by default 2.0 (i.e., contraharmonic mean). Only used if `max_mode == "lehmer"`. Must be greater than 1.0. 
 
@@ -83,7 +85,7 @@ def smoothness(
         reduce_mode=reduce_mode,
         p=p,
     )
-    
+
     z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=3)
     utils._validate_non_constant_interp(z)
     utils._validate_equal_interp_deltas(z)

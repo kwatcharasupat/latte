@@ -7,162 +7,37 @@ orbs:
   codecov: codecov/codecov@3.2.0
 
 jobs:
-  build37:
+  build:
+    parameters:
+      python-ver: 
+        type: string
+      extras:
+        type: string
     docker:
-      - image: cimg/python:3.7
+      - image: cimg/python:<< parameters.python-ver >>
     steps:
       - checkout
       - restore_cache:
-          key: deps37-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps<< parameters.python-ver >>-{{ .Branch }}-{{ checksum "setup.cfg" }}
       - run:
           name: Install dependencies
           command: |
-            python -m venv venv37
-            . venv37/bin/activate
+            python -m venv venv<< parameters.python-ver >>
+            . venv<< parameters.python-ver >>/bin/activate
             pip install --upgrade pip
-            pip install .[tests,pytorch,keras]
+            pip install .[<< parameters.extras >>]
       - run:
           name: Run tests
           command: |
-            . venv37/bin/activate
+            . venv<< parameters.python-ver >>/bin/activate
             pytest -n 2 tests/ --cov=latte --cov-report=xml
       - save_cache:
-          key: deps37-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps<< parameters.python-ver >>-{{ .Branch }}-{{ checksum "setup.cfg" }}
           paths:
-            - "venv37"
-      - codecov/upload:
-          file: coverage.xml
-  
-  build38:
-    docker:
-      - image: cimg/python:3.8
-    steps:
-      - checkout
-      - restore_cache:
-          key: deps38-{{ .Branch }}-{{ checksum "requirements.txt" }}
-      - run:
-          name: Install dependencies
-          command: |
-            python -m venv venv38
-            . venv38/bin/activate
-            pip install --upgrade pip
-            pip install .[tests,pytorch,keras]
-      - run:
-          name: Run tests
-          command: |
-            . venv38/bin/activate
-            pytest -n 2 tests/ --cov=latte --cov-report=xml
-      - save_cache:
-          key: deps38-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - "venv38"
+            - "venv<< parameters.python-ver >>"
       - codecov/upload:
           file: coverage.xml
 
-  build38-torch-only:
-    docker:
-      - image: cimg/python:3.8
-    steps:
-      - checkout
-      - restore_cache:
-          key: deps38torch-{{ .Branch }}-{{ checksum "requirements.txt" }}
-      - run:
-          name: Install dependencies
-          command: |
-            python -m venv venv38torch
-            . venv38torch/bin/activate
-            pip install --upgrade pip
-            pip install .[tests,pytorch]
-      - run:
-          name: Run tests
-          command: |
-            . venv38torch/bin/activate
-            pytest -n 2 tests/metrics/ --cov=latte.metrics --cov-report=xml
-      - save_cache:
-          key: deps38torch-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - "venv38torch"
-      - codecov/upload:
-          file: coverage.xml
-
-  build38-tf-only:
-    docker:
-      - image: cimg/python:3.8
-    steps:
-      - checkout
-      - restore_cache:
-          key: deps38tf-{{ .Branch }}-{{ checksum "requirements.txt" }}
-      - run:
-          name: Install dependencies
-          command: |
-            python -m venv venv38tf
-            . venv38tf/bin/activate
-            pip install --upgrade pip
-            pip install .[tests,keras]
-      - run:
-          name: Run tests
-          command: |
-            . venv38tf/bin/activate
-            pytest -n 2 tests/metrics/ --cov=latte.metrics --cov-report=xml
-      - save_cache:
-          key: deps38tf-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - "venv38tf"
-      - codecov/upload:
-          file: coverage.xml
-
-  build38-core-only:
-    docker:
-      - image: cimg/python:3.8
-    steps:
-      - checkout
-      - restore_cache:
-          key: deps38core-{{ .Branch }}-{{ checksum "requirements.txt" }}
-      - run:
-          name: Install dependencies
-          command: |
-            python -m venv venv38core
-            . venv38core/bin/activate
-            pip install --upgrade pip
-            pip install .[tests]
-      - run:
-          name: Run tests
-          command: |
-            . venv38core/bin/activate
-            pytest -n 2 tests/metrics/ --cov=latte.metrics --cov-report=xml
-      - save_cache:
-          key: deps38core-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - "venv38core"
-      - codecov/upload:
-          file: coverage.xml
-            
-  build39:
-    docker:
-      - image: cimg/python:3.9
-    steps:
-      - checkout
-      - restore_cache:
-          key: deps39-{{ .Branch }}-{{ checksum "requirements.txt" }}
-      - run:
-          name: Install dependencies
-          command: |
-            python -m venv venv39
-            . venv39/bin/activate
-            pip install --upgrade pip
-            pip install .[tests,pytorch,keras]
-      - run:
-          name: Run tests
-          command: |
-            . venv39/bin/activate
-            pytest -n 2 tests/ --cov=latte --cov-report=xml
-      - save_cache:
-          key: deps39-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - "venv39"
-      - codecov/upload:
-          file: coverage.xml
-  
   publish_testpypi:
     docker:
       - image: cimg/python:3.8
@@ -206,20 +81,14 @@ jobs:
 workflows:
   build-test-publish:
     jobs:
-      - build37
-      - build38
-      - build38-torch-only
-      - build38-tf-only
-      - build38-core-only
-      - build39
+      - build:
+          matrix:
+            parameters:
+              python-ver: ["3.7", "3.8", "3.9"]
+              extras: ["tests", "tests,pytorch", "tests,keras", "tests,pytorch,keras"]
       - publish_testpypi:
           requires:
-              - build37
-              - build38
-              - build38-torch-only
-              - build38-tf-only
-              - build38-core-only
-              - build39
+              - build
           filters:
             branches:
               only: 

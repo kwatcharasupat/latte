@@ -18,7 +18,9 @@
         <script src="../../../../../_static/doctools.js"></script>
     <script src="../../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../../search.html" /> 
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="latte.metrics.torch" href="../../torch/index.html" />
+    <link rel="prev" title="latte.metrics.keras.interpolatability" href="../interpolatability/index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -36,9 +38,22 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../functional/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics</span></code></a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.core</span></code></a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras</span></code></a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../torch/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -55,6 +70,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics</span></code></a> &raquo;</li>
+          <li><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras</span></code></a> &raquo;</li>
       <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras.wrapper</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../../../_sources/autoapi/latte/metrics/keras/wrapper/index.rst.txt" rel="nofollow"> View page source</a>
@@ -77,7 +94,7 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper" title="latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KerasMetricsFunctionalWrapper</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.keras.wrapper.KerasMetricWrapper" title="latte.metrics.keras.wrapper.KerasMetricWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KerasMetricWrapper</span></code></a></p></td>
 <td><p>Encapsulates metric logic and state.</p></td>
 </tr>
 </tbody>
@@ -91,34 +108,27 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.keras.wrapper.to_numpy" title="latte.metrics.keras.wrapper.to_numpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_numpy</span></code></a>(args, kwargs)</p></td>
-<td><p>[summary]</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.keras.wrapper.tf_to_numpy" title="latte.metrics.keras.wrapper.tf_to_numpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tf_to_numpy</span></code></a>(args, kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.metrics.keras.wrapper.numpy_to_tf" title="latte.metrics.keras.wrapper.numpy_to_tf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy_to_tf</span></code></a>(val)</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
-<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.to_numpy">
-<span class="sig-prename descclassname"><span class="pre">latte.metrics.keras.wrapper.</span></span><span class="sig-name descname"><span class="pre">to_numpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.to_numpy" title="Permalink to this definition"></a></dt>
-<dd><p>[summary]</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>args</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
-<li><p><strong>kwargs</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>[description]</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>[type]</p>
-</dd>
-</dl>
-</dd></dl>
+<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.tf_to_numpy">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.keras.wrapper.</span></span><span class="sig-name descname"><span class="pre">tf_to_numpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.tf_to_numpy" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.numpy_to_tf">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.keras.wrapper.</span></span><span class="sig-name descname"><span class="pre">numpy_to_tf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.numpy_to_tf" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">latte.metrics.keras.wrapper.</span></span><span class="sig-name descname"><span class="pre">KerasMetricsFunctionalWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.KerasMetricWrapper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">latte.metrics.keras.wrapper.</span></span><span class="sig-name descname"><span class="pre">KerasMetricWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="pre">Ellipsis</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../../base/index.html#latte.metrics.base.LatteMetric" title="latte.metrics.base.LatteMetric"><span class="pre">latte.metrics.base.LatteMetric</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.KerasMetricWrapper" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">tensorflow.keras.metrics.Metric</span></code></p>
 <p>Encapsulates metric logic and state.</p>
 <dl class="field-list simple">
@@ -193,14 +203,47 @@ values = tf.multiply(values, sample_weight)</p>
 </div></blockquote>
 <p><a href="#id25"><span class="problematic" id="id26">``</span></a><a href="#id27"><span class="problematic" id="id28">`</span></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper.update" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.KerasMetricWrapper.update_state">
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.KerasMetricWrapper.update_state" title="Permalink to this definition"></a></dt>
+<dd><p>Accumulates statistics for the metric.</p>
+<p>Note: This function is executed as a graph function in graph mode.
+This means:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>Operations on the same resource are executed in textual order.
+This should make it easier to do things like add the updated
+value of a variable to another, for example.</p></li>
+<li><p>You don’t need to worry about collecting the update ops to execute.
+All update ops added to the graph by this function will be executed.</p></li>
+</ol>
+<p>As a result, code should generally work the same way with graph or
+eager execution.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – </p></li>
+<li><p><strong>**kwargs</strong> – A mini-batch of inputs to the Metric.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper.compute">
-<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper.compute" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.KerasMetricWrapper.result">
+<span class="sig-name descname"><span class="pre">result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.KerasMetricWrapper.result" title="Permalink to this definition"></a></dt>
+<dd><p>Computes and returns the metric value tensor.</p>
+<p>Result computation is an idempotent operation that simply calculates the
+metric value using the state variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.wrapper.KerasMetricWrapper.reset_state">
+<span class="sig-name descname"><span class="pre">reset_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.wrapper.KerasMetricWrapper.reset_state" title="Permalink to this definition"></a></dt>
+<dd><p>Resets all of the metric state variables.</p>
+<p>This function is called between epochs/steps,
+when a metric is evaluated during training.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -211,12 +254,15 @@ values = tf.multiply(values, sample_weight)</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../interpolatability/index.html" class="btn btn-neutral float-left" title="latte.metrics.keras.interpolatability" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../torch/index.html" class="btn btn-neutral float-right" title="latte.metrics.torch" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, Karn N. Watcharasupat and Alexander Lerch.</p>
+    <p>&#169; Copyright 2021, Karn N. Watcharasupat, Junyoung Lee, and Alexander Lerch.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

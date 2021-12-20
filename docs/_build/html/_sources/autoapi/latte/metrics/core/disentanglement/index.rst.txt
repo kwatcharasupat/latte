@@ -1,0 +1,582 @@
+:py:mod:`latte.metrics.core.disentanglement`
+============================================
+
+.. py:module:: latte.metrics.core.disentanglement
+
+.. autoapi-nested-parse::
+
+   
+   ..
+       !! processed by numpydoc !!
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   latte.metrics.core.disentanglement.MutualInformationGap
+   latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap
+   latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap
+   latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap
+   latte.metrics.core.disentanglement.SeparateAttributePredictability
+   latte.metrics.core.disentanglement.Modularity
+
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   latte.metrics.core.disentanglement.MIG
+   latte.metrics.core.disentanglement.DMIG
+   latte.metrics.core.disentanglement.DLIG
+   latte.metrics.core.disentanglement.XMIG
+   latte.metrics.core.disentanglement.SAP
+
+
+.. py:class:: MutualInformationGap(reg_dim: Optional[List] = None, discrete: bool = False)
+
+   Bases: :py:obj:`latte.metrics.base.LatteMetric`
+
+   
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+   .. py:method:: update_state(self, z, a)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: compute(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: DependencyAwareMutualInformationGap(reg_dim: Optional[List] = None, discrete: bool = False)
+
+   Bases: :py:obj:`latte.metrics.base.LatteMetric`
+
+   
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+   .. py:method:: update_state(self, z, a)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: compute(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: DependencyAwareLatentInformationGap(reg_dim: Optional[List] = None, discrete: bool = False)
+
+   Bases: :py:obj:`latte.metrics.base.LatteMetric`
+
+   
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+   .. py:method:: update_state(self, z, a)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: compute(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: DependencyBlindMutualInformationGap(reg_dim: Optional[List] = None, discrete: bool = False)
+
+   Bases: :py:obj:`latte.metrics.base.LatteMetric`
+
+   
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+   .. py:method:: update_state(self, z, a)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: compute(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: SeparateAttributePredictability(reg_dim: Optional[List] = None, discrete: bool = False, l2_reg: float = 1.0, thresh: float = 1e-12)
+
+   Bases: :py:obj:`latte.metrics.base.LatteMetric`
+
+   
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+   .. py:method:: update_state(self, z, a)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: compute(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: Modularity(reg_dim: Optional[List] = None, discrete: bool = False, thresh: float = 1e-12)
+
+   Bases: :py:obj:`latte.metrics.base.LatteMetric`
+
+   
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+   .. py:method:: update_state(self, z, a)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: compute(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:data:: MIG
+   
+
+   
+   alias for :class:`MutualInformationGap`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:data:: DMIG
+   
+
+   
+   alias for :class:`DependencyAwareMutualInformationGap`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:data:: DLIG
+   
+
+   
+   alias for :class:`DependencyAwareLatentInformationGap`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:data:: XMIG
+   
+
+   
+   alias for :class:`DependencyBlindMutualInformationGap`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:data:: SAP
+   
+
+   
+   alias for :class:`SeparateAttributePredictability`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
