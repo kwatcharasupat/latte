@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 
 run_tests.sh
+
+**/.DS_Store
