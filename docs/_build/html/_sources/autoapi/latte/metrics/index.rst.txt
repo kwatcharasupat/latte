@@ -32,6 +32,7 @@ Subpackages
    :titlesonly:
    :maxdepth: 3
 
+   core/index.rst
    keras/index.rst
    torch/index.rst
 
@@ -42,6 +43,6 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
-   common/index.rst
+   base/index.rst
 
 

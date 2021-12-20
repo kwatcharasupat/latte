@@ -18,7 +18,7 @@ Classes
 
 .. autoapisummary::
 
-   latte.metrics.keras.wrapper.KerasMetricsFunctionalWrapper
+   latte.metrics.keras.wrapper.KerasMetricWrapper
 
 
 
@@ -27,21 +27,15 @@ Functions
 
 .. autoapisummary::
 
-   latte.metrics.keras.wrapper.to_numpy
+   latte.metrics.keras.wrapper.tf_to_numpy
+   latte.metrics.keras.wrapper.numpy_to_tf
 
 
 
-.. py:function:: to_numpy(args, kwargs)
+.. py:function:: tf_to_numpy(args, kwargs)
 
    
-   [summary]
 
-   :param args: [description]
-   :type args: [type]
-   :param kwargs: [description]
-   :type kwargs: [type]
-   :return: [description]
-   :rtype: [type]
 
 
 
@@ -60,7 +54,29 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:class:: KerasMetricsFunctionalWrapper(metric: Callable, name: Optional[str] = None, **kwargs)
+.. py:function:: numpy_to_tf(val)
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:class:: KerasMetricWrapper(metric: Callable[Ellipsis, latte.metrics.base.LatteMetric], name: Optional[str] = None, **kwargs)
 
    Bases: :py:obj:`tensorflow.keras.metrics.Metric`
 
@@ -150,10 +166,23 @@ Functions
 
    ..
        !! processed by numpydoc !!
-   .. py:method:: update(self, *args, **kwargs)
+   .. py:method:: update_state(self, *args, **kwargs)
 
       
+      Accumulates statistics for the metric.
 
+      Note: This function is executed as a graph function in graph mode.
+      This means:
+        a) Operations on the same resource are executed in textual order.
+           This should make it easier to do things like add the updated
+           value of a variable to another, for example.
+        b) You don't need to worry about collecting the update ops to execute.
+           All update ops added to the graph by this function will be executed.
+        As a result, code should generally work the same way with graph or
+        eager execution.
+
+      :param \*args:
+      :param \*\*kwargs: A mini-batch of inputs to the Metric.
 
 
 
@@ -172,10 +201,38 @@ Functions
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: compute(self, *args, **kwargs)
+   .. py:method:: result(self)
 
       
+      Computes and returns the metric value tensor.
 
+      Result computation is an idempotent operation that simply calculates the
+      metric value using the state variables.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: reset_state(self)
+
+      
+      Resets all of the metric state variables.
+
+      This function is called between epochs/steps,
+      when a metric is evaluated during training.
 
 
 

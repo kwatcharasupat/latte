@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>latte.metrics.torch.disentanglement &mdash; Latte  documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="latte.metrics.torch.interpolatability" href="../interpolatability/index.html" />
+    <link rel="prev" title="latte.metrics.torch" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../index.html" class="icon icon-home"> Latte
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../functional/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics</span></code></a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.core</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../keras/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras</span></code></a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch</span></code></a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Latte</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics</span></code></a> &raquo;</li>
+          <li><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch</span></code></a> &raquo;</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch.disentanglement</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../_sources/autoapi/latte/metrics/torch/disentanglement/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-latte.metrics.torch.disentanglement">
+<span id="latte-metrics-torch-disentanglement"></span><h1><a class="reference internal" href="#module-latte.metrics.torch.disentanglement" title="latte.metrics.torch.disentanglement"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch.disentanglement</span></code></a><a class="headerlink" href="#module-latte.metrics.torch.disentanglement" title="Permalink to this headline"></a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.torch.disentanglement.MutualInformationGap">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.disentanglement.</span></span><span class="sig-name descname"><span class="pre">MutualInformationGap</span></span><a class="headerlink" href="#latte.metrics.torch.disentanglement.MutualInformationGap" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.torch.disentanglement.DependencyAwareMutualInformationGap">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.disentanglement.</span></span><span class="sig-name descname"><span class="pre">DependencyAwareMutualInformationGap</span></span><a class="headerlink" href="#latte.metrics.torch.disentanglement.DependencyAwareMutualInformationGap" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.torch.disentanglement.DependencyAwareLatentInformationGap">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.disentanglement.</span></span><span class="sig-name descname"><span class="pre">DependencyAwareLatentInformationGap</span></span><a class="headerlink" href="#latte.metrics.torch.disentanglement.DependencyAwareLatentInformationGap" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.torch.disentanglement.DependencyBlindMutualInformationGap">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.disentanglement.</span></span><span class="sig-name descname"><span class="pre">DependencyBlindMutualInformationGap</span></span><a class="headerlink" href="#latte.metrics.torch.disentanglement.DependencyBlindMutualInformationGap" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.torch.disentanglement.SeparateAttributePredictability">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.disentanglement.</span></span><span class="sig-name descname"><span class="pre">SeparateAttributePredictability</span></span><a class="headerlink" href="#latte.metrics.torch.disentanglement.SeparateAttributePredictability" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.torch.disentanglement.Modularity">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.disentanglement.</span></span><span class="sig-name descname"><span class="pre">Modularity</span></span><a class="headerlink" href="#latte.metrics.torch.disentanglement.Modularity" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.torch.disentanglement.MIG">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.disentanglement.</span></span><span class="sig-name descname"><span class="pre">MIG</span></span><a class="headerlink" href="#latte.metrics.torch.disentanglement.MIG" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.torch.disentanglement.DMIG">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.disentanglement.</span></span><span class="sig-name descname"><span class="pre">DMIG</span></span><a class="headerlink" href="#latte.metrics.torch.disentanglement.DMIG" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.torch.disentanglement.DLIG">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.disentanglement.</span></span><span class="sig-name descname"><span class="pre">DLIG</span></span><a class="headerlink" href="#latte.metrics.torch.disentanglement.DLIG" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.torch.disentanglement.XMIG">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.disentanglement.</span></span><span class="sig-name descname"><span class="pre">XMIG</span></span><a class="headerlink" href="#latte.metrics.torch.disentanglement.XMIG" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.torch.disentanglement.SAP">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.disentanglement.</span></span><span class="sig-name descname"><span class="pre">SAP</span></span><a class="headerlink" href="#latte.metrics.torch.disentanglement.SAP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="latte.metrics.torch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../interpolatability/index.html" class="btn btn-neutral float-right" title="latte.metrics.torch.interpolatability" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Karn N. Watcharasupat, Junyoung Lee, and Alexander Lerch.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

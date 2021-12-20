@@ -2,11 +2,15 @@
 <p align=center><b>Cross-framework Python Package for Evaluation of Latent-based Generative Models</b></p>
 
 [![Documentation Status](https://readthedocs.org/projects/latte/badge/?version=latest)](https://latte.readthedocs.io/en/latest/?badge=latest)
-[![CircleCI](https://circleci.com/gh/karnwatcharasupat/latte/tree/dev.svg?style=shield&circle-token=0c9b78ee4a89415f93953a0677d7b531e0f5361a)](https://circleci.com/gh/karnwatcharasupat/latte/tree/dev)
-[![codecov](https://codecov.io/gh/karnwatcharasupat/latte/branch/dev/graph/badge.svg?token=9JXSESGPHA)](https://codecov.io/gh/karnwatcharasupat/latte/branches/dev)
-[![CodeFactor](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/badge/dev)](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/overview/dev)
-<img src="https://img.shields.io/badge/license-MIT-brightgreen"/>
+[![CircleCI](https://circleci.com/gh/karnwatcharasupat/latte/tree/main.svg?style=shield)](https://circleci.com/gh/karnwatcharasupat/latte/tree/main)
+[![codecov](https://codecov.io/gh/karnwatcharasupat/latte/branch/main/graph/badge.svg)](https://codecov.io/gh/karnwatcharasupat/latte/branches/main)
+[![CodeFactor](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/badge/main)](https://www.codefactor.io/repository/github/karnwatcharasupat/latte/overview/main)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen)](https://opensource.org/licenses/MIT)
 [![PyPI version](https://badge.fury.io/py/latte-metrics.svg)](https://badge.fury.io/py/latte-metrics)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5786402.svg)](https://doi.org/10.5281/zenodo.5786402)
+
+
+# Latte
 
 Latte (for _LATent Tensor Evaluation_) is a cross-framework Python package for evaluation of latent-based generative models. Latte supports calculation of disentanglement and controllability metrics in both PyTorch (via TorchMetrics) and TensorFlow.
 
@@ -139,7 +143,7 @@ Torch/Keras wrapper will
 
 ## Supported metrics
 
-🧪 Beta support | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
+🧪 Beta support | ✔️ Stable | 🔨 In Progress | 🕣 In Queue | 👀 KIV |
 
 | Metric                                        | Latte Functional  | Latte Modular | TorchMetrics   | Keras Metric | 
 | :---                                          | :--:        | :--:      | :--:       | :--:       |
@@ -150,34 +154,39 @@ Torch/Keras wrapper will
 | [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Dependency-aware Latent Information Gap (DLIG)                                                |🧪|🧪|🧪|🧪|
 | [📝](https://arxiv.org/abs/1711.00848) Separate Attribute Predictability (SAP)                |🧪|🧪|🧪|🧪|
 | [📝](https://arxiv.org/abs/1802.05312) Modularity                                             |🧪|🧪|🧪|🧪|
-| [📝](https://openreview.net/forum?id=Sy2fzU9gl) Disentanglement metric score (β-VAE paper)    |🕣|🕣|🕣|🕣|
+| [📝](https://openreview.net/forum?id=Sy2fzU9gl) β-VAE Score    |👀|👀|👀|👀|
+| [📝](https://arxiv.org/abs/1802.05983) FactorVAE Score   |👀|👀|👀|👀|
+| [📝](https://openreview.net/forum?id=By-7dz-AZ) DCI Score    |👀|👀|👀|👀|
+| [📝](https://arxiv.org/abs/1811.00007) Interventional Robustness Score (IRS)   |👀|👀|👀|👀|
+| [📝](https://arxiv.org/abs/1910.09772) Consistency   |👀|👀|👀|👀|
+| [📝](https://arxiv.org/abs/1910.09772) Restrictiveness   |👀|👀|👀|👀|
 | _Interpolatability Metrics_                     |
 | [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Smoothness                                                |🧪|🧪|🧪|🧪|
 | [📝](https://www.researchgate.net/publication/356259963_Controllable_Music_Supervised_Learning_of_Disentangled_Representations_for_Music_Generation) Monotonicity                                              |🧪|🧪|🧪|🧪|
 | [📝](https://archives.ismir.net/ismir2021/paper/000064.pdf) Latent Density Ratio                                              |🕣|🕣|🕣|🕣|
+| [📝](https://arxiv.org/abs/2007.15474) Linearity                                        |👀|👀|👀|👀|
 
 ## Bundled metric modules
 🧪 Experimental (subject to changes) | ✔️ Stable | 🔨 In Progress | 🕣 In Queue
 
-| Metric Bundle                                 | Functional  | TorchMetrics   | Keras Metric | Included
-| :---                                          | :--:        | :--:      | :--:       | :---|
-| Classic Disentanglement                       |🕣|🕣|🕣| MIG, SAP, Modularity |
-| Dependency-aware Disentanglement              |🕣|🕣|🕣| MIG, DMIG, XMIG, DLIG |
-| Interpolatability                             |🕣|🕣|🕣| Smoothness, Monotonicity |
+| Metric Bundle                                 | Latte Functional  | Latte Modular | TorchMetrics   | Keras Metric | Included
+| :---                                          | :--: | :--:        | :--:      | :--:       | :---|
+| Dependency-aware Disentanglement              |🧪|🧪|🧪|🧪| MIG, DMIG, XMIG, DLIG |
+| LIAD-based Interpolatability                  |🧪|🧪|🧪|🧪| Smoothness, Monotonicity |
 
 ## Cite 
 
 For individual metrics, please cite the paper according to the link in the 📝 icon in front of each metric.
-<!-- 
+
 If you find our package useful please cite us as
 ```bibtex
 @software{
   watcharasupat2021latte,
-  author = {Watcharasupat, Karn N. and Lerch, Alexander},
+  author = {Watcharasupat, Karn N. and Lee, Junyoung and Lerch, Alexander},
   title = {{Latte: Cross-framework Python Package for Evaluation of Latent-based Generative Models}},
-  url = {https://github.com/karnwatcharasupat/latte},
-  version = {0.0.1-alpha}
+  url = {https://github.com/karnwatcharasupat/latte}
+  doi = {10.5281/zenodo.5786402}
 }
-``` -->
+```
 
 

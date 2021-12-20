@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>latte.metrics.core.disentanglement &mdash; Latte  documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="latte.metrics.core.interpolatability" href="../interpolatability/index.html" />
+    <link rel="prev" title="latte.metrics.core" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../index.html" class="icon icon-home"> Latte
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../functional/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics</span></code></a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.core</span></code></a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../keras/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../torch/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Latte</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics</span></code></a> &raquo;</li>
+          <li><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.core</span></code></a> &raquo;</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.core.disentanglement</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../_sources/autoapi/latte/metrics/core/disentanglement/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-latte.metrics.core.disentanglement">
+<span id="latte-metrics-core-disentanglement"></span><h1><a class="reference internal" href="#module-latte.metrics.core.disentanglement" title="latte.metrics.core.disentanglement"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.core.disentanglement</span></code></a><a class="headerlink" href="#module-latte.metrics.core.disentanglement" title="Permalink to this headline"></a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.core.disentanglement.MutualInformationGap" title="latte.metrics.core.disentanglement.MutualInformationGap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MutualInformationGap</span></code></a></p></td>
+<td><p>Helper class that provides a standard way to create an ABC using</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap" title="latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DependencyAwareMutualInformationGap</span></code></a></p></td>
+<td><p>Helper class that provides a standard way to create an ABC using</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap" title="latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DependencyAwareLatentInformationGap</span></code></a></p></td>
+<td><p>Helper class that provides a standard way to create an ABC using</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap" title="latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DependencyBlindMutualInformationGap</span></code></a></p></td>
+<td><p>Helper class that provides a standard way to create an ABC using</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.core.disentanglement.SeparateAttributePredictability" title="latte.metrics.core.disentanglement.SeparateAttributePredictability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SeparateAttributePredictability</span></code></a></p></td>
+<td><p>Helper class that provides a standard way to create an ABC using</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.metrics.core.disentanglement.Modularity" title="latte.metrics.core.disentanglement.Modularity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modularity</span></code></a></p></td>
+<td><p>Helper class that provides a standard way to create an ABC using</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline"></a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.core.disentanglement.MIG" title="latte.metrics.core.disentanglement.MIG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MIG</span></code></a></p></td>
+<td><p>alias for <a class="reference internal" href="#latte.metrics.core.disentanglement.MutualInformationGap" title="latte.metrics.core.disentanglement.MutualInformationGap"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutualInformationGap</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.metrics.core.disentanglement.DMIG" title="latte.metrics.core.disentanglement.DMIG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DMIG</span></code></a></p></td>
+<td><p>alias for <a class="reference internal" href="#latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap" title="latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyAwareMutualInformationGap</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.core.disentanglement.DLIG" title="latte.metrics.core.disentanglement.DLIG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DLIG</span></code></a></p></td>
+<td><p>alias for <a class="reference internal" href="#latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap" title="latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyAwareLatentInformationGap</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.metrics.core.disentanglement.XMIG" title="latte.metrics.core.disentanglement.XMIG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XMIG</span></code></a></p></td>
+<td><p>alias for <a class="reference internal" href="#latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap" title="latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyBlindMutualInformationGap</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.core.disentanglement.SAP" title="latte.metrics.core.disentanglement.SAP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SAP</span></code></a></p></td>
+<td><p>alias for <a class="reference internal" href="#latte.metrics.core.disentanglement.SeparateAttributePredictability" title="latte.metrics.core.disentanglement.SeparateAttributePredictability"><code class="xref py py-class docutils literal notranslate"><span class="pre">SeparateAttributePredictability</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.MutualInformationGap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">latte.metrics.core.disentanglement.</span></span><span class="sig-name descname"><span class="pre">MutualInformationGap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.MutualInformationGap" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../base/index.html#latte.metrics.base.LatteMetric" title="latte.metrics.base.LatteMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latte.metrics.base.LatteMetric</span></code></a></p>
+<p>Helper class that provides a standard way to create an ABC using
+inheritance.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.MutualInformationGap.update_state">
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.MutualInformationGap.update_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.MutualInformationGap.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.MutualInformationGap.compute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">latte.metrics.core.disentanglement.</span></span><span class="sig-name descname"><span class="pre">DependencyAwareMutualInformationGap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../base/index.html#latte.metrics.base.LatteMetric" title="latte.metrics.base.LatteMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latte.metrics.base.LatteMetric</span></code></a></p>
+<p>Helper class that provides a standard way to create an ABC using
+inheritance.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap.update_state">
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap.update_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap.compute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">latte.metrics.core.disentanglement.</span></span><span class="sig-name descname"><span class="pre">DependencyAwareLatentInformationGap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../base/index.html#latte.metrics.base.LatteMetric" title="latte.metrics.base.LatteMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latte.metrics.base.LatteMetric</span></code></a></p>
+<p>Helper class that provides a standard way to create an ABC using
+inheritance.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap.update_state">
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap.update_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap.compute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">latte.metrics.core.disentanglement.</span></span><span class="sig-name descname"><span class="pre">DependencyBlindMutualInformationGap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../base/index.html#latte.metrics.base.LatteMetric" title="latte.metrics.base.LatteMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latte.metrics.base.LatteMetric</span></code></a></p>
+<p>Helper class that provides a standard way to create an ABC using
+inheritance.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap.update_state">
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap.update_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap.compute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.SeparateAttributePredictability">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">latte.metrics.core.disentanglement.</span></span><span class="sig-name descname"><span class="pre">SeparateAttributePredictability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2_reg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.SeparateAttributePredictability" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../base/index.html#latte.metrics.base.LatteMetric" title="latte.metrics.base.LatteMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latte.metrics.base.LatteMetric</span></code></a></p>
+<p>Helper class that provides a standard way to create an ABC using
+inheritance.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.SeparateAttributePredictability.update_state">
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.SeparateAttributePredictability.update_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.SeparateAttributePredictability.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.SeparateAttributePredictability.compute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.Modularity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">latte.metrics.core.disentanglement.</span></span><span class="sig-name descname"><span class="pre">Modularity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.Modularity" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../base/index.html#latte.metrics.base.LatteMetric" title="latte.metrics.base.LatteMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latte.metrics.base.LatteMetric</span></code></a></p>
+<p>Helper class that provides a standard way to create an ABC using
+inheritance.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.Modularity.update_state">
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.Modularity.update_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.Modularity.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.disentanglement.Modularity.compute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.MIG">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.core.disentanglement.</span></span><span class="sig-name descname"><span class="pre">MIG</span></span><a class="headerlink" href="#latte.metrics.core.disentanglement.MIG" title="Permalink to this definition"></a></dt>
+<dd><p>alias for <a class="reference internal" href="#latte.metrics.core.disentanglement.MutualInformationGap" title="latte.metrics.core.disentanglement.MutualInformationGap"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutualInformationGap</span></code></a></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.DMIG">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.core.disentanglement.</span></span><span class="sig-name descname"><span class="pre">DMIG</span></span><a class="headerlink" href="#latte.metrics.core.disentanglement.DMIG" title="Permalink to this definition"></a></dt>
+<dd><p>alias for <a class="reference internal" href="#latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap" title="latte.metrics.core.disentanglement.DependencyAwareMutualInformationGap"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyAwareMutualInformationGap</span></code></a></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.DLIG">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.core.disentanglement.</span></span><span class="sig-name descname"><span class="pre">DLIG</span></span><a class="headerlink" href="#latte.metrics.core.disentanglement.DLIG" title="Permalink to this definition"></a></dt>
+<dd><p>alias for <a class="reference internal" href="#latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap" title="latte.metrics.core.disentanglement.DependencyAwareLatentInformationGap"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyAwareLatentInformationGap</span></code></a></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.XMIG">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.core.disentanglement.</span></span><span class="sig-name descname"><span class="pre">XMIG</span></span><a class="headerlink" href="#latte.metrics.core.disentanglement.XMIG" title="Permalink to this definition"></a></dt>
+<dd><p>alias for <a class="reference internal" href="#latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap" title="latte.metrics.core.disentanglement.DependencyBlindMutualInformationGap"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyBlindMutualInformationGap</span></code></a></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="latte.metrics.core.disentanglement.SAP">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.core.disentanglement.</span></span><span class="sig-name descname"><span class="pre">SAP</span></span><a class="headerlink" href="#latte.metrics.core.disentanglement.SAP" title="Permalink to this definition"></a></dt>
+<dd><p>alias for <a class="reference internal" href="#latte.metrics.core.disentanglement.SeparateAttributePredictability" title="latte.metrics.core.disentanglement.SeparateAttributePredictability"><code class="xref py py-class docutils literal notranslate"><span class="pre">SeparateAttributePredictability</span></code></a></p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="latte.metrics.core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../interpolatability/index.html" class="btn btn-neutral float-right" title="latte.metrics.core.interpolatability" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Karn N. Watcharasupat, Junyoung Lee, and Alexander Lerch.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

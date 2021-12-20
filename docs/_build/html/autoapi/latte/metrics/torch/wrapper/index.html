@@ -18,7 +18,9 @@
         <script src="../../../../../_static/doctools.js"></script>
     <script src="../../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../../search.html" /> 
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="latte.metrics.base" href="../../base/index.html" />
+    <link rel="prev" title="latte.metrics.torch.interpolatability" href="../interpolatability/index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -36,9 +38,22 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../functional/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics</span></code></a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.core</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../keras/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras</span></code></a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch</span></code></a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -55,6 +70,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics</span></code></a> &raquo;</li>
+          <li><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch</span></code></a> &raquo;</li>
       <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch.wrapper</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../../../_sources/autoapi/latte/metrics/torch/wrapper/index.rst.txt" rel="nofollow"> View page source</a>
@@ -77,10 +94,7 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.torch.wrapper.TorchMetricsFunctionalWrapper" title="latte.metrics.torch.wrapper.TorchMetricsFunctionalWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TorchMetricsFunctionalWrapper</span></code></a></p></td>
-<td><p>Base class for all metrics present in the Metrics API.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#latte.metrics.torch.wrapper.TorchMetricsModuleWrapper" title="latte.metrics.torch.wrapper.TorchMetricsModuleWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TorchMetricsModuleWrapper</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.torch.wrapper.TorchMetricWrapper" title="latte.metrics.torch.wrapper.TorchMetricWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TorchMetricWrapper</span></code></a></p></td>
 <td><p>Base class for all metrics present in the Metrics API.</p></td>
 </tr>
 </tbody>
@@ -94,19 +108,27 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.torch.wrapper.to_numpy" title="latte.metrics.torch.wrapper.to_numpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_numpy</span></code></a>(args, kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.torch.wrapper.torch_to_numpy" title="latte.metrics.torch.wrapper.torch_to_numpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">torch_to_numpy</span></code></a>(args, kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.metrics.torch.wrapper.numpy_to_torch" title="latte.metrics.torch.wrapper.numpy_to_torch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy_to_torch</span></code></a>(val)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
-<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.to_numpy">
-<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.wrapper.</span></span><span class="sig-name descname"><span class="pre">to_numpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.to_numpy" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.torch_to_numpy">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.wrapper.</span></span><span class="sig-name descname"><span class="pre">torch_to_numpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.torch_to_numpy" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.numpy_to_torch">
+<span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.wrapper.</span></span><span class="sig-name descname"><span class="pre">numpy_to_torch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.numpy_to_torch" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.TorchMetricsFunctionalWrapper">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.wrapper.</span></span><span class="sig-name descname"><span class="pre">TorchMetricsFunctionalWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_sync_on_step</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process_group</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_sync_fn</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.TorchMetricsFunctionalWrapper" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.TorchMetricWrapper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.wrapper.</span></span><span class="sig-name descname"><span class="pre">TorchMetricWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="pre">Ellipsis</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../../base/index.html#latte.metrics.base.LatteMetric" title="latte.metrics.base.LatteMetric"><span class="pre">latte.metrics.base.LatteMetric</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_on_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_sync_on_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process_group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_sync_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.TorchMetricWrapper" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">torchmetrics.Metric</span></code></p>
 <p>Base class for all metrics present in the Metrics API.</p>
 <p>Implements <code class="docutils literal notranslate"><span class="pre">add_state()</span></code>, <code class="docutils literal notranslate"><span class="pre">forward()</span></code>, <code class="docutils literal notranslate"><span class="pre">reset()</span></code> and a few other things to
@@ -138,64 +160,22 @@ will be used to perform the allgather.</p></li>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.TorchMetricsFunctionalWrapper.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.TorchMetricsFunctionalWrapper.update" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.TorchMetricWrapper.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.TorchMetricWrapper.update" title="Permalink to this definition"></a></dt>
 <dd><p>Override this method to update the state variables of your metric class.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.TorchMetricsFunctionalWrapper.compute">
-<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.TorchMetricsFunctionalWrapper.compute" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.TorchMetricWrapper.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.TorchMetricWrapper.compute" title="Permalink to this definition"></a></dt>
 <dd><p>Override this method to compute the final metric value from state variables synchronized across the
 distributed backend.</p>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.TorchMetricsModuleWrapper">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">latte.metrics.torch.wrapper.</span></span><span class="sig-name descname"><span class="pre">TorchMetricsModuleWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_on_step</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_sync_on_step</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process_group</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_sync_fn</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.TorchMetricsModuleWrapper" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">torchmetrics.Metric</span></code></p>
-<p>Base class for all metrics present in the Metrics API.</p>
-<p>Implements <code class="docutils literal notranslate"><span class="pre">add_state()</span></code>, <code class="docutils literal notranslate"><span class="pre">forward()</span></code>, <code class="docutils literal notranslate"><span class="pre">reset()</span></code> and a few other things to
-handle distributed synchronization and per-step metric computation.</p>
-<p>Override <code class="docutils literal notranslate"><span class="pre">update()</span></code> and <code class="docutils literal notranslate"><span class="pre">compute()</span></code> functions to implement your own metric. Use
-<code class="docutils literal notranslate"><span class="pre">add_state()</span></code> to register metric state variables which keep track of state on each
-call of <code class="docutils literal notranslate"><span class="pre">update()</span></code> and are synchronized across processes when <code class="docutils literal notranslate"><span class="pre">compute()</span></code> is called.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Metric state variables can either be <code class="docutils literal notranslate"><span class="pre">torch.Tensors</span></code> or an empty list which can we used
-to store <cite>torch.Tensors`</cite>.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Different metrics only override <code class="docutils literal notranslate"><span class="pre">update()</span></code> and not <code class="docutils literal notranslate"><span class="pre">forward()</span></code>. A call to <code class="docutils literal notranslate"><span class="pre">update()</span></code>
-is valid, but it won’t return the metric value at the current step. A call to <code class="docutils literal notranslate"><span class="pre">forward()</span></code>
-automatically calls <code class="docutils literal notranslate"><span class="pre">update()</span></code> and also returns the metric value at the current step.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>compute_on_step</strong> – Forward only calls <code class="docutils literal notranslate"><span class="pre">update()</span></code> and returns None if this is set to False. default: True</p></li>
-<li><p><strong>dist_sync_on_step</strong> – Synchronize metric state across processes at each <code class="docutils literal notranslate"><span class="pre">forward()</span></code>
-before returning the value at the step.</p></li>
-<li><p><strong>process_group</strong> – Specify the process group on which synchronization is called. default: None (which selects the entire world)</p></li>
-<li><p><strong>dist_sync_fn</strong> – Callback that performs the allgather operation on the metric state. When <cite>None</cite>, DDP
-will be used to perform the allgather.</p></li>
-</ul>
-</dd>
-</dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.TorchMetricsModuleWrapper.update">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.TorchMetricsModuleWrapper.update" title="Permalink to this definition"></a></dt>
-<dd><p>Override this method to update the state variables of your metric class.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.TorchMetricsModuleWrapper.compute">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.TorchMetricsModuleWrapper.compute" title="Permalink to this definition"></a></dt>
-<dd><p>Override this method to compute the final metric value from state variables synchronized across the
-distributed backend.</p>
+<dt class="sig sig-object py" id="latte.metrics.torch.wrapper.TorchMetricWrapper.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.torch.wrapper.TorchMetricWrapper.reset" title="Permalink to this definition"></a></dt>
+<dd><p>This method automatically resets the metric state variables to their default value.</p>
 </dd></dl>
 
 </dd></dl>
@@ -207,12 +187,15 @@ distributed backend.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../interpolatability/index.html" class="btn btn-neutral float-left" title="latte.metrics.torch.interpolatability" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../base/index.html" class="btn btn-neutral float-right" title="latte.metrics.base" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, Karn N. Watcharasupat and Alexander Lerch.</p>
+    <p>&#169; Copyright 2021, Karn N. Watcharasupat, Junyoung Lee, and Alexander Lerch.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

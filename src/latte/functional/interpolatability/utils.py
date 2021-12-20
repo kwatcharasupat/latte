@@ -42,14 +42,17 @@ def _validate_za_shape(
 
     return z, a
 
+
 def _validate_non_constant_interp(z):
     if np.any(np.all(z == z[..., [0]], axis=-1)):
         raise ValueError("`z` must not be constant along the interpolation axis.")
+
 
 def _validate_equal_interp_deltas(z):
     d2z = np.diff(z, n=2, axis=-1)
     if not np.allclose(d2z, np.zeros_like(d2z)):
         raise NotImplementedError("Unequal `z` spacing is currently not supported.")
+
 
 def finite_diff(
     z: np.ndarray,

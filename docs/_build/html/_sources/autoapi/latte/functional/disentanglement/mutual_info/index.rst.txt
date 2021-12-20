@@ -34,7 +34,13 @@ Functions
 .. py:function:: get_mi_func(discrete: bool) -> Callable
 
    
+   Get mutual information function depending on whether the attribute is discrete
 
+   :param discrete: whether the attribute is discrete
+   :type discrete: bool
+
+   :returns: mutual information function handle
+   :rtype: Callable
 
 
 
@@ -85,20 +91,20 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: single_mutual_info(a: numpy.ndarray, b: numpy.ndarray, discrete: bool) -> numpy.float
+.. py:function:: single_mutual_info(a: numpy.ndarray, b: numpy.ndarray, discrete: bool) -> float
 
    
-   [summary]
+   Calculate mutual information between two variables
 
-   :param a: [description]
+   :param a: a batch of a feature variable
    :type a: np.ndarray, (n_samples,)
-   :param b: [description]
+   :param b: a batch of a target variable
    :type b: np.ndarray, (n_samples,)
-   :param discrete: [description]
-   :type discrete: bool
+   :param discrete: whether the target variable is discrete, by default False
+   :type discrete: bool, optional
 
-   :returns: [description]
-   :rtype: np.float
+   :returns: mutual information between the variables
+   :rtype: float
 
 
 
@@ -117,18 +123,18 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: entropy(a: numpy.ndarray, discrete: bool = False) -> numpy.float
+.. py:function:: entropy(a: numpy.ndarray, discrete: bool = False) -> float
 
    
-   [summary]
+   Calculate entropy of a variable
 
-   :param a: [description]
+   :param a: a batch of the variable
    :type a: np.ndarray, (n_samples,)
-   :param discrete: [description], by default False
+   :param discrete: whether the variable is discrete, by default False
    :type discrete: bool, optional
 
-   :returns: [description]
-   :rtype: np.float
+   :returns: entropy of the variable
+   :rtype: float
 
 
 
@@ -147,20 +153,24 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: conditional_entropy(ai: numpy.ndarray, aj: numpy.ndarray, discrete: bool = False) -> numpy.float
+.. py:function:: conditional_entropy(ai: numpy.ndarray, aj: numpy.ndarray, discrete: bool = False) -> float
 
    
-   [summary]
+   Calculate conditional entropy of a variable given another variable.
 
-   :param ai: [description]
+   .. math:: \mathcal{H}(a_i|a_j) = \mathcal{H}(a_i) - \mathcal{I}(a_i, a_j),
+
+   where :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot)` is entropy.
+
+   :param ai: a batch of the first variable
    :type ai: np.ndarray, (n_samples,)
-   :param aj: [description]
+   :param aj: a batch of the conditioning variable
    :type aj: np.ndarray, (n_samples,)
-   :param discrete: [description], by default False
+   :param discrete: whether the variables are discrete, by default False
    :type discrete: bool, optional
 
-   :returns: H(ai|aj) = H(ai) - I(ai, aj)
-   :rtype: np.float
+   :returns: conditional entropy of `ai` given `aj`.
+   :rtype: float
 
 
 
@@ -182,19 +192,43 @@ Functions
 .. py:function:: mig(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False) -> numpy.ndarray
 
    
-   [summary]
+   Calculate Mutual Information Gap (MIG) between latent vectors and attributes.
 
-   :param z: [description]
+   Mutual Information Gap measures the degree of disentanglement. For each attribute, MIG is calculated by difference in the mutual informations between that of the attribute and its most informative latent dimension, and that of the attribute and its second-most informative latent dimension. Mathematically, MIG is given by
+
+   .. math:: \operatorname{MIG}(a_i, \mathbf{z}) = \dfrac{\mathcal{I}(a_i, z_j)-\mathcal{I}(a_i, z_k)}{\mathcal{H}(a_i)},
+
+   where :math:`j=\operatorname{arg}\max_n \mathcal{I}(a_i, z_n)`, :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot)` is entropy. If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)` as usual.
+
+   MIG is best applied for independent attributes.
+
+   .. seealso::
+
+      :obj:`dmig`
+          Dependency-Aware Mutual Information Gap
+
+      :obj:`xmig`
+          Dependency-Blind Mutual Information Gap
+
+      :obj:`dlig`
+          Dependency-Aware Latent Information Gap
+
+   :param z: a batch of latent vectors
    :type z: np.ndarray, (n_samples, n_features)
-   :param a: [description]
-   :type a: np.ndarray, (n_samples, n_attributes)
-   :param reg_dim: [description], by default None
-   :type reg_dim: t.Optional[t.List], optional
-   :param discrete: [description], by default False
+   :param a: a batch of attribute(s)
+   :type a: np.ndarray, (n_samples, n_attributes) or (n_samples,)
+   :param reg_dim: regularized dimensions, by default None
+                   Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `reg_dim` is provided, the first mutual information is always taken between the regularized dimension and the attribute and MIG may be negative.
+   :type reg_dim: Optional[List], optional
+   :param discrete: Whether the attributes are discrete, by default False
    :type discrete: bool, optional
 
-   :returns: [description]
+   :returns: MIG for each attribute
    :rtype: np.ndarray, (n_attributes,)
+
+   .. rubric:: References
+
+   .. [Rc16b187c67b2-1]  Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
 
 
 
@@ -216,19 +250,25 @@ Functions
 .. py:function:: dmig(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False) -> numpy.ndarray
 
    
-   [summary]
+   Calculate Dependency-Aware Mutual Information Gap (DMIG) between latent vectors and attributes
 
-   :param z: [description]
+   :param z: a batch of latent vectors
    :type z: np.ndarray, (n_samples, n_features)
-   :param a: [description]
-   :type a: np.ndarray, (n_samples, n_attributes)
-   :param reg_dim: [description], by default None
-   :type reg_dim: t.Optional[t.List], optional
-   :param discrete: [description], by default False
+   :param a: a batch of attribute(s)
+   :type a: np.ndarray, (n_samples, n_attributes) or (n_samples,)
+   :param reg_dim: regularized dimensions, by default None
+                   Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
+   :type reg_dim: Optional[List], optional
+   :param discrete: Whether the attributes are discrete, by default False
    :type discrete: bool, optional
 
-   :returns: [description]
+   :returns: DMIG for each attribute
    :rtype: np.ndarray, (n_attributes,)
+
+   .. rubric:: References
+
+   .. [R3bfc59b4b271-1] K. N. Watcharasupat and A. Lerch, “Evaluation of Latent Space Disentanglement in the Presence of Interdependent Attributes”, in Extended Abstracts of the Late-Breaking Demo Session of the 22nd International Society for Music Information Retrieval Conference, 2021.
+   .. [R3bfc59b4b271-2] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
 
 
 
@@ -250,7 +290,24 @@ Functions
 .. py:function:: dlig(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False)
 
    
+   Calculate Dependency-Aware Latent Information Gap (DLIG) between latent vectors and attributes
 
+   :param z: a batch of latent vectors
+   :type z: np.ndarray, (n_samples, n_features)
+   :param a: a batch of at least two attributes
+   :type a: np.ndarray, (n_samples, n_attributes)
+   :param reg_dim: regularized dimensions, by default None
+                   Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
+   :type reg_dim: Optional[List], optional
+   :param discrete: Whether the attributes are discrete, by default False
+   :type discrete: bool, optional
+
+   :returns: DLIG for each attribute
+   :rtype: np.ndarray, (n_attributes,)
+
+   .. rubric:: References
+
+   .. [Rcda703c5a7eb-1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
 
 
 
@@ -272,7 +329,24 @@ Functions
 .. py:function:: xmig(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False)
 
    
+   Calculate Dependency-Blind Mutual Information Gap (XMIG) between latent vectors and attributes
 
+   :param z: a batch of latent vectors
+   :type z: np.ndarray, (n_samples, n_features)
+   :param a: a batch of attribute(s)
+   :type a: np.ndarray, (n_samples, n_attributes) or (n_samples,)
+   :param reg_dim: regularized dimensions, by default None
+                   Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
+   :type reg_dim: Optional[List], optional
+   :param discrete: Whether the attributes are discrete, by default False
+   :type discrete: bool, optional
+
+   :returns: XMIG for each attribute
+   :rtype: np.ndarray, (n_attributes,)
+
+   .. rubric:: References
+
+   .. [Rb9564093a74c-1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
 
 
 

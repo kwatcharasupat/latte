@@ -152,6 +152,22 @@ class TestXMIG:
         assert mig.ndim == 1
         assert mig.shape[0] == a.shape[-1]
 
+    def test_xmig_bad_shape(self):
+        z = np.random.randn(16, 3)
+        a = np.random.randn(16, 3)
+
+        with pytest.raises(AssertionError):
+            mi.xmig(z, a)
+
+    def test_xmig_okay_shape(self):
+        z = np.random.randn(16, 4)
+        a = np.random.randn(16, 3)
+
+        mig = mi.xmig(z, a)
+
+        assert mig.ndim == 1
+        assert mig.shape[0] == a.shape[-1]
+
 
 class TestDLIG:
     def test_dlig_shape(self):
