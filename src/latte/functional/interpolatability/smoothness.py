@@ -40,6 +40,12 @@ def smoothness(
     """
     Calculate latent smoothness.
 
+    Smoothness is a measure of how smoothly an attribute changes with respect to a change in the regularizing latent dimension. Smoothness of a latent vector :math:'\mathbf{z}' is based on the concept of second-order derivative, and is given by
+
+    .. math:: \operatorname{Smoothness}_{i,d}(\mathbf{z};\delta) = 1-\dfrac{\mathcal{C}_{k\in\mathfrak{K}}\left[\mathcal{D}_{i,d}^{(2)}(\mathfrak{C}_{k};\delta )\right]}{\delta^{-1}\mathcal{R}_{k\in\mathfrak{K}}\left[\mathcal{D}_{i,d}^{(1)}(\mathfrak{C}_{k};\delta )\right]},
+
+    where :math:'\mathfrak{C}_{k} = \mathbf{z} + k\delta\mathbf{e}_d', :math:'\mathcal{C}_{k\in\mathfrak{K}}[\cdot]' is the contraharmonic mean of its arguments over values of :math:'k\in\mathfrak{K}', and :math:'\mathcal{R}_{k\in\mathfrak{K}}[\cdot]' is the range of its arguments over values of :math:'k\in\mathfrak{K}', and :math:'\mathfrak{K}' is the set of interpolating points used during evaluation.
+
     Parameters
     ----------
     z : np.ndarray, (n_samples, n_interp) or (n_samples, n_features or n_attributes, n_interp)

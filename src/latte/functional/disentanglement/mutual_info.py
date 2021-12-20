@@ -216,6 +216,11 @@ def dmig(
     """
     Calculate Dependency-Aware Mutual Information Gap (DMIG) between latent vectors and attributes
 
+    Dependency-aware Mutual Information Gap (DMIG) is a dependency-aware version of MIG that accounts for attribute interdependence observed in real-world data. Mathematically, DMIG is given by
+    
+    .. math:: \operatorname{DMIG}(a_i, \mathbf{z}) = \dfrac{\mathcal{I}(a_i, z_j)-\mathcal{I}(a_i, z_k)}{\mathcal{H}(a_i|a_l)},
+    
+    where :math:`j=\operatorname{arg}\max_n \mathcal{I}(a_i, z_n)`, :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)`, :math:`\mathcal{H}(\cdot|\cdot)` is conditional entropy, and :math:'a_l' is the attribute regularized by :math:'z_k'. If :math:'z_k' is not regularizing any attribute, DMIG reduces to the usual MIG. DMIG compensates for the reduced maximum possible value of the numerator due to attribute interdependence.
 
     Parameters
     ----------
@@ -273,6 +278,12 @@ def dlig(
     """
     Calculate Dependency-Aware Latent Information Gap (DLIG) between latent vectors and attributes
 
+    Dependency-aware Latent Information Gap (DLIG) is a latent-centric counterpart to DMIG. DLIG evaluates disentanglement of a set of semantic attributes :math:'{a_i}' with respect to a latent dimension :math:'z_d' such that
+
+    .. math:: \operatorname{DLIG}({a_i}, z_d) = \dfrac{\mathcal{I}(a_j, z_d)-\mathcal{I}(a_k, z_d)}{\mathcal{H}(a_j|a_k)},
+
+    where :math:'j=\operatorname{arg}\max_i \mathcal{I}(a_i, z_d)', :math:`k=\operatorname{arg}\max_{i≠j} \mathcal{I}(a_i, z_d)`.
+
     Parameters
     ----------
     z : np.ndarray, (n_samples, n_features)
@@ -323,6 +334,12 @@ def xmig(
 ):
     """
     Calculate Dependency-Blind Mutual Information Gap (XMIG) between latent vectors and attributes
+
+    Dependency-blind Mutual Information Gap (XMIG) is a complementary metric to MIG and DMIG that measures the gap in mutual information with the subtrahend restricted to dimensions which do not regularize any attribute. XMIG is given by
+
+    .. math:: \operatorname{XMIG}(a_i, \mathbf{z}) = \dfrac{\mathcal{I}(a_i, z_j)-\mathcal{I}(a_i, z_k)}{\mathcal{H}(a_i)},
+
+    where :math:`j=\operatorname{arg}\max_d \mathcal{I}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{d\notin\mathcal{D}} \mathcal{I}(a_i, z_d)`, 
 
     Parameters
     ----------

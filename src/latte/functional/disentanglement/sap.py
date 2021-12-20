@@ -76,6 +76,12 @@ def sap(
     """
     Calculate Separate Attribute Predictability (SAP) between latent vectors and attributes
 
+    Separate Attribute Predictability (SAP) is similar in nature to MIG but, instead of mutual information, uses the coefficient of determination for continuous attributes and classification accuracy for discrete attributes to measure the extent of relationship between a latent dimension and an attribute. SAP is given by
+
+    .. math:: \operatorname{SAP}(a_i, \mathbf{z}) = \mathcal{S}(a_i, z_j)-\mathcal{S}(a_i, z_k),
+
+    where :math:`j=\operatorname{arg}\max_d \mathcal{S}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{d≠j} \mathcal{S}(a_i, z_d)`, and :math:`\mathcal{S}(\cdot,\cdot)` is either the coefficient of determination or classification accuracy.
+
 
     Parameters
     ----------

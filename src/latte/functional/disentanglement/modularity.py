@@ -16,6 +16,12 @@ def modularity(
     """
     Calculate Modularity between latent vectors and attributes
 
+    Modularity is a letent-centric measure of disentanglement based on mutual information. Modularity measures the degree in which a latent dimension contains information about only one attribute, and is given by
+
+    .. math:: \operatorname{Mod}({a_i}, z_d) = 1-\dfrac{\sum_{i≠j}(\mathcal{I}(a_i, z_d)/\mathcal{I}(a_j, z_d))^2}{\lvert {a_i}\rvert -1},
+
+    where :math:`j=\operatorname{arg}\max_i \mathcal{I}(a_i, z_d)`.
+
 
     Parameters
     ----------
