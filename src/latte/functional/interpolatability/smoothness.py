@@ -44,7 +44,7 @@ def smoothness(
 
     .. math:: \operatorname{Smoothness}_{i,d}(\mathbf{z};\delta) = 1-\dfrac{\mathcal{C}_{k\in\mathfrak{K}}\left[\mathcal{D}_{i,d}^{(2)}(\mathfrak{C}_{k};\delta )\right]}{\delta^{-1}\mathcal{R}_{k\in\mathfrak{K}}\left[\mathcal{D}_{i,d}^{(1)}(\mathfrak{C}_{k};\delta )\right]},
 
-    where :math:`\mathfrak{C}_{k} = \mathbf{z} + k\delta\mathbf{e}_d`, :math:`\mathcal{C}_{k\in\mathfrak{K}}[\cdot]` is the contraharmonic mean of its arguments over values of :math:`k\in\mathfrak{K}`, and :math:`\mathcal{R}_{k\in\mathfrak{K}}[\cdot]` is the range of its arguments over values of :math:`k\in\mathfrak{K}`, and :math:`\mathfrak{K}` is the set of interpolating points used during evaluation.
+    where :math:`\mathfrak{C}_{k} = \mathbf{z} + k\delta\mathbf{e}_d`, :math:`\mathcal{C}_{k\in\mathfrak{K}}[\cdot]` is the Lehmer mean (with `p=2` by default) of its arguments over values of :math:`k\in\mathfrak{K}`, and :math:`\mathcal{R}_{k\in\mathfrak{K}}[\cdot]` is the range of its arguments over values of :math:`k\in\mathfrak{K}` (controlled by `ptp_mode`), and :math:`\mathfrak{K}` is the set of interpolating points used during evaluation.
 
     Parameters
     ----------
