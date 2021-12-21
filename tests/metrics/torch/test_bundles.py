@@ -1,6 +1,6 @@
 try:
     import torch
-    
+
     from latte.metrics.torch.bundles import DependencyAwareMutualInformationBundle
     from latte.metrics.torch.disentanglement import (
         MutualInformationGap,

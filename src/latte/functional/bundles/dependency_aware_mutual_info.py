@@ -14,11 +14,7 @@ def dependency_aware_mutual_info_bundle(
     discrete: bool = False,
 ) -> Dict[str, np.ndarray]:
     """
-    Calculate between latent vectors (`z`) and attributes (`a`):
-        - Mutual Information Gap (MIG) 
-        - Dependency-Aware Mutual Information Gap (DMIG) 
-        - Dependency-Blind Mutual Information Gap (XMIG) 
-        - Dependency-Aware Latent Information Gap (DLIG) 
+    Calculate between latent vectors (`z`) and attributes (`a`): Mutual Information Gap (MIG), Dependency-Aware Mutual Information Gap (DMIG), Dependency-Blind Mutual Information Gap (XMIG), and Dependency-Aware Latent Information Gap (DLIG).
 
     Parameters
     ----------

@@ -16,12 +16,8 @@ class DependencyAwareMutualInformationBundle(MetricBundle):
     def __init__(
         self, reg_dim: Optional[List] = None, discrete: bool = False,
     ):
-        '''
-        Calculate between latent vectors (`z`) and attributes (`a`):
-        - Mutual Information Gap (MIG) 
-        - Dependency-Aware Mutual Information Gap (DMIG) 
-        - Dependency-Blind Mutual Information Gap (XMIG) 
-        - Dependency-Aware Latent Information Gap (DLIG) 
+        """
+        Calculate between latent vectors (`z`) and attributes (`a`): Mutual Information Gap (MIG), Dependency-Aware Mutual Information Gap (DMIG), Dependency-Blind Mutual Information Gap (XMIG), and Dependency-Aware Latent Information Gap (DLIG).
 
         Parameters
         ----------
@@ -37,7 +33,8 @@ class DependencyAwareMutualInformationBundle(MetricBundle):
         ..disentanglement.DependencyAwareMutualInformationGap: Dependency-Aware Mutual Information Gap
         ..disentanglement.DependencyAwareLatentInformationGap: Dependency-Aware Latent Information Gap
         ..disentanglement.DependencyBlindMutualInformationGap: Dependency-Blind Mutual Information Gap
-        '''
+        """
+
         # need to set `fill_reg_dim=True` for same `reg_dim` behaviour with other metrics
         super().__init__(
             metrics={
@@ -55,9 +52,9 @@ class DependencyAwareMutualInformationBundle(MetricBundle):
                 ),
             }
         )
-        
+
     def update_state(self, z: np.ndarray, a: np.ndarray) -> None:
-        '''
+        """
         Update the states of the submodules.
 
         Parameters
@@ -66,7 +63,7 @@ class DependencyAwareMutualInformationBundle(MetricBundle):
             a batch of latent vectors
         a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
             a batch of attribute(s)
-        '''
+        """
 
         return super().update_state(z=z, a=a)
 
@@ -85,7 +82,7 @@ class LiadInterpolatabilityBundle(MetricBundle):
         clamp: bool = False,
         p: float = 2.0,
     ):
-        '''
+        """
         Calculate latent smoothness and monotonicity.   
 
         Parameters
@@ -111,7 +108,7 @@ class LiadInterpolatabilityBundle(MetricBundle):
             Whether to clamp smoothness to [0, 1], by default False. Only affects smoothness.
         p : float, optional
             Lehmer mean power, by default 2.0 (i.e., contraharmonic mean). Only used if `max_mode == "lehmer"`. Must be greater than 1.0. Only affects smoothness.
-        '''
+        """
         super().__init__(
             metrics={
                 "smoothness": Smoothness(
@@ -135,9 +132,9 @@ class LiadInterpolatabilityBundle(MetricBundle):
                 ),
             }
         )
-        
+
     def update_state(self, z: np.ndarray, a: np.ndarray) -> None:
-        '''
+        """
         Update the states of the submodules.
 
         Parameters
@@ -146,6 +143,6 @@ class LiadInterpolatabilityBundle(MetricBundle):
             a batch of latent vectors
         a : np.ndarray, (n_samples, n_interp) or (n_samples, n_attributes, n_interp)
             a batch of attribute(s)
-        '''
+        """
 
         return super().update_state(z=z, a=a)
