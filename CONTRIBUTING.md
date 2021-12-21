@@ -17,12 +17,41 @@ Using the extra option `keras` or `pytorch` will install TensorFlow or PyTorch+T
 
 # For new metrics
 
+## Functional implementation
 1. Start with the functional implementation as the modular metrics are wrappers around the functional implementations.
 2. Unless the metrics should belong together with another existing metrics in the same file, create a new metric file in either `src/latte/functional/disentanglement` or `src/latte/functional/interpolatability` as appropriate. 
 4. As far as possible, implement the metrics using only `numpy`. `sklearn` and `scipy` can also be used where `numpy` functionalities are insufficient. Other dependencies will be considered on a case-by-case basis. No dependencies specific to a particular deep learning framework is allowed in the functional modules. 
-5. Create a test file for the functional implementation. Coverage should be 100% and all important logics and output ranges should be checked thoroughly.
+5. Do not hardcode numbers. Set them using default arguments.
+6. In general, use `z` for latent tensors, `a` for attributes, `reg_dim` for attribute-regularized latent dimensions. Try to be as compatible to other existing metrics as possible.
+7. Create a test file for the functional implementation. Run the test. Coverage should be 100% and all important logics and output ranges should be checked thoroughly.
 
-# Testing
+# Modular implementation
+
+6. Create a modular wrapper with numpy in `src/latte/metrics/core/<metric_type>.py`. See method chart below. All hyperparameter arguments in the functional implementation should go to `__init__()`. All data arguments should go to `update_state()`.
+7. Create a modular wrapper for PyTorch and TF in their respective folders. 
+8. If your metric has an acronym, you can also set aliases for them (see `MIG` and `MutualInformationGap`).
+9. Create test files for core, TF, and Torch modules. Run the test. Make sure the functional and modular versions have the same outputs for the same inputs. 
+
+## Method Chart for Modular API
+
+TorchMetrics: https://torchmetrics.readthedocs.io/en/latest/pages/implement.html
+
+Keras Metric: https://www.tensorflow.org/api_docs/python/tf/keras/metrics/Metric
+
+Torch/Keras wrapper will
+1. convert torch/tf types to numpy types (and move everything to CPU)
+2. call native class methods
+3. if there are return values, convert numpy types back to torch/tf types
+
+
+|      | Native  |TorchMetrics | Keras Metric |
+| :--- | :--- | :---        | :---         |
+| base class | `latte.metrics.LatteMetric` | `torchmetrics.Metric` | `tf.keras.metrics.Metric` |
+| super class | `object` | `torch.nn.Module` | `tf.keras.layers.Layer` |
+| adding buffer | `self.add_state` | `self.add_state` | `self.add_weight` |
+| updating buffer | `self.update_state` | `self.update` | `self.update_state` |
+| resetting buffer | `self.reset_state` | `self.reset` | `self.reset_state` |
+| computing metric values | `self.compute` | `self.compute` | `self.result` |
 
 ## Writing tests
 
