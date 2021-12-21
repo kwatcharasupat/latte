@@ -39,6 +39,9 @@ extensions = [
     "m2r2",
 ]
 
+autodoc_typehints = 'description'
+add_module_names = False
+
 source_suffix = [".rst", ".md"]
 
 autoapi_type = "python"
@@ -46,6 +49,7 @@ autoapi_dirs = ["../src/latte/"]
 autoapi_options = [
     "members",
     "undoc-members",
+    "inherited-members",
     "show-inheritance",
     "show-module-summary",
     # "imported-members",
