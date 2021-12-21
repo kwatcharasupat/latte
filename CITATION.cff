@@ -11,5 +11,7 @@ authors:
   orcid: "https://orcid.org/0000-0001-6319-578X"
 title: "Latte: Cross-framework Python Package for Evaluation of Latent-based Generative Models"
 date-released: 2021
-url: "https://github.com/karnwatcharasupat/latte"
+url: https://arxiv.org/abs/2112.10638
+repository-code: "https://github.com/karnwatcharasupat/latte"
 doi: 10.5281/zenodo.5786402
+license: MIT
