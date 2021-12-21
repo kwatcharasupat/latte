@@ -180,7 +180,7 @@ def mig(
     discrete : bool, optional
         Whether the attributes are discrete, by default False
     fill_reg_dim : bool, optional
-        Whether to automatically fill `reg_dim` with `range(n_attributes)`, by default False
+        Whether to automatically fill `reg_dim` with `range(n_attributes)`, by default False. If `fill_reg_dim` is True, the `reg_dim` behavior is the same as the dependency-aware family. This option is mainly used for compatibility with the dependency-aware family in a bundle.
 
     Returns
     -------
@@ -242,6 +242,13 @@ def dmig(
     -------
     np.ndarray, (n_attributes,)
         DMIG for each attribute
+        
+    See Also
+    --------
+    mig : Mutual Information Gap
+    dmig : Dependency-Aware Mutual Information Gap
+    xmig : Dependency-Blind Mutual Information Gap
+    dlig : Dependency-Aware Latent Information Gap
         
     
     References
@@ -305,6 +312,13 @@ def dlig(
     np.ndarray, (n_attributes,)
         DLIG for each attribute
         
+    See Also
+    --------
+    mig : Mutual Information Gap
+    dmig : Dependency-Aware Mutual Information Gap
+    xmig : Dependency-Blind Mutual Information Gap
+    ..modularity.modularity : Modularity
+        
     References
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
@@ -361,6 +375,13 @@ def xmig(
     -------
     np.ndarray, (n_attributes,)
         XMIG for each attribute
+        
+    See Also
+    --------
+    mig : Mutual Information Gap
+    dmig : Dependency-Aware Mutual Information Gap
+    xmig : Dependency-Blind Mutual Information Gap
+    dlig : Dependency-Aware Latent Information Gap
         
     References
     ----------

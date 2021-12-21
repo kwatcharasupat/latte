@@ -14,7 +14,7 @@ def dependency_aware_mutual_info_bundle(
     discrete: bool = False,
 ) -> Dict[str, np.ndarray]:
     """
-    Calculate between latent vectors and attributes:
+    Calculate between latent vectors (`z`) and attributes (`a`):
         - Mutual Information Gap (MIG) 
         - Dependency-Aware Mutual Information Gap (DMIG) 
         - Dependency-Blind Mutual Information Gap (XMIG) 
@@ -28,7 +28,7 @@ def dependency_aware_mutual_info_bundle(
         a batch of attribute(s)
     reg_dim : Optional[List], optional
         regularized dimensions, by default None
-        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
+        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`. Note that this is the `reg_dim` behavior of the dependency-aware family but is different from the default `reg_dim` behavior of the conventional MIG.
     discrete : bool, optional
         Whether the attributes are discrete, by default False
 
@@ -36,6 +36,13 @@ def dependency_aware_mutual_info_bundle(
     -------
     Dict[str, np.ndarray]
         A dictionary of mutual information metrics with keys ['MIG', 'DMIG', 'XMIG', 'DLIG'] each mapping to a corresponding metric np.ndarray of shape (n_attributes,).
+        
+    See Also
+    --------
+    ..disentanglement.mig: Mutual Information Gap
+    ..disentanglement.dmig : Dependency-Aware Mutual Information Gap
+    ..disentanglement.xmig : Dependency-Blind Mutual Information Gap
+    ..disentanglement.dlig : Dependency-Aware Latent Information Gap
     
     References
     ----------

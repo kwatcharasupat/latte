@@ -48,6 +48,14 @@ class MetricBundle:
     def __init__(
         self, metrics: Union[List[LatteMetric], Dict[str, LatteMetric]]
     ) -> None:
+        '''
+        Base class for metric bundles
+
+        Parameters
+        ----------
+        metrics : Union[List[LatteMetric], Dict[str, LatteMetric]]
+            A list of metrics or a dictionary of metric names mapping to metrics. If a list is provided, the key for each metric in the output will be the name of the metric.
+        '''
 
         if isinstance(metrics, list):
             self.metrics = {metric.__class__.__name__: metric for metric in metrics}
@@ -59,6 +67,9 @@ class MetricBundle:
             )
 
     def update_state(self, **kwargs):
+        '''
+        Update the internal states of all metric submodules. Currently, all arguments must be passed as a keyword argument to this function to allow correct mapping to respective metric submodules.
+        '''
 
         for name in self.metrics:
 
@@ -71,8 +82,19 @@ class MetricBundle:
             metric.update_state(**kwargs_to_pass)
 
     def reset_state(self):
+        '''
+        Reset the state of all metric submodules.
+        '''
         for name in self.metrics:
             self.metrics[name].reset_state()
 
-    def compute(self) -> Dict[str, float]:
+    def compute(self) -> Dict[str, np.ndarray]:
+        '''
+        Compute the metric values for all metric submodules.
+
+        Returns
+        -------
+        Dict[str, np.ndarray]
+            A dictionary mapping metric names to metric values.
+        '''
         return {name: self.metrics[name].compute() for name in self.metrics}

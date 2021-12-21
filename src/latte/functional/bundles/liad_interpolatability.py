@@ -55,6 +55,11 @@ def liad_interpolatability_bundle(
     -------
     Dict[str, np.ndarray]
         A dictionary of LIAD-based interpolatability metrics with keys ['smoothness', 'monotonicity'] each mapping to a corresponding metric np.ndarray. See `reduce_mode` for details on the shape of the return arrays.
+        
+    See Also
+    --------
+    ..interpolatability.smoothness.smoothness : Smoothness
+    ..interpolatability.monotonicity.monotonicity : Monotonicity
 
     References
     ----------
