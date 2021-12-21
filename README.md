@@ -8,6 +8,7 @@
 [![License](https://img.shields.io/badge/license-MIT-brightgreen)](https://opensource.org/licenses/MIT)
 [![PyPI version](https://badge.fury.io/py/latte-metrics.svg)](https://badge.fury.io/py/latte-metrics)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5786402.svg)](https://doi.org/10.5281/zenodo.5786402)
+[![arXiv](https://img.shields.io/badge/arXiv-2112.10638-b31b1b.svg)](https://arxiv.org/abs/2112.10638)
 
 
 # Latte
