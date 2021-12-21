@@ -22,7 +22,7 @@ def modularity(
 
     where :math:`j=\operatorname{arg}\max_i \mathcal{I}(a_i, z_d)`, and :math:`\mathcal{I}(\cdot,\cdot)` is mutual information.
 
-    `reg_dim` is currently ignored in `Modularity`.
+    `reg_dim` is currently ignored in Modularity.
 
 
     Parameters
