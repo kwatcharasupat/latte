@@ -31,7 +31,7 @@ Functions
 
 
 
-.. py:function:: get_mi_func(discrete: bool) -> Callable
+.. py:function:: get_mi_func(discrete)
 
    
    Get mutual information function depending on whether the attribute is discrete
@@ -59,7 +59,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: latent_attr_mutual_info(z: numpy.ndarray, a: numpy.ndarray, discrete: bool = False) -> numpy.ndarray
+.. py:function:: latent_attr_mutual_info(z, a, discrete = False)
 
    
    Calculate mutual information between latent vectors and a target attribute.
@@ -91,7 +91,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: single_mutual_info(a: numpy.ndarray, b: numpy.ndarray, discrete: bool) -> float
+.. py:function:: single_mutual_info(a, b, discrete)
 
    
    Calculate mutual information between two variables
@@ -123,7 +123,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: entropy(a: numpy.ndarray, discrete: bool = False) -> float
+.. py:function:: entropy(a, discrete = False)
 
    
    Calculate entropy of a variable
@@ -153,7 +153,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: conditional_entropy(ai: numpy.ndarray, aj: numpy.ndarray, discrete: bool = False) -> float
+.. py:function:: conditional_entropy(ai, aj, discrete = False)
 
    
    Calculate conditional entropy of a variable given another variable.
@@ -189,7 +189,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: mig(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False) -> numpy.ndarray
+.. py:function:: mig(z, a, reg_dim = None, discrete = False, fill_reg_dim = False)
 
    
    Calculate Mutual Information Gap (MIG) between latent vectors and attributes.
@@ -222,13 +222,15 @@ Functions
    :type reg_dim: Optional[List], optional
    :param discrete: Whether the attributes are discrete, by default False
    :type discrete: bool, optional
+   :param fill_reg_dim: Whether to automatically fill `reg_dim` with `range(n_attributes)`, by default False
+   :type fill_reg_dim: bool, optional
 
    :returns: MIG for each attribute
    :rtype: np.ndarray, (n_attributes,)
 
    .. rubric:: References
 
-   .. [Rc16b187c67b2-1]  Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
+   .. [Rc16b187c67b2-1] Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
 
 
 
@@ -247,7 +249,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: dmig(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False) -> numpy.ndarray
+.. py:function:: dmig(z, a, reg_dim = None, discrete = False)
 
    
    Calculate Dependency-Aware Mutual Information Gap (DMIG) between latent vectors and attributes
@@ -287,7 +289,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: dlig(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False)
+.. py:function:: dlig(z, a, reg_dim = None, discrete = False)
 
    
    Calculate Dependency-Aware Latent Information Gap (DLIG) between latent vectors and attributes
@@ -326,7 +328,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: xmig(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False)
+.. py:function:: xmig(z, a, reg_dim = None, discrete = False)
 
    
    Calculate Dependency-Blind Mutual Information Gap (XMIG) between latent vectors and attributes

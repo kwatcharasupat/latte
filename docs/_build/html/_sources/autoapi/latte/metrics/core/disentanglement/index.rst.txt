@@ -40,7 +40,7 @@ Attributes
    latte.metrics.core.disentanglement.SAP
 
 
-.. py:class:: MutualInformationGap(reg_dim: Optional[List] = None, discrete: bool = False)
+.. py:class:: MutualInformationGap(reg_dim = None, discrete = False, fill_reg_dim = False)
 
    Bases: :py:obj:`latte.metrics.base.LatteMetric`
 
@@ -109,8 +109,52 @@ Attributes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: add_state(self, name, default)
 
-.. py:class:: DependencyAwareMutualInformationGap(reg_dim: Optional[List] = None, discrete: bool = False)
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: reset_state(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: DependencyAwareMutualInformationGap(reg_dim = None, discrete = False)
 
    Bases: :py:obj:`latte.metrics.base.LatteMetric`
 
@@ -179,8 +223,52 @@ Attributes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: add_state(self, name, default)
 
-.. py:class:: DependencyAwareLatentInformationGap(reg_dim: Optional[List] = None, discrete: bool = False)
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: reset_state(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: DependencyAwareLatentInformationGap(reg_dim = None, discrete = False)
 
    Bases: :py:obj:`latte.metrics.base.LatteMetric`
 
@@ -249,8 +337,52 @@ Attributes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: add_state(self, name, default)
 
-.. py:class:: DependencyBlindMutualInformationGap(reg_dim: Optional[List] = None, discrete: bool = False)
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: reset_state(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: DependencyBlindMutualInformationGap(reg_dim = None, discrete = False)
 
    Bases: :py:obj:`latte.metrics.base.LatteMetric`
 
@@ -319,8 +451,52 @@ Attributes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: add_state(self, name, default)
 
-.. py:class:: SeparateAttributePredictability(reg_dim: Optional[List] = None, discrete: bool = False, l2_reg: float = 1.0, thresh: float = 1e-12)
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: reset_state(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: SeparateAttributePredictability(reg_dim = None, discrete = False, l2_reg = 1.0, thresh = 1e-12)
 
    Bases: :py:obj:`latte.metrics.base.LatteMetric`
 
@@ -389,8 +565,52 @@ Attributes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: add_state(self, name, default)
 
-.. py:class:: Modularity(reg_dim: Optional[List] = None, discrete: bool = False, thresh: float = 1e-12)
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: reset_state(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: Modularity(reg_dim = None, discrete = False, thresh = 1e-12)
 
    Bases: :py:obj:`latte.metrics.base.LatteMetric`
 
@@ -438,6 +658,50 @@ Attributes
           !! processed by numpydoc !!
 
    .. py:method:: compute(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: add_state(self, name, default)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: reset_state(self)
 
       
 

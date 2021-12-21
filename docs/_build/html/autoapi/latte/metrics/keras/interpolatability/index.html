@@ -86,16 +86,2413 @@
 <span id="latte-metrics-keras-interpolatability"></span><h1><a class="reference internal" href="#module-latte.metrics.keras.interpolatability" title="latte.metrics.keras.interpolatability"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras.interpolatability</span></code></a><a class="headerlink" href="#module-latte.metrics.keras.interpolatability" title="Permalink to this headline"></a></h1>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
-<dl class="py data">
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.metrics.keras.interpolatability.Smoothness" title="latte.metrics.keras.interpolatability.Smoothness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Smoothness</span></code></a></p></td>
+<td><p>Encapsulates metric logic and state.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.metrics.keras.interpolatability.Monotonicity" title="latte.metrics.keras.interpolatability.Monotonicity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Monotonicity</span></code></a></p></td>
+<td><p>Encapsulates metric logic and state.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
 <dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness">
-<span class="sig-prename descclassname"><span class="pre">latte.metrics.keras.interpolatability.</span></span><span class="sig-name descname"><span class="pre">Smoothness</span></span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Smoothness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../wrapper/index.html#latte.metrics.keras.wrapper.KerasMetricWrapper" title="latte.metrics.keras.wrapper.KerasMetricWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latte.metrics.keras.wrapper.KerasMetricWrapper</span></code></a></p>
+<p>Encapsulates metric logic and state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – (Optional) string name of the metric instance.</p></li>
+<li><p><strong>dtype</strong> – (Optional) data type of the metric result.</p></li>
+<li><p><strong>**kwargs</strong> – Additional layer keywords arguments.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Standalone usage:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+m = SomeMetric(…)
+for input in …:</p>
+<blockquote>
+<div><p>m.update_state(input)</p>
+</div></blockquote>
+<p>print(‘Final result: ‘, m.result().numpy())
+<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<p>Usage with <cite>compile()</cite> API:</p>
+<p><a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a>python
+model = tf.keras.Sequential()
+model.add(tf.keras.layers.Dense(64, activation=’relu’))
+model.add(tf.keras.layers.Dense(64, activation=’relu’))
+model.add(tf.keras.layers.Dense(10, activation=’softmax’))</p>
+<dl class="simple">
+<dt>model.compile(optimizer=tf.keras.optimizers.RMSprop(0.01),</dt><dd><p>loss=tf.keras.losses.CategoricalCrossentropy(),
+metrics=[tf.keras.metrics.CategoricalAccuracy()])</p>
+</dd>
+</dl>
+<p>data = np.random.random((1000, 32))
+labels = np.random.random((1000, 10))</p>
+<p>dataset = tf.data.Dataset.from_tensor_slices((data, labels))
+dataset = dataset.batch(32)</p>
+<p>model.fit(dataset, epochs=10)
+<a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
+<p>To be implemented by subclasses:
+* <cite>__init__()</cite>: All state variables should be created in this method by</p>
+<blockquote>
+<div><p>calling <cite>self.add_weight()</cite> like: <cite>self.var = self.add_weight(…)</cite></p>
+</div></blockquote>
+<ul class="simple">
+<li><p><cite>update_state()</cite>: Has all updates to the state variables like:
+self.var.assign_add(…).</p></li>
+<li><p><cite>result()</cite>: Computes and returns a value for the metric
+from the state variables.</p></li>
+</ul>
+<p>Example subclass implementation:</p>
+<p><a href="#id17"><span class="problematic" id="id18">``</span></a><a href="#id19"><span class="problematic" id="id20">`</span></a>python
+class BinaryTruePositives(tf.keras.metrics.Metric):</p>
+<blockquote>
+<div><dl>
+<dt>def __init__(self, name=’binary_true_positives’, <a href="#id21"><span class="problematic" id="id22">**</span></a>kwargs):</dt><dd><p>super(BinaryTruePositives, self).__init__(name=name, <a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs)
+self.true_positives = self.add_weight(name=’tp’, initializer=’zeros’)</p>
+</dd>
+<dt>def update_state(self, y_true, y_pred, sample_weight=None):</dt><dd><p>y_true = tf.cast(y_true, tf.bool)
+y_pred = tf.cast(y_pred, tf.bool)</p>
+<p>values = tf.logical_and(tf.equal(y_true, True), tf.equal(y_pred, True))
+values = tf.cast(values, self.dtype)
+if sample_weight is not None:</p>
+<blockquote>
+<div><p>sample_weight = tf.cast(sample_weight, self.dtype)
+sample_weight = tf.broadcast_to(sample_weight, values.shape)
+values = tf.multiply(values, sample_weight)</p>
+</div></blockquote>
+<p>self.true_positives.assign_add(tf.reduce_sum(values))</p>
+</dd>
+<dt>def result(self):</dt><dd><p>return self.true_positives</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><a href="#id25"><span class="problematic" id="id26">``</span></a><a href="#id27"><span class="problematic" id="id28">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.update_state">
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.update_state" title="Permalink to this definition"></a></dt>
+<dd><p>Accumulates statistics for the metric.</p>
+<p>Note: This function is executed as a graph function in graph mode.
+This means:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>Operations on the same resource are executed in textual order.
+This should make it easier to do things like add the updated
+value of a variable to another, for example.</p></li>
+<li><p>You don’t need to worry about collecting the update ops to execute.
+All update ops added to the graph by this function will be executed.</p></li>
+</ol>
+<p>As a result, code should generally work the same way with graph or
+eager execution.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – </p></li>
+<li><p><strong>**kwargs</strong> – A mini-batch of inputs to the Metric.</p></li>
+<li><p><strong>z</strong> (<em>tensorflow.Tensor</em>) – </p></li>
+<li><p><strong>a</strong> (<em>tensorflow.Tensor</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.result">
+<span class="sig-name descname"><span class="pre">result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.result" title="Permalink to this definition"></a></dt>
+<dd><p>Computes and returns the metric value tensor.</p>
+<p>Result computation is an idempotent operation that simply calculates the
+metric value using the state variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.reset_state">
+<span class="sig-name descname"><span class="pre">reset_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.reset_state" title="Permalink to this definition"></a></dt>
+<dd><p>Resets all of the metric state variables.</p>
+<p>This function is called between epochs/steps,
+when a metric is evaluated during training.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.dtype">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.dtype" title="Permalink to this definition"></a></dt>
+<dd><p>The dtype of the layer weights.</p>
+<p>This is equivalent to <cite>Layer.dtype_policy.variable_dtype</cite>. Unless
+mixed precision is used, this is the same as <cite>Layer.compute_dtype</cite>, the
+dtype of the layer’s computations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.get_config">
+<span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.get_config" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the serializable config of the metric.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.add_weight">
+<span class="sig-name descname"><span class="pre">add_weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">variables_module.VariableAggregation.SUM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synchronization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">variables_module.VariableSynchronization.ON_READ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initializer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.add_weight" title="Permalink to this definition"></a></dt>
+<dd><p>Adds state variable. Only for use by subclasses.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.trainable_weights">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trainable_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.trainable_weights" title="Permalink to this definition"></a></dt>
+<dd><p>List of all trainable weights tracked by this layer.</p>
+<p>Trainable weights are updated via gradient descent during training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of trainable variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.non_trainable_weights">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">non_trainable_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.non_trainable_weights" title="Permalink to this definition"></a></dt>
+<dd><p>List of all non-trainable weights tracked by this layer.</p>
+<p>Non-trainable weights are <em>not</em> updated during training. They are expected
+to be updated manually in <cite>call()</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of non-trainable variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.reset_states">
+<span class="sig-name descname"><span class="pre">reset_states</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.reset_states" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="py data">
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.build" title="Permalink to this definition"></a></dt>
+<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
+<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
+can override if they need a state-creation step in-between
+layer instantiation and layer call.</p>
+<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_shape</strong> – Instance of <cite>TensorShape</cite>, or list of instances of
+<cite>TensorShape</cite> if the layer expects a list of inputs
+(one instance per input).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.call" title="Permalink to this definition"></a></dt>
+<dd><p>This is where the layer’s logic lives.</p>
+<p>Note here that <cite>call()</cite> method in <cite>tf.keras</cite> is little bit different
+from <cite>keras</cite> API. In <cite>keras</cite> API, you can pass support masking for
+layers as additional arguments. Whereas <cite>tf.keras</cite> has <cite>compute_mask()</cite>
+method to support masking.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> – <p>Input tensor, or dict/list/tuple of input tensors.
+The first positional <cite>inputs</cite> argument is subject to special rules:
+- <cite>inputs</cite> must be explicitly passed. A layer cannot have zero</p>
+<blockquote>
+<div><p>arguments, and <cite>inputs</cite> cannot be provided via the default value
+of a keyword argument.</p>
+</div></blockquote>
+<ul>
+<li><p>NumPy array or Python scalar values in <cite>inputs</cite> get cast as tensors.</p></li>
+<li><p>Keras mask metadata is only collected from <cite>inputs</cite>.</p></li>
+<li><p>Layers are built (<cite>build(input_shape)</cite> method)
+using shape info from <cite>inputs</cite> only.</p></li>
+<li><p><cite>input_spec</cite> compatibility is only checked against <cite>inputs</cite>.</p></li>
+<li><p>Mixed precision input casting is only applied to <cite>inputs</cite>.
+If a layer has tensor arguments in <cite>*args</cite> or <cite>**kwargs</cite>, their
+casting behavior in mixed precision should be handled manually.</p></li>
+<li><p>The SavedModel input specification is generated using <cite>inputs</cite> only.</p></li>
+<li><p>Integration with various ecosystem packages like TFMOT, TFLite,
+TF.js, etc is only supported for <cite>inputs</cite> and not for tensors in
+positional and keyword arguments.</p></li>
+</ul>
+</p></li>
+<li><p><strong>*args</strong> – Additional positional arguments. May contain tensors, although
+this is not recommended, for the reasons above.</p></li>
+<li><p><strong>**kwargs</strong> – <p>Additional keyword arguments. May contain tensors, although
+this is not recommended, for the reasons above.
+The following optional keyword arguments are reserved:
+- <cite>training</cite>: Boolean scalar tensor of Python boolean indicating</p>
+<blockquote>
+<div><p>whether the <cite>call</cite> is meant for training or inference.</p>
+</div></blockquote>
+<ul>
+<li><p><cite>mask</cite>: Boolean input mask. If the layer’s <cite>call()</cite> method takes a
+<cite>mask</cite> argument, its default value will be set to the mask generated
+for <cite>inputs</cite> by the previous layer (if <cite>input</cite> did come from a layer
+that generated a corresponding mask, i.e. if it came from a Keras
+layer with masking support).</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tensor or list/tuple of tensors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.from_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.from_config" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a layer from its config.</p>
+<p>This method is the reverse of <cite>get_config</cite>,
+capable of instantiating the same layer from the config
+dictionary. It does not handle layer connectivity
+(handled by Network), nor weights (handled by <cite>set_weights</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> – A Python dictionary, typically the
+output of get_config.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A layer instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.compute_output_shape">
+<span class="sig-name descname"><span class="pre">compute_output_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.compute_output_shape" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the output shape of the layer.</p>
+<p>If the layer has not been built, this method will call <cite>build</cite> on the
+layer. This assumes that the layer will later be used with inputs that
+match the input shape provided here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_shape</strong> – Shape tuple (tuple of integers)
+or list of shape tuples (one per output tensor of the layer).
+Shape tuples can include None for free dimensions,
+instead of an integer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An input shape tuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.compute_output_signature">
+<span class="sig-name descname"><span class="pre">compute_output_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_signature</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.compute_output_signature" title="Permalink to this definition"></a></dt>
+<dd><p>Compute the output tensor signature of the layer based on the inputs.</p>
+<p>Unlike a TensorShape object, a TensorSpec object contains both shape
+and dtype information for a tensor. This method allows layers to provide
+output dtype information if it is different from the input dtype.
+For any layer that doesn’t implement this function,
+the framework will fall back to use <cite>compute_output_shape</cite>, and will
+assume that the output dtype matches the input dtype.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_signature</strong> – Single TensorSpec or nested structure of TensorSpec
+objects, describing a candidate input for the layer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Single TensorSpec or nested structure of TensorSpec objects, describing</dt><dd><p>how the layer would transform the provided input.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – If input_signature contains a non-TensorSpec object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.compute_mask">
+<span class="sig-name descname"><span class="pre">compute_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.compute_mask" title="Permalink to this definition"></a></dt>
+<dd><p>Computes an output mask tensor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> – Tensor or list of tensors.</p></li>
+<li><p><strong>mask</strong> – Tensor or list of tensors.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>None or a tensor (or list of tensors,</dt><dd><p>one per output tensor of the layer).</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.name" title="Permalink to this definition"></a></dt>
+<dd><p>Name of the layer (string), set in the constructor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.supports_masking">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supports_masking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.supports_masking" title="Permalink to this definition"></a></dt>
+<dd><p>Whether this layer supports computing a mask using <cite>compute_mask</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.dynamic">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dynamic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.dynamic" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the layer is dynamic (eager-only); set in the constructor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.stateful">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stateful</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.stateful" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.trainable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trainable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.trainable" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.activity_regularizer">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">activity_regularizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.activity_regularizer" title="Permalink to this definition"></a></dt>
+<dd><p>Optional regularizer function for the output of this layer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.input_spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input_spec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.input_spec" title="Permalink to this definition"></a></dt>
+<dd><p><cite>InputSpec</cite> instance(s) describing the input format for this layer.</p>
+<p>When you create a layer subclass, you can set <cite>self.input_spec</cite> to enable
+the layer to run input compatibility checks when it is called.
+Consider a <cite>Conv2D</cite> layer: it can only be called on a single input tensor
+of rank 4. As such, you can set, in <cite>__init__()</cite>:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">self.input_spec</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.InputSpec(ndim=4)</span>
+<span class="pre">`</span></code></p>
+<p>Now, if you try to call the layer on an input that isn’t rank 4
+(for instance, an input of shape <cite>(2,)</cite>, it will raise a nicely-formatted
+error:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">ValueError:</span> <span class="pre">Input</span> <span class="pre">0</span> <span class="pre">of</span> <span class="pre">layer</span> <span class="pre">conv2d</span> <span class="pre">is</span> <span class="pre">incompatible</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">layer:</span>
+<span class="pre">expected</span> <span class="pre">ndim=4,</span> <span class="pre">found</span> <span class="pre">ndim=1.</span> <span class="pre">Full</span> <span class="pre">shape</span> <span class="pre">received:</span> <span class="pre">[2]</span>
+<span class="pre">`</span></code></p>
+<p>Input checks that can be specified via <cite>input_spec</cite> include:
+- Structure (e.g. a single input, a list of 2 inputs, etc)
+- Shape
+- Rank (ndim)
+- Dtype</p>
+<p>For more information, see <cite>tf.keras.layers.InputSpec</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A <cite>tf.keras.layers.InputSpec</cite> instance, or nested structure thereof.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.weights">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.weights" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the list of all layer variables/weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.updates">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">updates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.updates" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.losses">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">losses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.losses" title="Permalink to this definition"></a></dt>
+<dd><p>List of losses added using the <cite>add_loss()</cite> API.</p>
+<p>Variable regularization tensors are created when this property is accessed,
+so it is eager safe: accessing <cite>losses</cite> under a <cite>tf.GradientTape</cite> will
+propagate gradients back to the corresponding variables.</p>
+<p>Examples:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyLayer</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="bp">self</span><span class="o">.</span><span class="n">add_loss</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">inputs</span><span class="p">)))</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">inputs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">MyLayer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span><span class="o">.</span><span class="n">losses</span>
+<span class="go">[1.0]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Activity regularization.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">losses</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">add_loss</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">losses</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;ones&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">d</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Weight regularization.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">add_loss</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">kernel</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">losses</span>
+<span class="go">[&lt;tf.Tensor: shape=(), dtype=float32, numpy=1.0&gt;]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of tensors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.add_loss">
+<span class="sig-name descname"><span class="pre">add_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.add_loss" title="Permalink to this definition"></a></dt>
+<dd><p>Add loss tensor(s), potentially dependent on layer inputs.</p>
+<p>Some losses (for instance, activity regularization losses) may be dependent
+on the inputs passed when calling a layer. Hence, when reusing the same
+layer on different inputs <cite>a</cite> and <cite>b</cite>, some entries in <cite>layer.losses</cite> may
+be dependent on <cite>a</cite> and some on <cite>b</cite>. This method automatically keeps track
+of dependencies.</p>
+<p>This method can be used inside a subclassed layer or model’s <cite>call</cite>
+function, in which case <cite>losses</cite> should be a Tensor or list of Tensors.</p>
+<p>Example:</p>
+<p><a href="#id29"><span class="problematic" id="id30">``</span></a><a href="#id31"><span class="problematic" id="id32">`</span></a>python
+class MyLayer(tf.keras.layers.Layer):</p>
+<blockquote>
+<div><dl class="simple">
+<dt>def call(self, inputs):</dt><dd><p>self.add_loss(tf.abs(tf.reduce_mean(inputs)))
+return inputs</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><a href="#id33"><span class="problematic" id="id34">``</span></a><a href="#id35"><span class="problematic" id="id36">`</span></a></p>
+<p>This method can also be called directly on a Functional Model during
+construction. In this case, any loss Tensors passed to this Model must
+be symbolic and be able to be traced back to the model’s <cite>Input`s. These
+losses become part of the model’s topology and are tracked in `get_config</cite>.</p>
+<p>Example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">inputs</span> <span class="pre">=</span> <span class="pre">tf.keras.Input(shape=(10,))</span>
+<span class="pre">x</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(10)(inputs)</span>
+<span class="pre">outputs</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(1)(x)</span>
+<span class="pre">model</span> <span class="pre">=</span> <span class="pre">tf.keras.Model(inputs,</span> <span class="pre">outputs)</span>
+<span class="pre">#</span> <span class="pre">Activity</span> <span class="pre">regularization.</span>
+<span class="pre">model.add_loss(tf.abs(tf.reduce_mean(x)))</span>
+<span class="pre">`</span></code></p>
+<p>If this is not the case for your loss (if, for example, your loss references
+a <cite>Variable</cite> of one of the model’s layers), you can wrap your loss in a
+zero-argument lambda. These losses are not tracked as part of the model’s
+topology since they can’t be serialized.</p>
+<p>Example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">inputs</span> <span class="pre">=</span> <span class="pre">tf.keras.Input(shape=(10,))</span>
+<span class="pre">d</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(10)</span>
+<span class="pre">x</span> <span class="pre">=</span> <span class="pre">d(inputs)</span>
+<span class="pre">outputs</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(1)(x)</span>
+<span class="pre">model</span> <span class="pre">=</span> <span class="pre">tf.keras.Model(inputs,</span> <span class="pre">outputs)</span>
+<span class="pre">#</span> <span class="pre">Weight</span> <span class="pre">regularization.</span>
+<span class="pre">model.add_loss(lambda:</span> <span class="pre">tf.reduce_mean(d.kernel))</span>
+<span class="pre">`</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>losses</strong> – Loss tensor, or list/tuple of tensors. Rather than tensors, losses
+may also be zero-argument callables which create a loss tensor.</p></li>
+<li><p><strong>**kwargs</strong> – <p>Additional keyword arguments for backward compatibility.
+Accepted values:</p>
+<blockquote>
+<div><p>inputs - Deprecated, will be automatically inferred.</p>
+</div></blockquote>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.metrics">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.metrics" title="Permalink to this definition"></a></dt>
+<dd><p>List of metrics added using the <cite>add_metric()</cite> API.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">d</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">add_metric</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">add_metric</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_min</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;min&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">metrics</span><span class="p">]</span>
+<span class="go">[&#39;max&#39;, &#39;min&#39;]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of <cite>Metric</cite> objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.add_metric">
+<span class="sig-name descname"><span class="pre">add_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.add_metric" title="Permalink to this definition"></a></dt>
+<dd><p>Adds metric tensor to the layer.</p>
+<p>This method can be used inside the <cite>call()</cite> method of a subclassed layer
+or model.</p>
+<p><a href="#id37"><span class="problematic" id="id38">``</span></a><a href="#id39"><span class="problematic" id="id40">`</span></a>python
+class MyMetricLayer(tf.keras.layers.Layer):</p>
+<blockquote>
+<div><dl class="simple">
+<dt>def __init__(self):</dt><dd><p>super(MyMetricLayer, self).__init__(name=’my_metric_layer’)
+self.mean = tf.keras.metrics.Mean(name=’metric_1’)</p>
+</dd>
+<dt>def call(self, inputs):</dt><dd><p>self.add_metric(self.mean(inputs))
+self.add_metric(tf.reduce_sum(inputs), name=’metric_2’)
+return inputs</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><a href="#id41"><span class="problematic" id="id42">``</span></a><a href="#id43"><span class="problematic" id="id44">`</span></a></p>
+<p>This method can also be called directly on a Functional Model during
+construction. In this case, any tensor passed to this Model must
+be symbolic and be able to be traced back to the model’s <cite>Input`s. These
+metrics become part of the model’s topology and are tracked when you
+save the model via `save()</cite>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">inputs</span> <span class="pre">=</span> <span class="pre">tf.keras.Input(shape=(10,))</span>
+<span class="pre">x</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(10)(inputs)</span>
+<span class="pre">outputs</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(1)(x)</span>
+<span class="pre">model</span> <span class="pre">=</span> <span class="pre">tf.keras.Model(inputs,</span> <span class="pre">outputs)</span>
+<span class="pre">model.add_metric(math_ops.reduce_sum(x),</span> <span class="pre">name='metric_1')</span>
+<span class="pre">`</span></code></p>
+<p>Note: Calling <cite>add_metric()</cite> with the result of a metric object on a
+Functional Model, as shown in the example below, is not supported. This is
+because we cannot trace the metric result tensor back to the model’s inputs.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">inputs</span> <span class="pre">=</span> <span class="pre">tf.keras.Input(shape=(10,))</span>
+<span class="pre">x</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(10)(inputs)</span>
+<span class="pre">outputs</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(1)(x)</span>
+<span class="pre">model</span> <span class="pre">=</span> <span class="pre">tf.keras.Model(inputs,</span> <span class="pre">outputs)</span>
+<span class="pre">model.add_metric(tf.keras.metrics.Mean()(x),</span> <span class="pre">name='metric_1')</span>
+<span class="pre">`</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – Metric tensor.</p></li>
+<li><p><strong>name</strong> – String metric name.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments for backward compatibility.
+Accepted values:
+<cite>aggregation</cite> - When the <cite>value</cite> tensor provided is not the result of
+calling a <cite>keras.Metric</cite> instance, it will be aggregated by default
+using a <cite>keras.Metric.Mean</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.add_update">
+<span class="sig-name descname"><span class="pre">add_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.add_update" title="Permalink to this definition"></a></dt>
+<dd><p>Add update op(s), potentially dependent on layer inputs.</p>
+<p>Weight updates (for instance, the updates of the moving mean and variance
+in a BatchNormalization layer) may be dependent on the inputs passed
+when calling a layer. Hence, when reusing the same layer on
+different inputs <cite>a</cite> and <cite>b</cite>, some entries in <cite>layer.updates</cite> may be
+dependent on <cite>a</cite> and some on <cite>b</cite>. This method automatically keeps track
+of dependencies.</p>
+<p>This call is ignored when eager execution is enabled (in that case, variable
+updates are run on the fly and thus do not need to be tracked for later
+execution).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>updates</strong> – Update op, or list/tuple of update ops, or zero-arg callable
+that returns an update op. A zero-arg callable should be passed in
+order to disable running the updates by setting <cite>trainable=False</cite>
+on this Layer, when executing in Eager mode.</p></li>
+<li><p><strong>inputs</strong> – Deprecated, will be automatically inferred.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.set_weights">
+<span class="sig-name descname"><span class="pre">set_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.set_weights" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the weights of the layer, from NumPy arrays.</p>
+<p>The weights of a layer represent the state of the layer. This function
+sets the weight values from numpy arrays. The weight values should be
+passed in the order they are created by the layer. Note that the layer’s
+weights must be instantiated before calling this function, by calling
+the layer.</p>
+<p>For example, a <cite>Dense</cite> layer returns a list of two values: the kernel matrix
+and the bias vector. These can be used to set the weights of another
+<cite>Dense</cite> layer:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">layer_a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="mf">1.</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a_out</span> <span class="o">=</span> <span class="n">layer_a</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_a</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<span class="go">[array([[1.],</span>
+<span class="go">       [1.],</span>
+<span class="go">       [1.]], dtype=float32), array([0.], dtype=float32)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="mf">2.</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b_out</span> <span class="o">=</span> <span class="n">layer_b</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">([[</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mf">30.</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<span class="go">[array([[2.],</span>
+<span class="go">       [2.],</span>
+<span class="go">       [2.]], dtype=float32), array([0.], dtype=float32)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span><span class="o">.</span><span class="n">set_weights</span><span class="p">(</span><span class="n">layer_a</span><span class="o">.</span><span class="n">get_weights</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<span class="go">[array([[1.],</span>
+<span class="go">       [1.],</span>
+<span class="go">       [1.]], dtype=float32), array([0.], dtype=float32)]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>weights</strong> – a list of NumPy arrays. The number
+of arrays and their shape must match
+number of the dimensions of the weights
+of the layer (i.e. it should match the
+output of <cite>get_weights</cite>).</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the provided weights list does not match the
+layer’s specifications.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.get_weights">
+<span class="sig-name descname"><span class="pre">get_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.get_weights" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the current weights of the layer, as NumPy arrays.</p>
+<p>The weights of a layer represent the state of the layer. This function
+returns both trainable and non-trainable weight values associated with this
+layer as a list of NumPy arrays, which can in turn be used to load state
+into similarly parameterized layers.</p>
+<p>For example, a <cite>Dense</cite> layer returns a list of two values: the kernel matrix
+and the bias vector. These can be used to set the weights of another
+<cite>Dense</cite> layer:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">layer_a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="mf">1.</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a_out</span> <span class="o">=</span> <span class="n">layer_a</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_a</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<span class="go">[array([[1.],</span>
+<span class="go">       [1.],</span>
+<span class="go">       [1.]], dtype=float32), array([0.], dtype=float32)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="mf">2.</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b_out</span> <span class="o">=</span> <span class="n">layer_b</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">([[</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mf">30.</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<span class="go">[array([[2.],</span>
+<span class="go">       [2.],</span>
+<span class="go">       [2.]], dtype=float32), array([0.], dtype=float32)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span><span class="o">.</span><span class="n">set_weights</span><span class="p">(</span><span class="n">layer_a</span><span class="o">.</span><span class="n">get_weights</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<span class="go">[array([[1.],</span>
+<span class="go">       [1.],</span>
+<span class="go">       [1.]], dtype=float32), array([0.], dtype=float32)]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Weights values as a list of NumPy arrays.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.finalize_state">
+<span class="sig-name descname"><span class="pre">finalize_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.finalize_state" title="Permalink to this definition"></a></dt>
+<dd><p>Finalizes the layers state after updating layer weights.</p>
+<p>This function can be subclassed in a layer and will be called after updating
+a layer weights. It can be overridden to finalize any additional layer state
+after a weight update.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.get_updates_for">
+<span class="sig-name descname"><span class="pre">get_updates_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.get_updates_for" title="Permalink to this definition"></a></dt>
+<dd><p>Deprecated, do NOT use!</p>
+<p>Retrieves updates relevant to a specific set of inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>inputs</strong> – Input tensor or list/tuple of input tensors.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of update ops of the layer that depend on <cite>inputs</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.get_losses_for">
+<span class="sig-name descname"><span class="pre">get_losses_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.get_losses_for" title="Permalink to this definition"></a></dt>
+<dd><p>Deprecated, do NOT use!</p>
+<p>Retrieves losses relevant to a specific set of inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>inputs</strong> – Input tensor or list/tuple of input tensors.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of loss tensors of the layer that depend on <cite>inputs</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.get_input_mask_at">
+<span class="sig-name descname"><span class="pre">get_input_mask_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.get_input_mask_at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the input mask tensor(s) of a layer at a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> – Integer, index of the node
+from which to retrieve the attribute.
+E.g. <cite>node_index=0</cite> will correspond to the
+first time the layer was called.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A mask tensor
+(or list of tensors if the layer has multiple inputs).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.get_output_mask_at">
+<span class="sig-name descname"><span class="pre">get_output_mask_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.get_output_mask_at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the output mask tensor(s) of a layer at a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> – Integer, index of the node
+from which to retrieve the attribute.
+E.g. <cite>node_index=0</cite> will correspond to the
+first time the layer was called.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A mask tensor
+(or list of tensors if the layer has multiple outputs).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.input_mask">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.input_mask" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the input mask tensor(s) of a layer.</p>
+<p>Only applicable if the layer has exactly one inbound node,
+i.e. if it is connected to one incoming layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Input mask tensor (potentially None) or list of input
+mask tensors.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>AttributeError</strong> – if the layer is connected to</p></li>
+<li><p><strong>more than one incoming layers.</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.output_mask">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.output_mask" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the output mask tensor(s) of a layer.</p>
+<p>Only applicable if the layer has exactly one inbound node,
+i.e. if it is connected to one incoming layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Output mask tensor (potentially None) or list of output
+mask tensors.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>AttributeError</strong> – if the layer is connected to</p></li>
+<li><p><strong>more than one incoming layers.</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.get_input_shape_at">
+<span class="sig-name descname"><span class="pre">get_input_shape_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.get_input_shape_at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the input shape(s) of a layer at a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> – Integer, index of the node
+from which to retrieve the attribute.
+E.g. <cite>node_index=0</cite> will correspond to the
+first time the layer was called.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A shape tuple
+(or list of shape tuples if the layer has multiple inputs).</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If called in Eager mode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.get_output_shape_at">
+<span class="sig-name descname"><span class="pre">get_output_shape_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.get_output_shape_at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the output shape(s) of a layer at a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> – Integer, index of the node
+from which to retrieve the attribute.
+E.g. <cite>node_index=0</cite> will correspond to the
+first time the layer was called.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A shape tuple
+(or list of shape tuples if the layer has multiple outputs).</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If called in Eager mode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.get_input_at">
+<span class="sig-name descname"><span class="pre">get_input_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.get_input_at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the input tensor(s) of a layer at a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> – Integer, index of the node
+from which to retrieve the attribute.
+E.g. <cite>node_index=0</cite> will correspond to the
+first input node of the layer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tensor (or list of tensors if the layer has multiple inputs).</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If called in Eager mode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.get_output_at">
+<span class="sig-name descname"><span class="pre">get_output_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.get_output_at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the output tensor(s) of a layer at a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> – Integer, index of the node
+from which to retrieve the attribute.
+E.g. <cite>node_index=0</cite> will correspond to the
+first output node of the layer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tensor (or list of tensors if the layer has multiple outputs).</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If called in Eager mode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.input">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.input" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the input tensor(s) of a layer.</p>
+<p>Only applicable if the layer has exactly one input,
+i.e. if it is connected to one incoming layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Input tensor or list of input tensors.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>RuntimeError</strong> – If called in Eager mode.</p></li>
+<li><p><strong>AttributeError</strong> – If no inbound nodes are found.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.output">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.output" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the output tensor(s) of a layer.</p>
+<p>Only applicable if the layer has exactly one output,
+i.e. if it is connected to one incoming layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Output tensor or list of output tensors.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>AttributeError</strong> – if the layer is connected to more than one incoming
+layers.</p></li>
+<li><p><strong>RuntimeError</strong> – if called in Eager mode.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.input_shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.input_shape" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the input shape(s) of a layer.</p>
+<p>Only applicable if the layer has exactly one input,
+i.e. if it is connected to one incoming layer, or if all inputs
+have the same shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Input shape, as an integer shape tuple
+(or list of shape tuples, one tuple per input tensor).</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>AttributeError</strong> – if the layer has no defined input_shape.</p></li>
+<li><p><strong>RuntimeError</strong> – if called in Eager mode.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.count_params">
+<span class="sig-name descname"><span class="pre">count_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.count_params" title="Permalink to this definition"></a></dt>
+<dd><p>Count the total number of scalars composing the weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An integer count.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – if the layer isn’t yet built
+(in which case its weights aren’t yet defined).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.output_shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.output_shape" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the output shape(s) of a layer.</p>
+<p>Only applicable if the layer has one output,
+or if all outputs have the same shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Output shape, as an integer shape tuple
+(or list of shape tuples, one tuple per output tensor).</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>AttributeError</strong> – if the layer has no defined output shape.</p></li>
+<li><p><strong>RuntimeError</strong> – if called in Eager mode.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.inbound_nodes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inbound_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.inbound_nodes" title="Permalink to this definition"></a></dt>
+<dd><p>Deprecated, do NOT use! Only for compatibility with external Keras.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.outbound_nodes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">outbound_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.outbound_nodes" title="Permalink to this definition"></a></dt>
+<dd><p>Deprecated, do NOT use! Only for compatibility with external Keras.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.apply" title="Permalink to this definition"></a></dt>
+<dd><p>Deprecated, do NOT use!</p>
+<p>This is an alias of <cite>self.__call__</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> – Input tensor(s).</p></li>
+<li><p><strong>*args</strong> – additional positional arguments to be passed to <cite>self.call</cite>.</p></li>
+<li><p><strong>**kwargs</strong> – additional keyword arguments to be passed to <cite>self.call</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Output tensor(s).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.add_variable">
+<span class="sig-name descname"><span class="pre">add_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.add_variable" title="Permalink to this definition"></a></dt>
+<dd><p>Deprecated, do NOT use! Alias for <cite>add_weight</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.variables" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the list of all layer variables/weights.</p>
+<p>Alias of <cite>self.weights</cite>.</p>
+<p>Note: This will not track the weights of nested <cite>tf.Modules</cite> that are not
+themselves Keras layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.trainable_variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trainable_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.trainable_variables" title="Permalink to this definition"></a></dt>
+<dd><p>Sequence of trainable variables owned by this module and its submodules.</p>
+<p>Note: this method uses reflection to find variables on the current instance
+and submodules. For performance reasons you may wish to cache the result
+of calling this method if you don’t expect the return value to change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A sequence of variables for the current module (sorted by attribute
+name) followed by variables from all submodules recursively (breadth
+first).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.non_trainable_variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">non_trainable_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.non_trainable_variables" title="Permalink to this definition"></a></dt>
+<dd><p>Sequence of non-trainable variables owned by this module and its submodules.</p>
+<p>Note: this method uses reflection to find variables on the current instance
+and submodules. For performance reasons you may wish to cache the result
+of calling this method if you don’t expect the return value to change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A sequence of variables for the current module (sorted by attribute
+name) followed by variables from all submodules recursively (breadth
+first).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.dtype_policy">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dtype_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.dtype_policy" title="Permalink to this definition"></a></dt>
+<dd><p>The dtype policy associated with this layer.</p>
+<p>This is an instance of a <cite>tf.keras.mixed_precision.Policy</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.compute_dtype">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.compute_dtype" title="Permalink to this definition"></a></dt>
+<dd><p>The dtype of the layer’s computations.</p>
+<p>This is equivalent to <cite>Layer.dtype_policy.compute_dtype</cite>. Unless
+mixed precision is used, this is the same as <cite>Layer.dtype</cite>, the dtype of
+the weights.</p>
+<p>Layers automatically cast their inputs to the compute dtype, which causes
+computations and the output to be in the compute dtype as well. This is done
+by the base Layer class in <cite>Layer.__call__</cite>, so you do not have to insert
+these casts if implementing your own layer.</p>
+<p>Layers often perform certain internal computations in higher precision when
+<cite>compute_dtype</cite> is float16 or bfloat16 for numeric stability. The output
+will still typically be float16 or bfloat16 in such cases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The layer’s compute dtype.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.variable_dtype">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variable_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.variable_dtype" title="Permalink to this definition"></a></dt>
+<dd><p>Alias of <cite>Layer.dtype</cite>, the dtype of the weights.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.name_scope">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name_scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.name_scope" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a <cite>tf.name_scope</cite> instance for this class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.submodules">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">submodules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.submodules" title="Permalink to this definition"></a></dt>
+<dd><p>Sequence of all sub-modules.</p>
+<p>Submodules are modules which are properties of this module, or found as
+properties of modules which are properties of this module (and so on).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">c</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">submodules</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">submodules</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">c</span><span class="p">]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">submodules</span><span class="p">)</span> <span class="o">==</span> <span class="p">[]</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A sequence of all submodules.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Smoothness.with_name_scope">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">with_name_scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Smoothness.with_name_scope" title="Permalink to this definition"></a></dt>
+<dd><p>Decorator to automatically enter the module name scope.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyModule</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="nd">@tf</span><span class="o">.</span><span class="n">Module</span><span class="o">.</span><span class="n">with_name_scope</span>
+<span class="gp">... </span>  <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">):</span>
+<span class="gp">... </span>      <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">]))</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Using the above module would produce <a href="#id45"><span class="problematic" id="id46">`</span></a>tf.Variable`s and <a href="#id47"><span class="problematic" id="id48">`</span></a>tf.Tensor`s whose
+names included the module name:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">MyModule</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+<span class="go">&lt;tf.Tensor: shape=(1, 3), dtype=float32, numpy=..., dtype=float32)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span><span class="o">.</span><span class="n">w</span>
+<span class="go">&lt;tf.Variable &#39;my_module/Variable:0&#39; shape=(2, 3) dtype=float32,</span>
+<span class="go">numpy=..., dtype=float32)&gt;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>method</strong> – The method to wrap.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The original method wrapped such that it enters the module’s name scope.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity">
-<span class="sig-prename descclassname"><span class="pre">latte.metrics.keras.interpolatability.</span></span><span class="sig-name descname"><span class="pre">Monotonicity</span></span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Monotonicity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../wrapper/index.html#latte.metrics.keras.wrapper.KerasMetricWrapper" title="latte.metrics.keras.wrapper.KerasMetricWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latte.metrics.keras.wrapper.KerasMetricWrapper</span></code></a></p>
+<p>Encapsulates metric logic and state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – (Optional) string name of the metric instance.</p></li>
+<li><p><strong>dtype</strong> – (Optional) data type of the metric result.</p></li>
+<li><p><strong>**kwargs</strong> – Additional layer keywords arguments.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Standalone usage:</p>
+<p><a href="#id49"><span class="problematic" id="id50">``</span></a><a href="#id51"><span class="problematic" id="id52">`</span></a>python
+m = SomeMetric(…)
+for input in …:</p>
+<blockquote>
+<div><p>m.update_state(input)</p>
+</div></blockquote>
+<p>print(‘Final result: ‘, m.result().numpy())
+<a href="#id53"><span class="problematic" id="id54">``</span></a><a href="#id55"><span class="problematic" id="id56">`</span></a></p>
+<p>Usage with <cite>compile()</cite> API:</p>
+<p><a href="#id57"><span class="problematic" id="id58">``</span></a><a href="#id59"><span class="problematic" id="id60">`</span></a>python
+model = tf.keras.Sequential()
+model.add(tf.keras.layers.Dense(64, activation=’relu’))
+model.add(tf.keras.layers.Dense(64, activation=’relu’))
+model.add(tf.keras.layers.Dense(10, activation=’softmax’))</p>
+<dl class="simple">
+<dt>model.compile(optimizer=tf.keras.optimizers.RMSprop(0.01),</dt><dd><p>loss=tf.keras.losses.CategoricalCrossentropy(),
+metrics=[tf.keras.metrics.CategoricalAccuracy()])</p>
+</dd>
+</dl>
+<p>data = np.random.random((1000, 32))
+labels = np.random.random((1000, 10))</p>
+<p>dataset = tf.data.Dataset.from_tensor_slices((data, labels))
+dataset = dataset.batch(32)</p>
+<p>model.fit(dataset, epochs=10)
+<a href="#id61"><span class="problematic" id="id62">``</span></a><a href="#id63"><span class="problematic" id="id64">`</span></a></p>
+<p>To be implemented by subclasses:
+* <cite>__init__()</cite>: All state variables should be created in this method by</p>
+<blockquote>
+<div><p>calling <cite>self.add_weight()</cite> like: <cite>self.var = self.add_weight(…)</cite></p>
+</div></blockquote>
+<ul class="simple">
+<li><p><cite>update_state()</cite>: Has all updates to the state variables like:
+self.var.assign_add(…).</p></li>
+<li><p><cite>result()</cite>: Computes and returns a value for the metric
+from the state variables.</p></li>
+</ul>
+<p>Example subclass implementation:</p>
+<p><a href="#id65"><span class="problematic" id="id66">``</span></a><a href="#id67"><span class="problematic" id="id68">`</span></a>python
+class BinaryTruePositives(tf.keras.metrics.Metric):</p>
+<blockquote>
+<div><dl>
+<dt>def __init__(self, name=’binary_true_positives’, <a href="#id69"><span class="problematic" id="id70">**</span></a>kwargs):</dt><dd><p>super(BinaryTruePositives, self).__init__(name=name, <a href="#id71"><span class="problematic" id="id72">**</span></a>kwargs)
+self.true_positives = self.add_weight(name=’tp’, initializer=’zeros’)</p>
+</dd>
+<dt>def update_state(self, y_true, y_pred, sample_weight=None):</dt><dd><p>y_true = tf.cast(y_true, tf.bool)
+y_pred = tf.cast(y_pred, tf.bool)</p>
+<p>values = tf.logical_and(tf.equal(y_true, True), tf.equal(y_pred, True))
+values = tf.cast(values, self.dtype)
+if sample_weight is not None:</p>
+<blockquote>
+<div><p>sample_weight = tf.cast(sample_weight, self.dtype)
+sample_weight = tf.broadcast_to(sample_weight, values.shape)
+values = tf.multiply(values, sample_weight)</p>
+</div></blockquote>
+<p>self.true_positives.assign_add(tf.reduce_sum(values))</p>
+</dd>
+<dt>def result(self):</dt><dd><p>return self.true_positives</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><a href="#id73"><span class="problematic" id="id74">``</span></a><a href="#id75"><span class="problematic" id="id76">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.update_state">
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.update_state" title="Permalink to this definition"></a></dt>
+<dd><p>Accumulates statistics for the metric.</p>
+<p>Note: This function is executed as a graph function in graph mode.
+This means:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>Operations on the same resource are executed in textual order.
+This should make it easier to do things like add the updated
+value of a variable to another, for example.</p></li>
+<li><p>You don’t need to worry about collecting the update ops to execute.
+All update ops added to the graph by this function will be executed.</p></li>
+</ol>
+<p>As a result, code should generally work the same way with graph or
+eager execution.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – </p></li>
+<li><p><strong>**kwargs</strong> – A mini-batch of inputs to the Metric.</p></li>
+<li><p><strong>z</strong> (<em>tensorflow.Tensor</em>) – </p></li>
+<li><p><strong>a</strong> (<em>tensorflow.Tensor</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.result">
+<span class="sig-name descname"><span class="pre">result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.result" title="Permalink to this definition"></a></dt>
+<dd><p>Computes and returns the metric value tensor.</p>
+<p>Result computation is an idempotent operation that simply calculates the
+metric value using the state variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.reset_state">
+<span class="sig-name descname"><span class="pre">reset_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.reset_state" title="Permalink to this definition"></a></dt>
+<dd><p>Resets all of the metric state variables.</p>
+<p>This function is called between epochs/steps,
+when a metric is evaluated during training.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.dtype">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.dtype" title="Permalink to this definition"></a></dt>
+<dd><p>The dtype of the layer weights.</p>
+<p>This is equivalent to <cite>Layer.dtype_policy.variable_dtype</cite>. Unless
+mixed precision is used, this is the same as <cite>Layer.compute_dtype</cite>, the
+dtype of the layer’s computations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.get_config">
+<span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.get_config" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the serializable config of the metric.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.add_weight">
+<span class="sig-name descname"><span class="pre">add_weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">variables_module.VariableAggregation.SUM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synchronization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">variables_module.VariableSynchronization.ON_READ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initializer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.add_weight" title="Permalink to this definition"></a></dt>
+<dd><p>Adds state variable. Only for use by subclasses.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.trainable_weights">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trainable_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.trainable_weights" title="Permalink to this definition"></a></dt>
+<dd><p>List of all trainable weights tracked by this layer.</p>
+<p>Trainable weights are updated via gradient descent during training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of trainable variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.non_trainable_weights">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">non_trainable_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.non_trainable_weights" title="Permalink to this definition"></a></dt>
+<dd><p>List of all non-trainable weights tracked by this layer.</p>
+<p>Non-trainable weights are <em>not</em> updated during training. They are expected
+to be updated manually in <cite>call()</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of non-trainable variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.reset_states">
+<span class="sig-name descname"><span class="pre">reset_states</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.reset_states" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.build" title="Permalink to this definition"></a></dt>
+<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
+<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
+can override if they need a state-creation step in-between
+layer instantiation and layer call.</p>
+<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_shape</strong> – Instance of <cite>TensorShape</cite>, or list of instances of
+<cite>TensorShape</cite> if the layer expects a list of inputs
+(one instance per input).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.call" title="Permalink to this definition"></a></dt>
+<dd><p>This is where the layer’s logic lives.</p>
+<p>Note here that <cite>call()</cite> method in <cite>tf.keras</cite> is little bit different
+from <cite>keras</cite> API. In <cite>keras</cite> API, you can pass support masking for
+layers as additional arguments. Whereas <cite>tf.keras</cite> has <cite>compute_mask()</cite>
+method to support masking.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> – <p>Input tensor, or dict/list/tuple of input tensors.
+The first positional <cite>inputs</cite> argument is subject to special rules:
+- <cite>inputs</cite> must be explicitly passed. A layer cannot have zero</p>
+<blockquote>
+<div><p>arguments, and <cite>inputs</cite> cannot be provided via the default value
+of a keyword argument.</p>
+</div></blockquote>
+<ul>
+<li><p>NumPy array or Python scalar values in <cite>inputs</cite> get cast as tensors.</p></li>
+<li><p>Keras mask metadata is only collected from <cite>inputs</cite>.</p></li>
+<li><p>Layers are built (<cite>build(input_shape)</cite> method)
+using shape info from <cite>inputs</cite> only.</p></li>
+<li><p><cite>input_spec</cite> compatibility is only checked against <cite>inputs</cite>.</p></li>
+<li><p>Mixed precision input casting is only applied to <cite>inputs</cite>.
+If a layer has tensor arguments in <cite>*args</cite> or <cite>**kwargs</cite>, their
+casting behavior in mixed precision should be handled manually.</p></li>
+<li><p>The SavedModel input specification is generated using <cite>inputs</cite> only.</p></li>
+<li><p>Integration with various ecosystem packages like TFMOT, TFLite,
+TF.js, etc is only supported for <cite>inputs</cite> and not for tensors in
+positional and keyword arguments.</p></li>
+</ul>
+</p></li>
+<li><p><strong>*args</strong> – Additional positional arguments. May contain tensors, although
+this is not recommended, for the reasons above.</p></li>
+<li><p><strong>**kwargs</strong> – <p>Additional keyword arguments. May contain tensors, although
+this is not recommended, for the reasons above.
+The following optional keyword arguments are reserved:
+- <cite>training</cite>: Boolean scalar tensor of Python boolean indicating</p>
+<blockquote>
+<div><p>whether the <cite>call</cite> is meant for training or inference.</p>
+</div></blockquote>
+<ul>
+<li><p><cite>mask</cite>: Boolean input mask. If the layer’s <cite>call()</cite> method takes a
+<cite>mask</cite> argument, its default value will be set to the mask generated
+for <cite>inputs</cite> by the previous layer (if <cite>input</cite> did come from a layer
+that generated a corresponding mask, i.e. if it came from a Keras
+layer with masking support).</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tensor or list/tuple of tensors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.from_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.from_config" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a layer from its config.</p>
+<p>This method is the reverse of <cite>get_config</cite>,
+capable of instantiating the same layer from the config
+dictionary. It does not handle layer connectivity
+(handled by Network), nor weights (handled by <cite>set_weights</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> – A Python dictionary, typically the
+output of get_config.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A layer instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.compute_output_shape">
+<span class="sig-name descname"><span class="pre">compute_output_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.compute_output_shape" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the output shape of the layer.</p>
+<p>If the layer has not been built, this method will call <cite>build</cite> on the
+layer. This assumes that the layer will later be used with inputs that
+match the input shape provided here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_shape</strong> – Shape tuple (tuple of integers)
+or list of shape tuples (one per output tensor of the layer).
+Shape tuples can include None for free dimensions,
+instead of an integer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An input shape tuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.compute_output_signature">
+<span class="sig-name descname"><span class="pre">compute_output_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_signature</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.compute_output_signature" title="Permalink to this definition"></a></dt>
+<dd><p>Compute the output tensor signature of the layer based on the inputs.</p>
+<p>Unlike a TensorShape object, a TensorSpec object contains both shape
+and dtype information for a tensor. This method allows layers to provide
+output dtype information if it is different from the input dtype.
+For any layer that doesn’t implement this function,
+the framework will fall back to use <cite>compute_output_shape</cite>, and will
+assume that the output dtype matches the input dtype.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_signature</strong> – Single TensorSpec or nested structure of TensorSpec
+objects, describing a candidate input for the layer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Single TensorSpec or nested structure of TensorSpec objects, describing</dt><dd><p>how the layer would transform the provided input.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – If input_signature contains a non-TensorSpec object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.compute_mask">
+<span class="sig-name descname"><span class="pre">compute_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.compute_mask" title="Permalink to this definition"></a></dt>
+<dd><p>Computes an output mask tensor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> – Tensor or list of tensors.</p></li>
+<li><p><strong>mask</strong> – Tensor or list of tensors.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>None or a tensor (or list of tensors,</dt><dd><p>one per output tensor of the layer).</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.name" title="Permalink to this definition"></a></dt>
+<dd><p>Name of the layer (string), set in the constructor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.supports_masking">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supports_masking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.supports_masking" title="Permalink to this definition"></a></dt>
+<dd><p>Whether this layer supports computing a mask using <cite>compute_mask</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.dynamic">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dynamic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.dynamic" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the layer is dynamic (eager-only); set in the constructor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.stateful">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stateful</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.stateful" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.trainable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trainable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.trainable" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.activity_regularizer">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">activity_regularizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.activity_regularizer" title="Permalink to this definition"></a></dt>
+<dd><p>Optional regularizer function for the output of this layer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.input_spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input_spec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.input_spec" title="Permalink to this definition"></a></dt>
+<dd><p><cite>InputSpec</cite> instance(s) describing the input format for this layer.</p>
+<p>When you create a layer subclass, you can set <cite>self.input_spec</cite> to enable
+the layer to run input compatibility checks when it is called.
+Consider a <cite>Conv2D</cite> layer: it can only be called on a single input tensor
+of rank 4. As such, you can set, in <cite>__init__()</cite>:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">self.input_spec</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.InputSpec(ndim=4)</span>
+<span class="pre">`</span></code></p>
+<p>Now, if you try to call the layer on an input that isn’t rank 4
+(for instance, an input of shape <cite>(2,)</cite>, it will raise a nicely-formatted
+error:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">ValueError:</span> <span class="pre">Input</span> <span class="pre">0</span> <span class="pre">of</span> <span class="pre">layer</span> <span class="pre">conv2d</span> <span class="pre">is</span> <span class="pre">incompatible</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">layer:</span>
+<span class="pre">expected</span> <span class="pre">ndim=4,</span> <span class="pre">found</span> <span class="pre">ndim=1.</span> <span class="pre">Full</span> <span class="pre">shape</span> <span class="pre">received:</span> <span class="pre">[2]</span>
+<span class="pre">`</span></code></p>
+<p>Input checks that can be specified via <cite>input_spec</cite> include:
+- Structure (e.g. a single input, a list of 2 inputs, etc)
+- Shape
+- Rank (ndim)
+- Dtype</p>
+<p>For more information, see <cite>tf.keras.layers.InputSpec</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A <cite>tf.keras.layers.InputSpec</cite> instance, or nested structure thereof.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.weights">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.weights" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the list of all layer variables/weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.updates">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">updates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.updates" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.losses">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">losses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.losses" title="Permalink to this definition"></a></dt>
+<dd><p>List of losses added using the <cite>add_loss()</cite> API.</p>
+<p>Variable regularization tensors are created when this property is accessed,
+so it is eager safe: accessing <cite>losses</cite> under a <cite>tf.GradientTape</cite> will
+propagate gradients back to the corresponding variables.</p>
+<p>Examples:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyLayer</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="bp">self</span><span class="o">.</span><span class="n">add_loss</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">inputs</span><span class="p">)))</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">inputs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">MyLayer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span><span class="o">.</span><span class="n">losses</span>
+<span class="go">[1.0]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Activity regularization.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">losses</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">add_loss</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">losses</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;ones&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">d</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Weight regularization.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">add_loss</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">kernel</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">losses</span>
+<span class="go">[&lt;tf.Tensor: shape=(), dtype=float32, numpy=1.0&gt;]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of tensors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.add_loss">
+<span class="sig-name descname"><span class="pre">add_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.add_loss" title="Permalink to this definition"></a></dt>
+<dd><p>Add loss tensor(s), potentially dependent on layer inputs.</p>
+<p>Some losses (for instance, activity regularization losses) may be dependent
+on the inputs passed when calling a layer. Hence, when reusing the same
+layer on different inputs <cite>a</cite> and <cite>b</cite>, some entries in <cite>layer.losses</cite> may
+be dependent on <cite>a</cite> and some on <cite>b</cite>. This method automatically keeps track
+of dependencies.</p>
+<p>This method can be used inside a subclassed layer or model’s <cite>call</cite>
+function, in which case <cite>losses</cite> should be a Tensor or list of Tensors.</p>
+<p>Example:</p>
+<p><a href="#id77"><span class="problematic" id="id78">``</span></a><a href="#id79"><span class="problematic" id="id80">`</span></a>python
+class MyLayer(tf.keras.layers.Layer):</p>
+<blockquote>
+<div><dl class="simple">
+<dt>def call(self, inputs):</dt><dd><p>self.add_loss(tf.abs(tf.reduce_mean(inputs)))
+return inputs</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><a href="#id81"><span class="problematic" id="id82">``</span></a><a href="#id83"><span class="problematic" id="id84">`</span></a></p>
+<p>This method can also be called directly on a Functional Model during
+construction. In this case, any loss Tensors passed to this Model must
+be symbolic and be able to be traced back to the model’s <cite>Input`s. These
+losses become part of the model’s topology and are tracked in `get_config</cite>.</p>
+<p>Example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">inputs</span> <span class="pre">=</span> <span class="pre">tf.keras.Input(shape=(10,))</span>
+<span class="pre">x</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(10)(inputs)</span>
+<span class="pre">outputs</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(1)(x)</span>
+<span class="pre">model</span> <span class="pre">=</span> <span class="pre">tf.keras.Model(inputs,</span> <span class="pre">outputs)</span>
+<span class="pre">#</span> <span class="pre">Activity</span> <span class="pre">regularization.</span>
+<span class="pre">model.add_loss(tf.abs(tf.reduce_mean(x)))</span>
+<span class="pre">`</span></code></p>
+<p>If this is not the case for your loss (if, for example, your loss references
+a <cite>Variable</cite> of one of the model’s layers), you can wrap your loss in a
+zero-argument lambda. These losses are not tracked as part of the model’s
+topology since they can’t be serialized.</p>
+<p>Example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">inputs</span> <span class="pre">=</span> <span class="pre">tf.keras.Input(shape=(10,))</span>
+<span class="pre">d</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(10)</span>
+<span class="pre">x</span> <span class="pre">=</span> <span class="pre">d(inputs)</span>
+<span class="pre">outputs</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(1)(x)</span>
+<span class="pre">model</span> <span class="pre">=</span> <span class="pre">tf.keras.Model(inputs,</span> <span class="pre">outputs)</span>
+<span class="pre">#</span> <span class="pre">Weight</span> <span class="pre">regularization.</span>
+<span class="pre">model.add_loss(lambda:</span> <span class="pre">tf.reduce_mean(d.kernel))</span>
+<span class="pre">`</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>losses</strong> – Loss tensor, or list/tuple of tensors. Rather than tensors, losses
+may also be zero-argument callables which create a loss tensor.</p></li>
+<li><p><strong>**kwargs</strong> – <p>Additional keyword arguments for backward compatibility.
+Accepted values:</p>
+<blockquote>
+<div><p>inputs - Deprecated, will be automatically inferred.</p>
+</div></blockquote>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.metrics">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.metrics" title="Permalink to this definition"></a></dt>
+<dd><p>List of metrics added using the <cite>add_metric()</cite> API.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">d</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">add_metric</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">add_metric</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_min</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;min&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">metrics</span><span class="p">]</span>
+<span class="go">[&#39;max&#39;, &#39;min&#39;]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of <cite>Metric</cite> objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.add_metric">
+<span class="sig-name descname"><span class="pre">add_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.add_metric" title="Permalink to this definition"></a></dt>
+<dd><p>Adds metric tensor to the layer.</p>
+<p>This method can be used inside the <cite>call()</cite> method of a subclassed layer
+or model.</p>
+<p><a href="#id85"><span class="problematic" id="id86">``</span></a><a href="#id87"><span class="problematic" id="id88">`</span></a>python
+class MyMetricLayer(tf.keras.layers.Layer):</p>
+<blockquote>
+<div><dl class="simple">
+<dt>def __init__(self):</dt><dd><p>super(MyMetricLayer, self).__init__(name=’my_metric_layer’)
+self.mean = tf.keras.metrics.Mean(name=’metric_1’)</p>
+</dd>
+<dt>def call(self, inputs):</dt><dd><p>self.add_metric(self.mean(inputs))
+self.add_metric(tf.reduce_sum(inputs), name=’metric_2’)
+return inputs</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><a href="#id89"><span class="problematic" id="id90">``</span></a><a href="#id91"><span class="problematic" id="id92">`</span></a></p>
+<p>This method can also be called directly on a Functional Model during
+construction. In this case, any tensor passed to this Model must
+be symbolic and be able to be traced back to the model’s <cite>Input`s. These
+metrics become part of the model’s topology and are tracked when you
+save the model via `save()</cite>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">inputs</span> <span class="pre">=</span> <span class="pre">tf.keras.Input(shape=(10,))</span>
+<span class="pre">x</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(10)(inputs)</span>
+<span class="pre">outputs</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(1)(x)</span>
+<span class="pre">model</span> <span class="pre">=</span> <span class="pre">tf.keras.Model(inputs,</span> <span class="pre">outputs)</span>
+<span class="pre">model.add_metric(math_ops.reduce_sum(x),</span> <span class="pre">name='metric_1')</span>
+<span class="pre">`</span></code></p>
+<p>Note: Calling <cite>add_metric()</cite> with the result of a metric object on a
+Functional Model, as shown in the example below, is not supported. This is
+because we cannot trace the metric result tensor back to the model’s inputs.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">inputs</span> <span class="pre">=</span> <span class="pre">tf.keras.Input(shape=(10,))</span>
+<span class="pre">x</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(10)(inputs)</span>
+<span class="pre">outputs</span> <span class="pre">=</span> <span class="pre">tf.keras.layers.Dense(1)(x)</span>
+<span class="pre">model</span> <span class="pre">=</span> <span class="pre">tf.keras.Model(inputs,</span> <span class="pre">outputs)</span>
+<span class="pre">model.add_metric(tf.keras.metrics.Mean()(x),</span> <span class="pre">name='metric_1')</span>
+<span class="pre">`</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – Metric tensor.</p></li>
+<li><p><strong>name</strong> – String metric name.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments for backward compatibility.
+Accepted values:
+<cite>aggregation</cite> - When the <cite>value</cite> tensor provided is not the result of
+calling a <cite>keras.Metric</cite> instance, it will be aggregated by default
+using a <cite>keras.Metric.Mean</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.add_update">
+<span class="sig-name descname"><span class="pre">add_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.add_update" title="Permalink to this definition"></a></dt>
+<dd><p>Add update op(s), potentially dependent on layer inputs.</p>
+<p>Weight updates (for instance, the updates of the moving mean and variance
+in a BatchNormalization layer) may be dependent on the inputs passed
+when calling a layer. Hence, when reusing the same layer on
+different inputs <cite>a</cite> and <cite>b</cite>, some entries in <cite>layer.updates</cite> may be
+dependent on <cite>a</cite> and some on <cite>b</cite>. This method automatically keeps track
+of dependencies.</p>
+<p>This call is ignored when eager execution is enabled (in that case, variable
+updates are run on the fly and thus do not need to be tracked for later
+execution).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>updates</strong> – Update op, or list/tuple of update ops, or zero-arg callable
+that returns an update op. A zero-arg callable should be passed in
+order to disable running the updates by setting <cite>trainable=False</cite>
+on this Layer, when executing in Eager mode.</p></li>
+<li><p><strong>inputs</strong> – Deprecated, will be automatically inferred.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.set_weights">
+<span class="sig-name descname"><span class="pre">set_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.set_weights" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the weights of the layer, from NumPy arrays.</p>
+<p>The weights of a layer represent the state of the layer. This function
+sets the weight values from numpy arrays. The weight values should be
+passed in the order they are created by the layer. Note that the layer’s
+weights must be instantiated before calling this function, by calling
+the layer.</p>
+<p>For example, a <cite>Dense</cite> layer returns a list of two values: the kernel matrix
+and the bias vector. These can be used to set the weights of another
+<cite>Dense</cite> layer:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">layer_a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="mf">1.</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a_out</span> <span class="o">=</span> <span class="n">layer_a</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_a</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<span class="go">[array([[1.],</span>
+<span class="go">       [1.],</span>
+<span class="go">       [1.]], dtype=float32), array([0.], dtype=float32)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="mf">2.</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b_out</span> <span class="o">=</span> <span class="n">layer_b</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">([[</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mf">30.</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<span class="go">[array([[2.],</span>
+<span class="go">       [2.],</span>
+<span class="go">       [2.]], dtype=float32), array([0.], dtype=float32)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span><span class="o">.</span><span class="n">set_weights</span><span class="p">(</span><span class="n">layer_a</span><span class="o">.</span><span class="n">get_weights</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<span class="go">[array([[1.],</span>
+<span class="go">       [1.],</span>
+<span class="go">       [1.]], dtype=float32), array([0.], dtype=float32)]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>weights</strong> – a list of NumPy arrays. The number
+of arrays and their shape must match
+number of the dimensions of the weights
+of the layer (i.e. it should match the
+output of <cite>get_weights</cite>).</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the provided weights list does not match the
+layer’s specifications.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.get_weights">
+<span class="sig-name descname"><span class="pre">get_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.get_weights" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the current weights of the layer, as NumPy arrays.</p>
+<p>The weights of a layer represent the state of the layer. This function
+returns both trainable and non-trainable weight values associated with this
+layer as a list of NumPy arrays, which can in turn be used to load state
+into similarly parameterized layers.</p>
+<p>For example, a <cite>Dense</cite> layer returns a list of two values: the kernel matrix
+and the bias vector. These can be used to set the weights of another
+<cite>Dense</cite> layer:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">layer_a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="mf">1.</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a_out</span> <span class="o">=</span> <span class="n">layer_a</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_a</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<span class="go">[array([[1.],</span>
+<span class="go">       [1.],</span>
+<span class="go">       [1.]], dtype=float32), array([0.], dtype=float32)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="mf">2.</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b_out</span> <span class="o">=</span> <span class="n">layer_b</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">([[</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mf">30.</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<span class="go">[array([[2.],</span>
+<span class="go">       [2.],</span>
+<span class="go">       [2.]], dtype=float32), array([0.], dtype=float32)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span><span class="o">.</span><span class="n">set_weights</span><span class="p">(</span><span class="n">layer_a</span><span class="o">.</span><span class="n">get_weights</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_b</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+<span class="go">[array([[1.],</span>
+<span class="go">       [1.],</span>
+<span class="go">       [1.]], dtype=float32), array([0.], dtype=float32)]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Weights values as a list of NumPy arrays.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.finalize_state">
+<span class="sig-name descname"><span class="pre">finalize_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.finalize_state" title="Permalink to this definition"></a></dt>
+<dd><p>Finalizes the layers state after updating layer weights.</p>
+<p>This function can be subclassed in a layer and will be called after updating
+a layer weights. It can be overridden to finalize any additional layer state
+after a weight update.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.get_updates_for">
+<span class="sig-name descname"><span class="pre">get_updates_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.get_updates_for" title="Permalink to this definition"></a></dt>
+<dd><p>Deprecated, do NOT use!</p>
+<p>Retrieves updates relevant to a specific set of inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>inputs</strong> – Input tensor or list/tuple of input tensors.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of update ops of the layer that depend on <cite>inputs</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.get_losses_for">
+<span class="sig-name descname"><span class="pre">get_losses_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.get_losses_for" title="Permalink to this definition"></a></dt>
+<dd><p>Deprecated, do NOT use!</p>
+<p>Retrieves losses relevant to a specific set of inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>inputs</strong> – Input tensor or list/tuple of input tensors.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of loss tensors of the layer that depend on <cite>inputs</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.get_input_mask_at">
+<span class="sig-name descname"><span class="pre">get_input_mask_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.get_input_mask_at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the input mask tensor(s) of a layer at a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> – Integer, index of the node
+from which to retrieve the attribute.
+E.g. <cite>node_index=0</cite> will correspond to the
+first time the layer was called.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A mask tensor
+(or list of tensors if the layer has multiple inputs).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.get_output_mask_at">
+<span class="sig-name descname"><span class="pre">get_output_mask_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.get_output_mask_at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the output mask tensor(s) of a layer at a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> – Integer, index of the node
+from which to retrieve the attribute.
+E.g. <cite>node_index=0</cite> will correspond to the
+first time the layer was called.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A mask tensor
+(or list of tensors if the layer has multiple outputs).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.input_mask">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.input_mask" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the input mask tensor(s) of a layer.</p>
+<p>Only applicable if the layer has exactly one inbound node,
+i.e. if it is connected to one incoming layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Input mask tensor (potentially None) or list of input
+mask tensors.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>AttributeError</strong> – if the layer is connected to</p></li>
+<li><p><strong>more than one incoming layers.</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.output_mask">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.output_mask" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the output mask tensor(s) of a layer.</p>
+<p>Only applicable if the layer has exactly one inbound node,
+i.e. if it is connected to one incoming layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Output mask tensor (potentially None) or list of output
+mask tensors.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>AttributeError</strong> – if the layer is connected to</p></li>
+<li><p><strong>more than one incoming layers.</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.get_input_shape_at">
+<span class="sig-name descname"><span class="pre">get_input_shape_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.get_input_shape_at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the input shape(s) of a layer at a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> – Integer, index of the node
+from which to retrieve the attribute.
+E.g. <cite>node_index=0</cite> will correspond to the
+first time the layer was called.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A shape tuple
+(or list of shape tuples if the layer has multiple inputs).</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If called in Eager mode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.get_output_shape_at">
+<span class="sig-name descname"><span class="pre">get_output_shape_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.get_output_shape_at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the output shape(s) of a layer at a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> – Integer, index of the node
+from which to retrieve the attribute.
+E.g. <cite>node_index=0</cite> will correspond to the
+first time the layer was called.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A shape tuple
+(or list of shape tuples if the layer has multiple outputs).</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If called in Eager mode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.get_input_at">
+<span class="sig-name descname"><span class="pre">get_input_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.get_input_at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the input tensor(s) of a layer at a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> – Integer, index of the node
+from which to retrieve the attribute.
+E.g. <cite>node_index=0</cite> will correspond to the
+first input node of the layer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tensor (or list of tensors if the layer has multiple inputs).</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If called in Eager mode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.get_output_at">
+<span class="sig-name descname"><span class="pre">get_output_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.get_output_at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the output tensor(s) of a layer at a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> – Integer, index of the node
+from which to retrieve the attribute.
+E.g. <cite>node_index=0</cite> will correspond to the
+first output node of the layer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tensor (or list of tensors if the layer has multiple outputs).</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If called in Eager mode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.input">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.input" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the input tensor(s) of a layer.</p>
+<p>Only applicable if the layer has exactly one input,
+i.e. if it is connected to one incoming layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Input tensor or list of input tensors.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>RuntimeError</strong> – If called in Eager mode.</p></li>
+<li><p><strong>AttributeError</strong> – If no inbound nodes are found.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.output">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.output" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the output tensor(s) of a layer.</p>
+<p>Only applicable if the layer has exactly one output,
+i.e. if it is connected to one incoming layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Output tensor or list of output tensors.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>AttributeError</strong> – if the layer is connected to more than one incoming
+layers.</p></li>
+<li><p><strong>RuntimeError</strong> – if called in Eager mode.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.input_shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.input_shape" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the input shape(s) of a layer.</p>
+<p>Only applicable if the layer has exactly one input,
+i.e. if it is connected to one incoming layer, or if all inputs
+have the same shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Input shape, as an integer shape tuple
+(or list of shape tuples, one tuple per input tensor).</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>AttributeError</strong> – if the layer has no defined input_shape.</p></li>
+<li><p><strong>RuntimeError</strong> – if called in Eager mode.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.count_params">
+<span class="sig-name descname"><span class="pre">count_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.count_params" title="Permalink to this definition"></a></dt>
+<dd><p>Count the total number of scalars composing the weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An integer count.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – if the layer isn’t yet built
+(in which case its weights aren’t yet defined).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.output_shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.output_shape" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the output shape(s) of a layer.</p>
+<p>Only applicable if the layer has one output,
+or if all outputs have the same shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Output shape, as an integer shape tuple
+(or list of shape tuples, one tuple per output tensor).</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>AttributeError</strong> – if the layer has no defined output shape.</p></li>
+<li><p><strong>RuntimeError</strong> – if called in Eager mode.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.inbound_nodes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inbound_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.inbound_nodes" title="Permalink to this definition"></a></dt>
+<dd><p>Deprecated, do NOT use! Only for compatibility with external Keras.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.outbound_nodes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">outbound_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.outbound_nodes" title="Permalink to this definition"></a></dt>
+<dd><p>Deprecated, do NOT use! Only for compatibility with external Keras.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.apply" title="Permalink to this definition"></a></dt>
+<dd><p>Deprecated, do NOT use!</p>
+<p>This is an alias of <cite>self.__call__</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> – Input tensor(s).</p></li>
+<li><p><strong>*args</strong> – additional positional arguments to be passed to <cite>self.call</cite>.</p></li>
+<li><p><strong>**kwargs</strong> – additional keyword arguments to be passed to <cite>self.call</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Output tensor(s).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.add_variable">
+<span class="sig-name descname"><span class="pre">add_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.add_variable" title="Permalink to this definition"></a></dt>
+<dd><p>Deprecated, do NOT use! Alias for <cite>add_weight</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.variables" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the list of all layer variables/weights.</p>
+<p>Alias of <cite>self.weights</cite>.</p>
+<p>Note: This will not track the weights of nested <cite>tf.Modules</cite> that are not
+themselves Keras layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.trainable_variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trainable_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.trainable_variables" title="Permalink to this definition"></a></dt>
+<dd><p>Sequence of trainable variables owned by this module and its submodules.</p>
+<p>Note: this method uses reflection to find variables on the current instance
+and submodules. For performance reasons you may wish to cache the result
+of calling this method if you don’t expect the return value to change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A sequence of variables for the current module (sorted by attribute
+name) followed by variables from all submodules recursively (breadth
+first).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.non_trainable_variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">non_trainable_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.non_trainable_variables" title="Permalink to this definition"></a></dt>
+<dd><p>Sequence of non-trainable variables owned by this module and its submodules.</p>
+<p>Note: this method uses reflection to find variables on the current instance
+and submodules. For performance reasons you may wish to cache the result
+of calling this method if you don’t expect the return value to change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A sequence of variables for the current module (sorted by attribute
+name) followed by variables from all submodules recursively (breadth
+first).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.dtype_policy">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dtype_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.dtype_policy" title="Permalink to this definition"></a></dt>
+<dd><p>The dtype policy associated with this layer.</p>
+<p>This is an instance of a <cite>tf.keras.mixed_precision.Policy</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.compute_dtype">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.compute_dtype" title="Permalink to this definition"></a></dt>
+<dd><p>The dtype of the layer’s computations.</p>
+<p>This is equivalent to <cite>Layer.dtype_policy.compute_dtype</cite>. Unless
+mixed precision is used, this is the same as <cite>Layer.dtype</cite>, the dtype of
+the weights.</p>
+<p>Layers automatically cast their inputs to the compute dtype, which causes
+computations and the output to be in the compute dtype as well. This is done
+by the base Layer class in <cite>Layer.__call__</cite>, so you do not have to insert
+these casts if implementing your own layer.</p>
+<p>Layers often perform certain internal computations in higher precision when
+<cite>compute_dtype</cite> is float16 or bfloat16 for numeric stability. The output
+will still typically be float16 or bfloat16 in such cases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The layer’s compute dtype.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.variable_dtype">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variable_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.variable_dtype" title="Permalink to this definition"></a></dt>
+<dd><p>Alias of <cite>Layer.dtype</cite>, the dtype of the weights.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.name_scope">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name_scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.name_scope" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a <cite>tf.name_scope</cite> instance for this class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.submodules">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">submodules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.submodules" title="Permalink to this definition"></a></dt>
+<dd><p>Sequence of all sub-modules.</p>
+<p>Submodules are modules which are properties of this module, or found as
+properties of modules which are properties of this module (and so on).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">c</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">submodules</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">submodules</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">c</span><span class="p">]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">submodules</span><span class="p">)</span> <span class="o">==</span> <span class="p">[]</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A sequence of all submodules.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.keras.interpolatability.Monotonicity.with_name_scope">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">with_name_scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.keras.interpolatability.Monotonicity.with_name_scope" title="Permalink to this definition"></a></dt>
+<dd><p>Decorator to automatically enter the module name scope.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyModule</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="nd">@tf</span><span class="o">.</span><span class="n">Module</span><span class="o">.</span><span class="n">with_name_scope</span>
+<span class="gp">... </span>  <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">):</span>
+<span class="gp">... </span>      <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">]))</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Using the above module would produce <a href="#id93"><span class="problematic" id="id94">`</span></a>tf.Variable`s and <a href="#id95"><span class="problematic" id="id96">`</span></a>tf.Tensor`s whose
+names included the module name:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">MyModule</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+<span class="go">&lt;tf.Tensor: shape=(1, 3), dtype=float32, numpy=..., dtype=float32)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span><span class="o">.</span><span class="n">w</span>
+<span class="go">&lt;tf.Variable &#39;my_module/Variable:0&#39; shape=(2, 3) dtype=float32,</span>
+<span class="go">numpy=..., dtype=float32)&gt;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>method</strong> – The method to wrap.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The original method wrapped such that it enters the module’s name scope.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 </section>
 

@@ -23,7 +23,7 @@ Functions
 
 
 
-.. py:function:: modularity(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False, thresh: float = 1e-12)
+.. py:function:: modularity(z, a, reg_dim = None, discrete = False, thresh = 1e-12)
 
    
    Calculate Modularity between latent vectors and attributes

@@ -73,6 +73,11 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="functional/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="functional/bundles/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional.bundles</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="functional/bundles/dependency_aware_mutual_info/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional.bundles.dependency_aware_mutual_info</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="functional/bundles/liad_interpolatability/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional.bundles.liad_interpolatability</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="functional/disentanglement/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional.disentanglement</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="functional/disentanglement/modularity/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional.disentanglement.modularity</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="functional/disentanglement/mutual_info/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional.disentanglement.mutual_info</span></code></a></li>
@@ -90,17 +95,20 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="metrics/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics</span></code></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="metrics/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.core</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="metrics/core/bundles/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.core.bundles</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="metrics/core/disentanglement/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.core.disentanglement</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="metrics/core/interpolatability/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.core.interpolatability</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="metrics/keras/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="metrics/keras/bundles/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras.bundles</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="metrics/keras/disentanglement/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras.disentanglement</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="metrics/keras/interpolatability/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras.interpolatability</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="metrics/keras/wrapper/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.keras.wrapper</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="metrics/torch/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="metrics/torch/bundles/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch.bundles</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="metrics/torch/disentanglement/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch.disentanglement</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="metrics/torch/interpolatability/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch.interpolatability</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="metrics/torch/wrapper/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.metrics.torch.wrapper</span></code></a></li>
@@ -122,7 +130,7 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.seed" title="latte.seed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seed</span></code></a>(seed: Optional[int] = 42)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.seed" title="latte.seed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seed</span></code></a>(seed = 42)</p></td>
 <td><p>Set random seed</p></td>
 </tr>
 </tbody>
@@ -146,17 +154,17 @@
 </table>
 <dl class="py data">
 <dt class="sig sig-object py" id="latte.this">
-<span class="sig-prename descclassname"><span class="pre">latte.</span></span><span class="sig-name descname"><span class="pre">this</span></span><a class="headerlink" href="#latte.this" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">this</span></span><a class="headerlink" href="#latte.this" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="latte.RANDOM_STATE">
-<span class="sig-prename descclassname"><span class="pre">latte.</span></span><span class="sig-name descname"><span class="pre">RANDOM_STATE</span></span><a class="headerlink" href="#latte.RANDOM_STATE" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">RANDOM_STATE</span></span><a class="headerlink" href="#latte.RANDOM_STATE" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="latte.seed">
-<span class="sig-prename descclassname"><span class="pre">latte.</span></span><span class="sig-name descname"><span class="pre">seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.seed" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.seed" title="Permalink to this definition"></a></dt>
 <dd><p>Set random seed</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

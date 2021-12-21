@@ -104,10 +104,23 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="latte.metrics.core.interpolatability.Smoothness">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">latte.metrics.core.interpolatability.</span></span><span class="sig-name descname"><span class="pre">Smoothness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">liad_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'forward'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lehmer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptp_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'naive'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'attribute'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.interpolatability.Smoothness" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Smoothness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">liad_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'forward'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lehmer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptp_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'naive'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'attribute'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clamp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.interpolatability.Smoothness" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../base/index.html#latte.metrics.base.LatteMetric" title="latte.metrics.base.LatteMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latte.metrics.base.LatteMetric</span></code></a></p>
 <p>Helper class that provides a standard way to create an ABC using
 inheritance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reg_dim</strong> (<em>Optional</em><em>[</em><em>List</em><em>]</em>) – </p></li>
+<li><p><strong>liad_mode</strong> (<em>str</em>) – </p></li>
+<li><p><strong>max_mode</strong> (<em>str</em>) – </p></li>
+<li><p><strong>ptp_mode</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>reduce_mode</strong> (<em>str</em>) – </p></li>
+<li><p><strong>clamp</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>p</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="latte.metrics.core.interpolatability.Smoothness.update_state">
 <span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.interpolatability.Smoothness.update_state" title="Permalink to this definition"></a></dt>
@@ -118,14 +131,44 @@ inheritance.</p>
 <span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.interpolatability.Smoothness.compute" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.interpolatability.Smoothness.add_state">
+<span class="sig-name descname"><span class="pre">add_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.interpolatability.Smoothness.add_state" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>default</strong> (<em>Union</em><em>[</em><em>list</em><em>, </em><em>numpy.ndarray</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.interpolatability.Smoothness.reset_state">
+<span class="sig-name descname"><span class="pre">reset_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.interpolatability.Smoothness.reset_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="latte.metrics.core.interpolatability.Monotonicity">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">latte.metrics.core.interpolatability.</span></span><span class="sig-name descname"><span class="pre">Monotonicity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">liad_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'forward'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'attribute'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">liad_thresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degenerate_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">np.nan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nanmean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.interpolatability.Monotonicity" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Monotonicity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">liad_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'forward'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'attribute'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">liad_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degenerate_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.nan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nanmean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.interpolatability.Monotonicity" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../base/index.html#latte.metrics.base.LatteMetric" title="latte.metrics.base.LatteMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latte.metrics.base.LatteMetric</span></code></a></p>
 <p>Helper class that provides a standard way to create an ABC using
 inheritance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reg_dim</strong> (<em>Optional</em><em>[</em><em>List</em><em>]</em>) – </p></li>
+<li><p><strong>liad_mode</strong> (<em>str</em>) – </p></li>
+<li><p><strong>reduce_mode</strong> (<em>str</em>) – </p></li>
+<li><p><strong>liad_thresh</strong> (<em>float</em>) – </p></li>
+<li><p><strong>degenerate_val</strong> (<em>float</em>) – </p></li>
+<li><p><strong>nanmean</strong> (<em>bool</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="latte.metrics.core.interpolatability.Monotonicity.update_state">
 <span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.interpolatability.Monotonicity.update_state" title="Permalink to this definition"></a></dt>
@@ -134,6 +177,24 @@ inheritance.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="latte.metrics.core.interpolatability.Monotonicity.compute">
 <span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.interpolatability.Monotonicity.compute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.interpolatability.Monotonicity.add_state">
+<span class="sig-name descname"><span class="pre">add_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.interpolatability.Monotonicity.add_state" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>default</strong> (<em>Union</em><em>[</em><em>list</em><em>, </em><em>numpy.ndarray</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="latte.metrics.core.interpolatability.Monotonicity.reset_state">
+<span class="sig-name descname"><span class="pre">reset_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.metrics.core.interpolatability.Monotonicity.reset_state" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

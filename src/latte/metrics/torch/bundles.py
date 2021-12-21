@@ -1,6 +1,6 @@
 from typing import List, Optional, Union
 from torchmetrics import MetricCollection
-
+import torch
 import numpy as np
 
 from ..torch.disentanglement import (
@@ -35,6 +35,9 @@ class DependencyAwareMutualInformationBundle(MetricCollection):
                 ),
             }
         )
+        
+    def update(self, z: torch.Tensor, a: torch.Tensor) -> None:
+        return super().update(z=z, a=a)
 
 
 class LiadInterpolatabilityBundle(MetricCollection):
@@ -74,3 +77,6 @@ class LiadInterpolatabilityBundle(MetricCollection):
                 ),
             }
         )
+
+    def update(self, z: torch.Tensor, a: torch.Tensor) -> None:
+        return super().update(z=z, a=a)

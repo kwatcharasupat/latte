@@ -23,7 +23,7 @@ Functions
 
 
 
-.. py:function:: monotonicity(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, liad_mode: str = 'forward', reduce_mode: str = 'attribute', liad_thresh: float = 0.001, degenerate_val: float = np.nan, nanmean: bool = True) -> numpy.ndarray
+.. py:function:: monotonicity(z, a, reg_dim = None, liad_mode = 'forward', reduce_mode = 'attribute', liad_thresh = 0.001, degenerate_val = np.nan, nanmean = True)
 
    
    Calculate latent monotonicity.

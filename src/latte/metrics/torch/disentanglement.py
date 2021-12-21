@@ -2,27 +2,57 @@ from .wrapper import TorchMetricWrapper
 
 from ..core import disentanglement as C
 
-from functools import partial
 
-MutualInformationGap = partial(TorchMetricWrapper, metric=C.MutualInformationGap)
+import torch
 
-DependencyAwareMutualInformationGap = partial(
-    TorchMetricWrapper, metric=C.DependencyAwareMutualInformationGap
-)
 
-DependencyAwareLatentInformationGap = partial(
-    TorchMetricWrapper, metric=C.DependencyAwareLatentInformationGap
-)
+class MutualInformationGap(TorchMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.MutualInformationGap, **kwargs)
 
-DependencyBlindMutualInformationGap = partial(
-    TorchMetricWrapper, metric=C.DependencyBlindMutualInformationGap
-)
+    def update(self, z: torch.Tensor, a: torch.Tensor):
+        return super().update(z=z, a=a)
 
-SeparateAttributePredictability = partial(
-    TorchMetricWrapper, metric=C.SeparateAttributePredictability
-)
 
-Modularity = partial(TorchMetricWrapper, metric=C.Modularity)
+class DependencyAwareMutualInformationGap(TorchMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.DependencyAwareMutualInformationGap, **kwargs)
+
+    def update(self, z: torch.Tensor, a: torch.Tensor):
+        return super().update(z=z, a=a)
+
+
+class DependencyAwareLatentInformationGap(TorchMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.DependencyAwareLatentInformationGap, **kwargs)
+
+    def update(self, z: torch.Tensor, a: torch.Tensor):
+        return super().update(z=z, a=a)
+
+
+class DependencyBlindMutualInformationGap(TorchMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.DependencyBlindMutualInformationGap, **kwargs)
+
+    def update(self, z: torch.Tensor, a: torch.Tensor):
+        return super().update(z=z, a=a)
+
+
+class SeparateAttributePredictability(TorchMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.SeparateAttributePredictability, **kwargs)
+
+    def update(self, z: torch.Tensor, a: torch.Tensor):
+        return super().update(z=z, a=a)
+
+
+class Modularity(TorchMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.Modularity, **kwargs)
+
+    def update(self, z: torch.Tensor, a: torch.Tensor):
+        return super().update(z=z, a=a)
+
 
 MIG = MutualInformationGap
 DMIG = DependencyAwareMutualInformationGap
