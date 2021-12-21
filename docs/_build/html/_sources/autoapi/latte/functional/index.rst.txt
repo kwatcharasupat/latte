@@ -32,6 +32,7 @@ Subpackages
    :titlesonly:
    :maxdepth: 3
 
+   bundles/index.rst
    disentanglement/index.rst
    interpolatability/index.rst
 

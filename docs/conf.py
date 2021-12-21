@@ -39,7 +39,7 @@ extensions = [
     "m2r2",
 ]
 
-autodoc_typehints = 'description'
+autodoc_typehints = "description"
 add_module_names = False
 
 source_suffix = [".rst", ".md"]

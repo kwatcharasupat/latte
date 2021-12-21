@@ -24,7 +24,7 @@ Classes
 
 
 
-.. py:class:: Smoothness(reg_dim: Optional[List] = None, liad_mode: str = 'forward', max_mode: str = 'lehmer', ptp_mode: Union[float, str] = 'naive', reduce_mode: str = 'attribute', clamp: bool = False, p: float = 2.0)
+.. py:class:: Smoothness(reg_dim = None, liad_mode = 'forward', max_mode = 'lehmer', ptp_mode = 'naive', reduce_mode = 'attribute', clamp = False, p = 2.0)
 
    Bases: :py:obj:`latte.metrics.base.LatteMetric`
 
@@ -93,8 +93,52 @@ Classes
       ..
           !! processed by numpydoc !!
 
+   .. py:method:: add_state(self, name, default)
 
-.. py:class:: Monotonicity(reg_dim: Optional[List] = None, liad_mode: str = 'forward', reduce_mode: str = 'attribute', liad_thresh: float = 0.001, degenerate_val: float = np.nan, nanmean: bool = True)
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: reset_state(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: Monotonicity(reg_dim = None, liad_mode = 'forward', reduce_mode = 'attribute', liad_thresh = 0.001, degenerate_val = np.nan, nanmean = True)
 
    Bases: :py:obj:`latte.metrics.base.LatteMetric`
 
@@ -142,6 +186,50 @@ Classes
           !! processed by numpydoc !!
 
    .. py:method:: compute(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: add_state(self, name, default)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: reset_state(self)
 
       
 

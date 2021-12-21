@@ -19,6 +19,7 @@ Classes
 .. autoapisummary::
 
    latte.metrics.base.LatteMetric
+   latte.metrics.base.MetricBundle
 
 
 
@@ -48,7 +49,7 @@ Classes
 
    ..
        !! processed by numpydoc !!
-   .. py:method:: add_state(self, name: str, default: Union[list, numpy.ndarray])
+   .. py:method:: add_state(self, name, default)
 
       
 
@@ -117,6 +118,94 @@ Classes
 
    .. py:method:: compute(self)
       :abstractmethod:
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: MetricBundle(metrics)
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+   .. py:method:: update_state(self, **kwargs)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: reset_state(self)
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: compute(self)
 
       
 

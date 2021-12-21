@@ -42,6 +42,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional</span></code></a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../../index.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../bundles/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional.bundles</span></code></a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">latte.functional.disentanglement</span></code></a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="../index.html#submodules">Submodules</a></li>
 </ul>
@@ -92,30 +93,48 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.sap.get_continuous_sap_score" title="latte.functional.disentanglement.sap.get_continuous_sap_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_continuous_sap_score</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, thresh: float = 1e-12)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.sap.get_continuous_sap_score" title="latte.functional.disentanglement.sap.get_continuous_sap_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_continuous_sap_score</span></code></a>(z, a, thresh = 1e-12)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#latte.functional.disentanglement.sap.get_discrete_sap_score" title="latte.functional.disentanglement.sap.get_discrete_sap_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_discrete_sap_score</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, l2_reg: float = 1.0)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#latte.functional.disentanglement.sap.get_discrete_sap_score" title="latte.functional.disentanglement.sap.get_discrete_sap_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_discrete_sap_score</span></code></a>(z, a, l2_reg = 1.0)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.sap.sap" title="latte.functional.disentanglement.sap.sap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sap</span></code></a>(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False, l2_reg: float = 1.0, thresh: float = 1e-12) → numpy.ndarray</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#latte.functional.disentanglement.sap.sap" title="latte.functional.disentanglement.sap.sap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sap</span></code></a>(z, a, reg_dim = None, discrete = False, l2_reg = 1.0, thresh = 1e-12)</p></td>
 <td><p>Calculate Separate Attribute Predictability (SAP) between latent vectors and attributes</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="latte.functional.disentanglement.sap.get_continuous_sap_score">
-<span class="sig-prename descclassname"><span class="pre">latte.functional.disentanglement.sap.</span></span><span class="sig-name descname"><span class="pre">get_continuous_sap_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.functional.disentanglement.sap.get_continuous_sap_score" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">get_continuous_sap_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.functional.disentanglement.sap.get_continuous_sap_score" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> (<em>numpy.ndarray</em>) – </p></li>
+<li><p><strong>a</strong> (<em>numpy.ndarray</em>) – </p></li>
+<li><p><strong>thresh</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="latte.functional.disentanglement.sap.get_discrete_sap_score">
-<span class="sig-prename descclassname"><span class="pre">latte.functional.disentanglement.sap.</span></span><span class="sig-name descname"><span class="pre">get_discrete_sap_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2_reg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.functional.disentanglement.sap.get_discrete_sap_score" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">get_discrete_sap_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2_reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.functional.disentanglement.sap.get_discrete_sap_score" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> (<em>numpy.ndarray</em>) – </p></li>
+<li><p><strong>a</strong> (<em>numpy.ndarray</em>) – </p></li>
+<li><p><strong>l2_reg</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="latte.functional.disentanglement.sap.sap">
-<span class="sig-prename descclassname"><span class="pre">latte.functional.disentanglement.sap.</span></span><span class="sig-name descname"><span class="pre">sap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2_reg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#latte.functional.disentanglement.sap.sap" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">sap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2_reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#latte.functional.disentanglement.sap.sap" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate Separate Attribute Predictability (SAP) between latent vectors and attributes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

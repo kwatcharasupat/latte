@@ -25,7 +25,7 @@ Functions
 
 
 
-.. py:function:: get_continuous_sap_score(z: numpy.ndarray, a: numpy.ndarray, thresh: float = 1e-12)
+.. py:function:: get_continuous_sap_score(z, a, thresh = 1e-12)
 
    
 
@@ -47,7 +47,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: get_discrete_sap_score(z: numpy.ndarray, a: numpy.ndarray, l2_reg: float = 1.0)
+.. py:function:: get_discrete_sap_score(z, a, l2_reg = 1.0)
 
    
 
@@ -69,7 +69,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: sap(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, discrete: bool = False, l2_reg: float = 1.0, thresh: float = 1e-12) -> numpy.ndarray
+.. py:function:: sap(z, a, reg_dim = None, discrete = False, l2_reg = 1.0, thresh = 1e-12)
 
    
    Calculate Separate Attribute Predictability (SAP) between latent vectors and attributes

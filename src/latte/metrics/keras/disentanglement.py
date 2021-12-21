@@ -1,28 +1,55 @@
 from .wrapper import KerasMetricWrapper
 from ..core import disentanglement as C
-
-from functools import partial
-
-MutualInformationGap = partial(KerasMetricWrapper, metric=C.MutualInformationGap)
-
-DependencyAwareMutualInformationGap = partial(
-    KerasMetricWrapper, metric=C.DependencyAwareMutualInformationGap
-)
+import tensorflow as tf
 
 
-DependencyAwareLatentInformationGap = partial(
-    KerasMetricWrapper, metric=C.DependencyAwareLatentInformationGap
-)
+class MutualInformationGap(KerasMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.MutualInformationGap, **kwargs)
 
-DependencyBlindMutualInformationGap = partial(
-    KerasMetricWrapper, metric=C.DependencyBlindMutualInformationGap
-)
+    def update_state(self, z: tf.Tensor, a: tf.Tensor):
+        return super().update_state(z=z, a=a)
 
-SeparateAttributePredictability = partial(
-    KerasMetricWrapper, metric=C.SeparateAttributePredictability
-)
 
-Modularity = partial(KerasMetricWrapper, metric=C.Modularity)
+class DependencyAwareMutualInformationGap(KerasMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.DependencyAwareMutualInformationGap, **kwargs)
+
+    def update_state(self, z: tf.Tensor, a: tf.Tensor):
+        return super().update_state(z=z, a=a)
+
+
+class DependencyAwareLatentInformationGap(KerasMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.DependencyAwareLatentInformationGap, **kwargs)
+
+    def update_state(self, z: tf.Tensor, a: tf.Tensor):
+        return super().update_state(z=z, a=a)
+
+
+class DependencyBlindMutualInformationGap(KerasMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.DependencyBlindMutualInformationGap, **kwargs)
+
+    def update_state(self, z: tf.Tensor, a: tf.Tensor):
+        return super().update_state(z=z, a=a)
+
+
+class SeparateAttributePredictability(KerasMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.SeparateAttributePredictability, **kwargs)
+
+    def update_state(self, z: tf.Tensor, a: tf.Tensor):
+        return super().update_state(z=z, a=a)
+
+
+class Modularity(KerasMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.Modularity, **kwargs)
+
+    def update_state(self, z: tf.Tensor, a: tf.Tensor):
+        return super().update_state(z=z, a=a)
+
 
 MIG = MutualInformationGap
 DMIG = DependencyAwareMutualInformationGap

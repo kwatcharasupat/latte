@@ -23,7 +23,7 @@ Functions
 
 
 
-.. py:function:: smoothness(z: numpy.ndarray, a: numpy.ndarray, reg_dim: Optional[List] = None, liad_mode: str = 'forward', max_mode: str = 'lehmer', ptp_mode: Union[float, str] = 'naive', reduce_mode: str = 'attribute', clamp: bool = False, p: float = 2.0) -> numpy.ndarray
+.. py:function:: smoothness(z, a, reg_dim = None, liad_mode = 'forward', max_mode = 'lehmer', ptp_mode = 'naive', reduce_mode = 'attribute', clamp = False, p = 2.0)
 
    
    Calculate latent smoothness.
@@ -43,6 +43,8 @@ Functions
    :type ptp_mode: str, optional
    :param reduce_mode: options for reduction of the return array, by default "attribute". Must be one of {"attribute", "samples", "all", "none"}. If "all", returns a scalar. If "attribute", an average is taken along the sample axis and the return array is of shape `(n_attributes,)`. If "samples", an average is taken along the attribute axis and the return array is of shape `(n_samples,)`. If "none", returns a smoothness matrix of shape `(n_samples, n_attributes,)`.
    :type reduce_mode: str, optional
+   :param clamp: Whether to clamp smoothness to [0, 1], by default False
+   :type clamp: bool, optional
    :param p: Lehmer mean power, by default 2.0 (i.e., contraharmonic mean). Only used if `max_mode == "lehmer"`. Must be greater than 1.0.
    :type p: float, optional
 
