@@ -1,6 +1,0 @@
-latte
-=====
-
-.. toctree::
-   :maxdepth: 4
-

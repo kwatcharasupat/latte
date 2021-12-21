@@ -131,3 +131,5 @@ dmypy.json
 run_tests.sh
 
 **/.DS_Store
+docs/_build/**
+twistd.pid

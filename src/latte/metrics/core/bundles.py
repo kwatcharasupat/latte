@@ -17,7 +17,7 @@ class DependencyAwareMutualInformationBundle(MetricBundle):
         self, reg_dim: Optional[List] = None, discrete: bool = False,
     ):
         """
-        Calculate between latent vectors (`z`) and attributes (`a`): Mutual Information Gap (MIG), Dependency-Aware Mutual Information Gap (DMIG), Dependency-Blind Mutual Information Gap (XMIG), and Dependency-Aware Latent Information Gap (DLIG).
+        Calculate Mutual Information Gap (MIG), Dependency-Aware Mutual Information Gap (DMIG), Dependency-Blind Mutual Information Gap (XMIG), and Dependency-Aware Latent Information Gap (DLIG) between latent vectors (`z`) and attributes (`a`).
 
         Parameters
         ----------
