@@ -120,27 +120,6 @@ mig_val = mig.result()
 
 https://latte.readthedocs.io/en/latest
 
-## Method Chart for Modular API
-
-TorchMetrics: https://torchmetrics.readthedocs.io/en/latest/pages/implement.html
-
-Keras Metric: https://www.tensorflow.org/api_docs/python/tf/keras/metrics/Metric
-
-Torch/Keras wrapper will
-1. convert torch/tf types to numpy types (and move everything to CPU)
-2. call native class methods
-3. if there are return values, convert numpy types back to torch/tf types
-
-
-|      | Native  |TorchMetrics | Keras Metric |
-| :--- | :--- | :---        | :---         |
-| base class | `latte.metrics.LatteMetric` | `torchmetrics.Metric` | `tf.keras.metrics.Metric` |
-| super class | `object` | `torch.nn.Module` | `tf.keras.layers.Layer` |
-| adding buffer | `self.add_state` | `self.add_state` | `self.add_weight` |
-| updating buffer | `self.update_state` | `self.update` | `self.update_state` |
-| resetting buffer | `self.reset_state` | `self.reset` | `self.reset_state` |
-| computing metric values | `self.compute` | `self.compute` | `self.result` |
-
 ## Supported metrics
 
 🧪 Beta support | ✔️ Stable | 🔨 In Progress | 🕣 In Queue | 👀 KIV |
