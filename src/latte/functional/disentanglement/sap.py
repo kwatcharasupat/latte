@@ -4,21 +4,7 @@ from sklearn import feature_selection as fs
 from typing import List, Tuple, Optional
 from sklearn import svm
 
-from .utils import _validate_za_shape
-
-
-def _sgap(
-    score: np.ndarray, zi: Optional[int] = None
-) -> Tuple[np.ndarray, Optional[int]]:
-    sc_sort = np.sort(score)
-    if zi is None:
-        return (sc_sort[-1] - sc_sort[-2]), None
-    else:
-        sc_argsort = np.argsort(score)
-        if sc_argsort[-1] == zi:
-            return (sc_sort[-1] - sc_sort[-2]), sc_argsort[-2]
-        else:
-            return (score[zi] - sc_sort[-1]), sc_argsort[-1]
+from .utils import _validate_za_shape, _top2gap
 
 
 def get_continuous_sap_score(z: np.ndarray, a: np.ndarray, thresh: float = 1e-12):
@@ -117,6 +103,6 @@ def sap(
 
     for i in range(n_attr):
         zi = reg_dim[i] if reg_dim is not None else None
-        ret[i], _ = _sgap(score[:, i], zi=zi)
+        ret[i], _ = _top2gap(score[:, i], zi=zi)
 
     return ret
