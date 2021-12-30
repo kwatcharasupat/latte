@@ -8,8 +8,9 @@ try:
 except:
     has_torch_and_tm = False
 
-import pytest
 import numpy as np
+import pytest
+
 from latte.metrics.core import interpolatability as C
 
 

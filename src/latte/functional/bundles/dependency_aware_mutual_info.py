@@ -1,10 +1,10 @@
-from functools import partial
 from typing import Dict, List, Optional
 
 import numpy as np
-from latte.functional.disentanglement import utils
 
+from latte.functional.disentanglement import utils
 from latte.functional.disentanglement.utils import _validate_za_shape
+
 from ..disentanglement import mutual_info as minfo
 
 
@@ -44,8 +44,9 @@ def dependency_aware_mutual_info_bundle(
     .. [2] K. N. Watcharasupat and A. Lerch, “Evaluation of Latent Space Disentanglement in the Presence of Interdependent Attributes”, in Extended Abstracts of the Late-Breaking Demo Session of the 22nd International Society for Music Information Retrieval Conference, 2021.
     .. [3] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
-    
+
     return _optimized_dependency_aware_mutual_info_bundle(z, a, reg_dim, discrete)
+
 
 def _optimized_dependency_aware_mutual_info_bundle(
     z: np.ndarray,
@@ -53,11 +54,11 @@ def _optimized_dependency_aware_mutual_info_bundle(
     reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
 ) -> Dict[str, np.ndarray]:
-    
+
     z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
     _, n_attr = a.shape
-    
+
     assert n_attr > 1, "DLIG requires at least two attributes"
 
     mig_ret = np.zeros((n_attr,))
@@ -72,12 +73,12 @@ def _optimized_dependency_aware_mutual_info_bundle(
         mi = minfo._latent_attr_mutual_info(z, ai, discrete)
 
         gap, zj = utils._top2gap(mi, zi)
-        
+
         if zj in reg_dim:
             cen = minfo._conditional_entropy(ai, a[:, reg_dim.index(zj)], discrete)
         else:
             cen = minfo._entropy(ai, discrete)
-            
+
         blind_gap, _ = minfo._xgap(mi, zi, reg_dim)
 
         mig_ret[i] = gap / en

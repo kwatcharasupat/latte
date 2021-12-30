@@ -1,8 +1,8 @@
-from abc import ABC, abstractmethod
-from typing import Any, NewType, OrderedDict, Union, Dict, List
-import numpy as np
-
 import inspect
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, OrderedDict, Union
+
+import numpy as np
 
 
 class LatteMetric(ABC):
@@ -77,11 +77,10 @@ class MetricBundle:
     def compute(self) -> Dict[str, float]:
         return {name: self.metrics[name].compute() for name in self.metrics}
 
-OptimizedMetricBundle = LatteMetric 
+
+OptimizedMetricBundle = LatteMetric
 # Just a type alias for metric bundles with optimized implementation.
 # These bundles are in fact LatteMetric objects, but they are functionally more similar to MetricBundle objects.
 
 BaseMetricBundle = Union[MetricBundle, OptimizedMetricBundle]
 # A 'fake' super class of MetricBundle and OptimizedMetricBundle. This is used to make the type checker happy.
-        
-        

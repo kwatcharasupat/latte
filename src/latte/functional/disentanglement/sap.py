@@ -1,10 +1,10 @@
-from inspect import getmembers
+from typing import List, Optional
+
 import numpy as np
 from sklearn import feature_selection as fs
-from typing import List, Optional
 from sklearn import svm
 
-from .utils import _validate_za_shape, _top2gap
+from .utils import _top2gap, _validate_za_shape
 
 
 def _get_continuous_sap_score(z: np.ndarray, a: np.ndarray, thresh: float = 1e-12):

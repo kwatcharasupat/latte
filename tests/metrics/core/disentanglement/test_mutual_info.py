@@ -1,7 +1,8 @@
-import pytest
-from latte.metrics.core.disentanglement import *
 import numpy as np
+import pytest
+
 from latte.functional.disentanglement.mutual_info import dmig, mig
+from latte.metrics.core.disentanglement import *
 
 
 class TestMIG:

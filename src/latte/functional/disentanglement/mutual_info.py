@@ -1,8 +1,8 @@
+from functools import partial
+from typing import Callable, List, Optional, Tuple
+
 import numpy as np
 from sklearn import feature_selection as fs
-from typing import Callable, Optional, List, Tuple
-
-from functools import partial
 
 from . import utils
 
@@ -55,6 +55,7 @@ def _latent_attr_mutual_info(
 
     return _get_mi_func(discrete)(z, a)
 
+
 def _attr_latent_mutual_info(
     z: np.ndarray, a: np.ndarray, discrete: bool = False
 ) -> np.ndarray:
@@ -76,7 +77,9 @@ def _attr_latent_mutual_info(
         mutual information between each latent vector dimension and the attribute
     """
 
-    return np.concatenate([_get_mi_func(discrete)(z[:, None], a[:, i]) for i in range(a.shape[1])])
+    return np.concatenate(
+        [_get_mi_func(discrete)(z[:, None], a[:, i]) for i in range(a.shape[1])]
+    )
 
 
 def _single_mutual_info(a: np.ndarray, b: np.ndarray, discrete: bool) -> float:

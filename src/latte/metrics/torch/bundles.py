@@ -1,15 +1,16 @@
 from typing import List, Optional, Union
-from torchmetrics import MetricCollection
-import torch
+
 import numpy as np
+import torch
+from torchmetrics import MetricCollection
 
 from ..torch.disentanglement import (
-    MutualInformationGap,
+    DependencyAwareLatentInformationGap,
     DependencyAwareMutualInformationGap,
     DependencyBlindMutualInformationGap,
-    DependencyAwareLatentInformationGap,
+    MutualInformationGap,
 )
-from ..torch.interpolatability import Smoothness, Monotonicity
+from ..torch.interpolatability import Monotonicity, Smoothness
 
 # Note: We use `MetricCollection` from TorchMetrics for better efficiency, instead of a `TorchMetricWrapper` around a `MetricBundle`.
 

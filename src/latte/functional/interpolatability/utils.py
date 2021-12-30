@@ -1,4 +1,5 @@
 from typing import List, Optional, Tuple, Union
+
 import numpy as np
 
 __VALID_LIAD_MODE__ = ["forward"]  # ["forward", "central", "spline"]
@@ -8,7 +9,10 @@ __VALID_REDUCE_MODE__ = ["all", "attribute", "sample", "none"]
 
 
 def _validate_za_shape(
-    z: np.ndarray, a: np.ndarray, reg_dim: Optional[List[int]] = None, min_size: int = None
+    z: np.ndarray,
+    a: np.ndarray,
+    reg_dim: Optional[List[int]] = None,
+    min_size: int = None,
 ) -> Tuple[np.ndarray, np.ndarray, List[int]]:
 
     assert 2 <= a.ndim <= 3
@@ -88,7 +92,7 @@ def _liad(
     order: int = 1,
     mode: str = "forward",
     return_list: bool = False,
-)-> Union[Tuple[np.ndarray, np.ndarray], List[Tuple[np.ndarray, np.ndarray]]]:
+) -> Union[Tuple[np.ndarray, np.ndarray], List[Tuple[np.ndarray, np.ndarray]]]:
 
     if mode in ["forward"]:
         rets = _finite_diff(z, a, order, mode, return_list=return_list)

@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+
 from latte.functional.disentanglement.modularity import modularity
 from latte.functional.disentanglement.mutual_info import _single_mutual_info
 

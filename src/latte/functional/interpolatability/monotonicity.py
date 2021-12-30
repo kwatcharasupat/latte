@@ -1,8 +1,9 @@
-from typing import List, Optional, Union
+import warnings
+from typing import List, Optional
+
 import numpy as np
 
 from . import utils
-import warnings
 
 
 def _validate_monotonicity_args(
@@ -111,4 +112,3 @@ def monotonicity(
         degenerate_val=degenerate_val,
         nanmean=nanmean,
     )
-

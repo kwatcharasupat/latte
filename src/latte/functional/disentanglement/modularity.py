@@ -1,5 +1,6 @@
+from typing import List, Optional
+
 import numpy as np
-from typing import Optional, List
 
 from latte.functional.disentanglement.mutual_info import _latent_attr_mutual_info
 

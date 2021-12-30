@@ -1,9 +1,11 @@
 from typing import List, Optional
+
+import numpy as np
+
 from ...functional.disentanglement.modularity import modularity
-from ...functional.disentanglement.mutual_info import mig, dmig, xmig, dlig
+from ...functional.disentanglement.mutual_info import dlig, dmig, mig, xmig
 from ...functional.disentanglement.sap import sap
 from ..base import LatteMetric
-import numpy as np
 
 
 class MutualInformationGap(LatteMetric):

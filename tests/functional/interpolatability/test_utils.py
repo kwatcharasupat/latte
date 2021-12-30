@@ -1,6 +1,7 @@
-from latte.functional.interpolatability import utils
 import numpy as np
 import pytest
+
+from latte.functional.interpolatability import utils
 
 
 class TestShape:

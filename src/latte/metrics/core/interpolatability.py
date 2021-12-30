@@ -1,15 +1,16 @@
 from typing import List, Optional, Union
 
+import numpy as np
+
 from ...functional.interpolatability.monotonicity import (
-    monotonicity,
     _validate_monotonicity_args,
+    monotonicity,
 )
 from ...functional.interpolatability.smoothness import (
     _validate_smoothness_args,
     smoothness,
 )
 from ..base import LatteMetric
-import numpy as np
 
 
 class Smoothness(LatteMetric):

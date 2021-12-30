@@ -4,16 +4,16 @@ import numpy as np
 
 from latte.functional.interpolatability import utils
 
+from ..interpolatability.monotonicity import (
+    _get_monotonicity_from_liad,
+    _validate_monotonicity_args,
+    monotonicity,
+)
 from ..interpolatability.smoothness import (
     _get_2nd_order_liad,
     _get_smoothness_from_liads,
     _validate_smoothness_args,
     smoothness,
-)
-from ..interpolatability.monotonicity import (
-    _get_monotonicity_from_liad,
-    _validate_monotonicity_args,
-    monotonicity,
 )
 
 
@@ -171,4 +171,3 @@ def _optimized_liad_interpolatability_bundle(
     )
 
     return {"smoothness": smth, "monotonicity": mntc}
-

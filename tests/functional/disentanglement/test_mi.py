@@ -1,9 +1,10 @@
+import numpy as np
 import pytest
+from sklearn import feature_selection as fs
+
+import latte
 from latte.functional.disentanglement import mutual_info as mi
 from latte.functional.disentanglement import utils
-import latte
-import numpy as np
-from sklearn import feature_selection as fs
 
 
 class TestMiFunc:
