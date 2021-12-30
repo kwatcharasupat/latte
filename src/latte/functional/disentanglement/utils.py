@@ -30,3 +30,16 @@ def _validate_za_shape(
             reg_dim = [i for i in range(n_attr)]
 
     return z, a, reg_dim
+
+def _top2gap(
+    score: np.ndarray, zi: Optional[int] = None
+) -> Tuple[np.ndarray, Optional[int]]:
+    sc_sort = np.sort(score)
+    if zi is None:
+        return (sc_sort[-1] - sc_sort[-2]), None
+    else:
+        sc_argsort = np.argsort(score)
+        if sc_argsort[-1] == zi:
+            return (sc_sort[-1] - sc_sort[-2]), sc_argsort[-2]
+        else:
+            return (score[zi] - sc_sort[-1]), sc_argsort[-1]
