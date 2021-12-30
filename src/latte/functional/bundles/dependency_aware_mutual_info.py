@@ -11,7 +11,7 @@ from ..disentanglement import mutual_info as minfo
 def dependency_aware_mutual_info_bundle(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
 ) -> Dict[str, np.ndarray]:
     """
@@ -47,20 +47,10 @@ def dependency_aware_mutual_info_bundle(
     
     return _optimized_dependency_aware_mutual_info_bundle(z, a, reg_dim, discrete)
 
-    # # TODO: optimize this function
-    # # need to set `fill_reg_dim=True` for same `reg_dim` behaviour with other metrics
-    # metrics = [
-    #     ("MIG", partial(minfo.mig, fill_reg_dim=True)),
-    #     ("DMIG", minfo.dmig),
-    #     ("XMIG", minfo.xmig),
-    #     ("DLIG", minfo.dlig),
-    # ]
-    # return {k: f(z, a, reg_dim, discrete) for k, f in metrics}
-
 def _optimized_dependency_aware_mutual_info_bundle(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
 ) -> Dict[str, np.ndarray]:
     

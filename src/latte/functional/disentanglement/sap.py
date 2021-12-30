@@ -54,7 +54,7 @@ def _get_discrete_sap_score(z: np.ndarray, a: np.ndarray, l2_reg: float = 1.0):
 def sap(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
     l2_reg: float = 1.0,
     thresh: float = 1e-12,

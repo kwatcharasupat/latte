@@ -158,7 +158,7 @@ def _xgap(mi: np.ndarray, zi: int, reg_dim: List) -> Tuple[np.ndarray, Optional[
 def mig(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
     fill_reg_dim: bool = False,
 ) -> np.ndarray:
@@ -225,7 +225,7 @@ def mig(
 def dmig(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
 ) -> np.ndarray:
     """
@@ -282,7 +282,7 @@ def dmig(
 def dlig(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
 ):
     """
@@ -333,7 +333,7 @@ def dlig(
 def xmig(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
 ):
     """

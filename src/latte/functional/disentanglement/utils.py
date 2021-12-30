@@ -5,9 +5,9 @@ import numpy as np
 def _validate_za_shape(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     fill_reg_dim: bool = False,
-) -> Tuple[np.ndarray, np.ndarray, List]:
+) -> Tuple[np.ndarray, np.ndarray, List[int]]:
 
     assert a.ndim <= 2
 

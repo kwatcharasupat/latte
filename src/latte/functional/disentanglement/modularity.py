@@ -9,7 +9,7 @@ from .utils import _validate_za_shape
 def modularity(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
     thresh: float = 1e-12,
 ):

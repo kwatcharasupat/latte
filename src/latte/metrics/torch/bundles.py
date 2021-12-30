@@ -16,7 +16,7 @@ from ..torch.interpolatability import Smoothness, Monotonicity
 
 class DependencyAwareMutualInformationBundle(MetricCollection):
     def __init__(
-        self, reg_dim: Optional[List] = None, discrete: bool = False,
+        self, reg_dim: Optional[List[int]] = None, discrete: bool = False,
     ):
         # need to set `fill_reg_dim=True` for same `reg_dim` behaviour with other metrics
         super().__init__(
@@ -43,7 +43,7 @@ class DependencyAwareMutualInformationBundle(MetricCollection):
 class LiadInterpolatabilityBundle(MetricCollection):
     def __init__(
         self,
-        reg_dim: Optional[List] = None,
+        reg_dim: Optional[List[int]] = None,
         liad_mode: str = "forward",
         max_mode: str = "lehmer",
         ptp_mode: Union[float, str] = "naive",

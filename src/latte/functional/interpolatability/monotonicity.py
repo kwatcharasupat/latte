@@ -18,10 +18,41 @@ def _validate_monotonicity_args(
         )
 
 
+def _get_monotonicity_from_liad(
+    liad1: np.ndarray,
+    reduce_mode: str = "attribute",
+    liad_thresh: float = 1e-3,
+    degenerate_val: float = np.nan,
+    nanmean: bool = True,
+) -> np.ndarray:
+    liad1 = liad1 * (np.abs(liad1) > liad_thresh)
+
+    sgn = np.sign(liad1)
+    nz = np.sum(sgn != 0, axis=-1)
+    ssgn = np.sum(sgn, axis=-1)
+
+    with np.errstate(divide="ignore", invalid="ignore"):
+        mntc = ssgn / nz
+    mntc[nz == 0] = degenerate_val
+
+    meanfunc = np.nanmean if nanmean else np.mean
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        if reduce_mode == "attribute":
+            return meanfunc(mntc, axis=0)
+        elif reduce_mode == "sample":
+            return meanfunc(mntc, axis=-1)
+        elif reduce_mode == "all":
+            return meanfunc(mntc)
+        else:
+            return mntc
+
+
 def monotonicity(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     liad_mode: str = "forward",
     reduce_mode: str = "attribute",
     liad_thresh: float = 1e-3,
@@ -73,25 +104,11 @@ def monotonicity(
 
     liad1, _ = utils._liad(z, a, order=1, mode=liad_mode, return_list=False)
 
-    liad1 = liad1 * (np.abs(liad1) > liad_thresh)
+    return _get_monotonicity_from_liad(
+        liad1=liad1,
+        reduce_mode=reduce_mode,
+        liad_thresh=liad_thresh,
+        degenerate_val=degenerate_val,
+        nanmean=nanmean,
+    )
 
-    sgn = np.sign(liad1)
-    nz = np.sum(sgn != 0, axis=-1)
-    ssgn = np.sum(sgn, axis=-1)
-
-    with np.errstate(divide="ignore", invalid="ignore"):
-        mntc = ssgn / nz
-    mntc[nz == 0] = degenerate_val
-
-    meanfunc = np.nanmean if nanmean else np.mean
-
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", RuntimeWarning)
-        if reduce_mode == "attribute":
-            return meanfunc(mntc, axis=0)
-        elif reduce_mode == "sample":
-            return meanfunc(mntc, axis=-1)
-        elif reduce_mode == "all":
-            return meanfunc(mntc)
-        else:
-            return mntc
