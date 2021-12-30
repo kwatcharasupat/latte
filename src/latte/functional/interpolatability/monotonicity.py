@@ -71,7 +71,7 @@ def monotonicity(
     z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=2)
     utils._validate_non_constant_interp(z)
 
-    liad1, _ = utils.liad(z, a, order=1, mode=liad_mode, return_list=False)
+    liad1, _ = utils._liad(z, a, order=1, mode=liad_mode, return_list=False)
 
     liad1 = liad1 * (np.abs(liad1) > liad_thresh)
 

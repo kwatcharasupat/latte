@@ -84,7 +84,7 @@ def smoothness(
     utils._validate_non_constant_interp(z)
     utils._validate_equal_interp_deltas(z)
 
-    liads = utils.liad(z, a, order=2, mode=liad_mode, return_list=True)
+    liads = utils._liad(z, a, order=2, mode=liad_mode, return_list=True)
 
     liad1, _ = liads[0]
     liad2, _ = liads[1]
@@ -94,7 +94,7 @@ def smoothness(
     if max_mode == "naive":
         num = np.max(liad2abs, axis=-1)
     elif max_mode == "lehmer":
-        num = utils.lehmer_mean(liad2abs, p=p)
+        num = utils._lehmer_mean(liad2abs, p=p)
     else:
         raise NotImplementedError
 

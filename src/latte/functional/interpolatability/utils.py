@@ -54,7 +54,7 @@ def _validate_equal_interp_deltas(z):
         raise NotImplementedError("Unequal `z` spacing is currently not supported.")
 
 
-def finite_diff(
+def _finite_diff(
     z: np.ndarray,
     a: np.ndarray,
     order: int = 1,
@@ -82,7 +82,7 @@ def finite_diff(
         return a, z
 
 
-def liad(
+def _liad(
     z: np.ndarray,
     a: np.ndarray,
     order: int = 1,
@@ -91,7 +91,7 @@ def liad(
 ):
 
     if mode in ["forward"]:
-        rets = finite_diff(z, a, order, mode, return_list=return_list)
+        rets = _finite_diff(z, a, order, mode, return_list=return_list)
     else:
         # TODO: add spline interpolation derivatives
         raise NotImplementedError
@@ -99,7 +99,7 @@ def liad(
     return rets
 
 
-def lehmer_mean(x: np.ndarray, p: float):
+def _lehmer_mean(x: np.ndarray, p: float):
 
     if p == 1.0:
         den = np.ones_like(x)

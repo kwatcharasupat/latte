@@ -31,6 +31,7 @@ def _validate_za_shape(
 
     return z, a, reg_dim
 
+
 def _top2gap(
     score: np.ndarray, zi: Optional[int] = None
 ) -> Tuple[np.ndarray, Optional[int]]:

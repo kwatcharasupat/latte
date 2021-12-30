@@ -44,6 +44,7 @@ def dependency_aware_mutual_info_bundle(
     .. [3] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
+    # TODO: optimize this function
     # need to set `fill_reg_dim=True` for same `reg_dim` behaviour with other metrics
     metrics = [
         ("MIG", partial(mi.mig, fill_reg_dim=True)),

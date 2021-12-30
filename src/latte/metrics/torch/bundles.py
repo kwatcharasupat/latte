@@ -35,7 +35,7 @@ class DependencyAwareMutualInformationBundle(MetricCollection):
                 ),
             }
         )
-        
+
     def update(self, z: torch.Tensor, a: torch.Tensor) -> None:
         return super().update(z=z, a=a)
 

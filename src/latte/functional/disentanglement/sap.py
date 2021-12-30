@@ -1,13 +1,13 @@
 from inspect import getmembers
 import numpy as np
 from sklearn import feature_selection as fs
-from typing import List, Tuple, Optional
+from typing import List, Optional
 from sklearn import svm
 
 from .utils import _validate_za_shape, _top2gap
 
 
-def get_continuous_sap_score(z: np.ndarray, a: np.ndarray, thresh: float = 1e-12):
+def _get_continuous_sap_score(z: np.ndarray, a: np.ndarray, thresh: float = 1e-12):
 
     _, n_features = z.shape
     _, n_attr = a.shape
@@ -26,7 +26,7 @@ def get_continuous_sap_score(z: np.ndarray, a: np.ndarray, thresh: float = 1e-12
     return score
 
 
-def get_discrete_sap_score(z: np.ndarray, a: np.ndarray, l2_reg: float = 1.0):
+def _get_discrete_sap_score(z: np.ndarray, a: np.ndarray, l2_reg: float = 1.0):
 
     assert l2_reg > 0, "`l2_reg` must be more than 0.0"
 
@@ -97,9 +97,9 @@ def sap(
     ret = np.zeros((n_attr,))
 
     if discrete:
-        score = get_discrete_sap_score(z, a, l2_reg=l2_reg)
+        score = _get_discrete_sap_score(z, a, l2_reg=l2_reg)
     else:
-        score = get_continuous_sap_score(z, a, thresh=thresh)
+        score = _get_continuous_sap_score(z, a, thresh=thresh)
 
     for i in range(n_attr):
         zi = reg_dim[i] if reg_dim is not None else None

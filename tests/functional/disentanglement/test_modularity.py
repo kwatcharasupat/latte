@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 from latte.functional.disentanglement.modularity import modularity
-from latte.functional.disentanglement.mutual_info import single_mutual_info
+from latte.functional.disentanglement.mutual_info import _single_mutual_info
 
 
 class TestModularity:
@@ -16,10 +16,10 @@ class TestModularity:
         z = np.random.randn(16, 2)
         a = np.random.randn(16, 2)
 
-        mi00 = single_mutual_info(z[:, 0], a[:, 0], discrete=False)
-        mi01 = single_mutual_info(z[:, 0], a[:, 1], discrete=False)
-        mi10 = single_mutual_info(z[:, 1], a[:, 0], discrete=False)
-        mi11 = single_mutual_info(z[:, 1], a[:, 1], discrete=False)
+        mi00 = _single_mutual_info(z[:, 0], a[:, 0], discrete=False)
+        mi01 = _single_mutual_info(z[:, 0], a[:, 1], discrete=False)
+        mi10 = _single_mutual_info(z[:, 1], a[:, 0], discrete=False)
+        mi11 = _single_mutual_info(z[:, 1], a[:, 1], discrete=False)
 
         max0 = max(mi00, mi01)
         max1 = max(mi10, mi11)
@@ -34,10 +34,10 @@ class TestModularity:
         z = np.random.randn(32, 2)
         a = np.random.randn(32, 2) > 0.0
 
-        mi00 = single_mutual_info(z[:, 0], a[:, 0], discrete=True)
-        mi01 = single_mutual_info(z[:, 0], a[:, 1], discrete=True)
-        mi10 = single_mutual_info(z[:, 1], a[:, 0], discrete=True)
-        mi11 = single_mutual_info(z[:, 1], a[:, 1], discrete=True)
+        mi00 = _single_mutual_info(z[:, 0], a[:, 0], discrete=True)
+        mi01 = _single_mutual_info(z[:, 0], a[:, 1], discrete=True)
+        mi10 = _single_mutual_info(z[:, 1], a[:, 0], discrete=True)
+        mi11 = _single_mutual_info(z[:, 1], a[:, 1], discrete=True)
 
         max0 = max(mi00, mi01)
         max1 = max(mi10, mi11)

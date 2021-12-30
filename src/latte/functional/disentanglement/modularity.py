@@ -1,7 +1,7 @@
 import numpy as np
 from typing import Optional, List
 
-from latte.functional.disentanglement.mutual_info import latent_attr_mutual_info
+from latte.functional.disentanglement.mutual_info import _latent_attr_mutual_info
 
 from .utils import _validate_za_shape
 
@@ -52,7 +52,7 @@ def modularity(
 
     sqmi = np.square(
         np.stack(
-            [latent_attr_mutual_info(z, a[:, i], discrete) for i in range(n_attr)],
+            [_latent_attr_mutual_info(z, a[:, i], discrete) for i in range(n_attr)],
             axis=1,
         )
     )
