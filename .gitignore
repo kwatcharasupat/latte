@@ -133,3 +133,5 @@ run_tests.sh
 *.pickle
 
 docs/_build/**
+
+**/lightning_logs/**
