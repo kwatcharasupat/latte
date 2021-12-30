@@ -1,6 +1,7 @@
+import numpy as np
+
 from latte.functional.interpolatability.monotonicity import monotonicity
 from latte.metrics.core.interpolatability import Monotonicity
-import numpy as np
 
 
 class TestMonotonicity:

@@ -1,7 +1,8 @@
-from numpy.core import shape_base
-import latte
 import numpy as np
 import pytest
+from numpy.core import shape_base
+
+import latte
 from latte.functional.disentanglement import sap
 
 

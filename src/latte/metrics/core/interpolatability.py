@@ -1,21 +1,22 @@
 from typing import List, Optional, Union
 
+import numpy as np
+
 from ...functional.interpolatability.monotonicity import (
-    monotonicity,
     _validate_monotonicity_args,
+    monotonicity,
 )
 from ...functional.interpolatability.smoothness import (
     _validate_smoothness_args,
     smoothness,
 )
 from ..base import LatteMetric
-import numpy as np
 
 
 class Smoothness(LatteMetric):
     def __init__(
         self,
-        reg_dim: Optional[List] = None,
+        reg_dim: Optional[List[int]] = None,
         liad_mode: str = "forward",
         max_mode: str = "lehmer",
         ptp_mode: Union[float, str] = "naive",
@@ -68,7 +69,7 @@ class Smoothness(LatteMetric):
 class Monotonicity(LatteMetric):
     def __init__(
         self,
-        reg_dim: Optional[List] = None,
+        reg_dim: Optional[List[int]] = None,
         liad_mode: str = "forward",
         reduce_mode: str = "attribute",
         liad_thresh: float = 1e-3,

@@ -7,9 +7,11 @@ except ImportError as e:
     warnings.warn("Make sure you have TensorFlow installed.", ImportWarning)
     raise e
 
-from ...metrics.base import LatteMetric
 import typing as t
+
 import numpy as np
+
+from ...metrics.base import LatteMetric
 
 
 def tf_to_numpy(args, kwargs):

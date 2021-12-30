@@ -1,7 +1,7 @@
-from .wrapper import KerasMetricWrapper
-from ..core import interpolatability as C
-
 import tensorflow as tf
+
+from ..core import interpolatability as C
+from .wrapper import KerasMetricWrapper
 
 
 class Smoothness(KerasMetricWrapper):

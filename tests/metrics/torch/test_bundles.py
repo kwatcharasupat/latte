@@ -3,10 +3,10 @@ try:
 
     from latte.metrics.torch.bundles import DependencyAwareMutualInformationBundle
     from latte.metrics.torch.disentanglement import (
-        MutualInformationGap,
-        DependencyAwareMutualInformationGap,
         DependencyAwareLatentInformationGap,
+        DependencyAwareMutualInformationGap,
         DependencyBlindMutualInformationGap,
+        MutualInformationGap,
     )
 
     has_torch = True

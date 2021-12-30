@@ -1,4 +1,5 @@
-from typing import List, Optional, Union
+from typing import List, Optional, Tuple, Union
+
 import numpy as np
 
 from . import utils
@@ -26,10 +27,62 @@ def _validate_smoothness_args(
         raise ValueError("`p` must be greater than 1.0.")
 
 
+def _get_2nd_order_liad(
+    z: np.ndarray, a: np.ndarray, liad_mode: str
+) -> List[Tuple[np.ndarray, np.ndarray]]:
+    return utils._liad(z, a, order=2, mode=liad_mode, return_list=True)
+
+
+def _get_smoothness_from_liads(
+    liad1: np.ndarray,
+    liad2: np.ndarray,
+    z_interval: np.ndarray,
+    max_mode: str = "lehmer",
+    ptp_mode: Union[float, str] = "naive",
+    reduce_mode: str = "attribute",
+    clamp: bool = False,
+    p: float = 2.0,
+) -> np.ndarray:
+    liad2abs = np.abs(liad2)
+
+    if max_mode == "naive":
+        num = np.max(liad2abs, axis=-1)
+    elif max_mode == "lehmer":
+        num = utils._lehmer_mean(liad2abs, p=p)
+    else:
+        raise NotImplementedError
+
+    if ptp_mode == "naive":
+        den = np.ptp(liad1, axis=-1)
+    elif isinstance(ptp_mode, float):
+        den = np.quantile(liad1, q=0.5 + 0.5 * ptp_mode, axis=-1) - np.quantile(
+            liad1, q=0.5 - 0.5 * ptp_mode, axis=-1
+        )
+    else:
+        raise NotImplementedError
+
+    den = den / z_interval
+    with np.errstate(divide="ignore", invalid="ignore"):
+        smth = 1.0 - num / den
+    smth[:, np.all(num == 0, axis=0)] = 1.0
+
+    if clamp:
+        smth = np.clip(smth, 0.0, 1.0)
+
+    if reduce_mode == "attribute":
+        return np.mean(smth, axis=0)
+    elif reduce_mode == "sample":
+        return np.mean(smth, axis=-1)
+    elif reduce_mode == "all":
+        return np.mean(smth)
+    else:
+        return smth
+
+
 def smoothness(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     liad_mode: str = "forward",
     max_mode: str = "lehmer",
     ptp_mode: Union[float, str] = "naive",
@@ -84,42 +137,19 @@ def smoothness(
     utils._validate_non_constant_interp(z)
     utils._validate_equal_interp_deltas(z)
 
-    liads = utils.liad(z, a, order=2, mode=liad_mode, return_list=True)
+    liads = _get_2nd_order_liad(z, a, liad_mode=liad_mode)
 
     liad1, _ = liads[0]
     liad2, _ = liads[1]
+    z_interval = z[..., 1] - z[..., 0]
 
-    liad2abs = np.abs(liad2)
-
-    if max_mode == "naive":
-        num = np.max(liad2abs, axis=-1)
-    elif max_mode == "lehmer":
-        num = utils.lehmer_mean(liad2abs, p=p)
-    else:
-        raise NotImplementedError
-
-    if ptp_mode == "naive":
-        den = np.ptp(liad1, axis=-1)
-    elif isinstance(ptp_mode, float):
-        den = np.quantile(liad1, q=0.5 + 0.5 * ptp_mode, axis=-1) - np.quantile(
-            liad1, q=0.5 - 0.5 * ptp_mode, axis=-1
-        )
-    else:
-        raise NotImplementedError
-
-    den = den / (z[..., 1] - z[..., 0])
-    with np.errstate(divide="ignore", invalid="ignore"):
-        smth = 1.0 - num / den
-    smth[:, np.all(num == 0, axis=0)] = 1.0
-
-    if clamp:
-        smth = np.clip(smth, 0.0, 1.0)
-
-    if reduce_mode == "attribute":
-        return np.mean(smth, axis=0)
-    elif reduce_mode == "sample":
-        return np.mean(smth, axis=-1)
-    elif reduce_mode == "all":
-        return np.mean(smth)
-    else:
-        return smth
+    return _get_smoothness_from_liads(
+        liad1=liad1,
+        liad2=liad2,
+        z_interval=z_interval,
+        max_mode=max_mode,
+        ptp_mode=ptp_mode,
+        reduce_mode=reduce_mode,
+        clamp=clamp,
+        p=p,
+    )

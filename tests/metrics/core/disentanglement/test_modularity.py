@@ -1,6 +1,7 @@
+import numpy as np
+
 from latte.functional.disentanglement.modularity import modularity
 from latte.metrics.core.disentanglement import Modularity
-import numpy as np
 
 
 class TestDependencyAware:

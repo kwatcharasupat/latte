@@ -10,7 +10,9 @@ except ModuleNotFoundError as e:
     raise e
 
 import typing as t
+
 import numpy as np
+
 from ...metrics.base import LatteMetric
 
 
