@@ -13,7 +13,6 @@ import numpy as np
 
 from ...metrics.base import LatteMetric
 
-
 def tf_to_numpy(args, kwargs):
     args = [a.numpy() for a in args]
     kwargs = {k: kwargs[k].numpy() for k in kwargs}
@@ -50,10 +49,11 @@ class KerasMetricWrapper(tfm.Metric):
         args, kwargs = tf_to_numpy(args, kwargs)
         self.metric.update_state(*args, **kwargs)
 
+    @tf.autograph.experimental.do_not_convert
     def result(self):
         return numpy_to_tf(self.metric.compute())
 
-    def reset_state(self):
+    def reset_stated(self):
         return self.metric.reset_state()
 
     def __getattr__(self, name: str):
