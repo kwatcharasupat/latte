@@ -53,7 +53,7 @@ class KerasMetricWrapper(tfm.Metric):
     def result(self):
         return numpy_to_tf(self.metric.compute())
 
-    def reset_stated(self):
+    def reset_state(self):
         return self.metric.reset_state()
 
     def __getattr__(self, name: str):
