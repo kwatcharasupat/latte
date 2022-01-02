@@ -33,7 +33,7 @@ pip install .[tests]
 pytest tests/ --cov=latte
 ```
 
-## Example
+## Quick Examples
 
 ### Functional API
 ```python
@@ -116,6 +116,12 @@ for data, attributes in range(batches):
 mig_val = mig.result()
 ```
 
+## Example Notebooks
+
+See Latte in action with Morpho-MNIST example notebooks on Google Colab:
+- <a href="https://colab.research.google.com/github/karnwatcharasupat/latte/blob/main/examples/morphomnist/morphomnist-torch.ipynb">**PyTorch (vanilla)**</a>
+- <a href="https://colab.research.google.com/github/karnwatcharasupat/latte/blob/main/examples/morphomnist/morphomnist-lightning.ipynb">**PyTorch Lightning**</a>
+- <a href="https://colab.research.google.com/github/karnwatcharasupat/latte/blob/main/examples/morphomnist/morphomnist-keras.ipynb">**TensorFlow/Keras**</a>
 
 ## Documentation
 
