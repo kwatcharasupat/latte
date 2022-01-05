@@ -1,6 +1,5 @@
 try:
     import torch
-    import torchmetrics
 
     from latte.metrics.torch import disentanglement as T
 

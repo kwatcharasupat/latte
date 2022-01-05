@@ -3,7 +3,6 @@ from typing import Dict, List, Optional
 import numpy as np
 
 from latte.functional.disentanglement import utils
-from latte.functional.disentanglement.utils import _validate_za_shape
 
 from ..disentanglement import mutual_info as minfo
 

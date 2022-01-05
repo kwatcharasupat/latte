@@ -11,7 +11,7 @@ except:
     has_torch = False
 
 try:
-    import torchmetrics
+    pass
 
     has_tm = True
 except:
@@ -23,13 +23,13 @@ has_torch_and_tm = has_torch and has_tm
 @pytest.mark.skipif(has_torch, reason="requires missing torch")
 def test_import_warning():
     with pytest.raises(ImportError):
-        from latte.metrics.torch import wrapper
+        pass
 
 
 @pytest.mark.skipif(has_tm, reason="requires missing torchmetrics")
 def test_import_warning():
     with pytest.raises(ImportError):
-        from latte.metrics.torch import wrapper
+        pass
 
 
 @pytest.mark.skipif(not has_torch_and_tm, reason="requires torch and torchmetrics")

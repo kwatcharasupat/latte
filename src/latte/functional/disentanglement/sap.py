@@ -1,7 +1,6 @@
 from typing import List, Optional
 
 import numpy as np
-from sklearn import feature_selection as fs
 from sklearn import svm
 
 from .utils import _top2gap, _validate_za_shape
