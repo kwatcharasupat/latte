@@ -7,8 +7,9 @@ try:
 except:
     has_tf = False
 
-import pytest
 import numpy as np
+import pytest
+
 from latte.metrics.core import disentanglement as C
 
 

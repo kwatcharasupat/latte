@@ -3,10 +3,10 @@ try:
 
     from latte.metrics.keras.bundles import DependencyAwareMutualInformationBundle
     from latte.metrics.keras.disentanglement import (
-        MutualInformationGap,
-        DependencyAwareMutualInformationGap,
         DependencyAwareLatentInformationGap,
+        DependencyAwareMutualInformationGap,
         DependencyBlindMutualInformationGap,
+        MutualInformationGap,
     )
 
     has_tf = True

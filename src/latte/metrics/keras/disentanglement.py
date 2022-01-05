@@ -1,6 +1,7 @@
-from .wrapper import KerasMetricWrapper
-from ..core import disentanglement as C
 import tensorflow as tf
+
+from ..core import disentanglement as C
+from .wrapper import KerasMetricWrapper
 
 
 class MutualInformationGap(KerasMetricWrapper):

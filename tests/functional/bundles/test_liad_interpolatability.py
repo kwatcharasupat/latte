@@ -1,4 +1,7 @@
+import warnings
+
 import numpy as np
+
 from latte.functional.bundles.liad_interpolatability import (
     liad_interpolatability_bundle,
 )
@@ -10,8 +13,6 @@ from latte.functional.interpolatability.utils import (
     __VALID_PTP_MODE__,
     __VALID_REDUCE_MODE__,
 )
-
-import warnings
 
 
 class TestLiadInterp:

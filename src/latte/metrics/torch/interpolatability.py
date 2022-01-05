@@ -1,6 +1,7 @@
-from .wrapper import TorchMetricWrapper
-from ..core import interpolatability as C
 import torch
+
+from ..core import interpolatability as C
+from .wrapper import TorchMetricWrapper
 
 
 class Smoothness(TorchMetricWrapper):

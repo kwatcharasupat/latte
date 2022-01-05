@@ -1,8 +1,7 @@
-from latte.metrics.base import LatteMetric, MetricBundle
-
-
-import pytest
 import numpy as np
+import pytest
+
+from latte.metrics.base import LatteMetric, MetricBundle
 
 
 class DummyMetric(LatteMetric):

@@ -1,6 +1,7 @@
-from latte.functional.interpolatability import utils
 import numpy as np
 import pytest
+
+from latte.functional.interpolatability import utils
 
 
 class TestShape:
@@ -108,7 +109,7 @@ class TestFiniteDiff:
         z = np.repeat(np.linspace(0.0, 1.0, 10)[None, :], 8, axis=0)
         a = np.repeat(np.linspace(0.0, 0.5, 10)[None, :], 8, axis=0)
 
-        dadz, zv = utils.finite_diff(z, a, order=1, mode="forward", return_list=False)
+        dadz, zv = utils._finite_diff(z, a, order=1, mode="forward", return_list=False)
 
         np.testing.assert_allclose(dadz, 0.5 * np.ones(shape=(8, 9)))
         np.testing.assert_allclose(zv, 0.5 * (z[:, 1:] + z[:, :-1]))
@@ -117,7 +118,7 @@ class TestFiniteDiff:
         z = np.repeat(np.linspace(0.0, 1.0, 10)[None, :], 8, axis=0)
         a = np.repeat(np.linspace(0.0, 0.5, 10)[None, :], 8, axis=0)
 
-        dadz, zv = utils.finite_diff(z, a, order=2, mode="forward", return_list=False)
+        dadz, zv = utils._finite_diff(z, a, order=2, mode="forward", return_list=False)
 
         np.testing.assert_allclose(dadz, np.zeros(shape=(8, 8)))
         z1 = 0.5 * (z[:, 1:] + z[:, :-1])
@@ -128,7 +129,7 @@ class TestFiniteDiff:
         z = np.repeat(np.linspace(0.0, 1.0, 10)[None, :], 8, axis=0)
         a = np.repeat(np.linspace(0.0, 0.5, 10)[None, :], 8, axis=0)
 
-        rets = utils.finite_diff(z, a, order=2, mode="forward", return_list=True)
+        rets = utils._finite_diff(z, a, order=2, mode="forward", return_list=True)
 
         assert len(rets) == 2
 
@@ -146,7 +147,7 @@ class TestFiniteDiff:
         z = np.repeat(np.linspace(0.0, 1.0, 10)[None, :], 8, axis=0)
         a = np.repeat(np.linspace(0.0, 0.5, 10)[None, :], 8, axis=0)
 
-        rets = utils.finite_diff(z, a, order=3, mode="forward", return_list=True)
+        rets = utils._finite_diff(z, a, order=3, mode="forward", return_list=True)
 
         assert len(rets) == 3
 
@@ -155,7 +156,7 @@ class TestFiniteDiff:
         a = np.repeat(np.linspace(0.0, 0.5, 10)[None, :], 8, axis=0)
 
         with pytest.raises(NotImplementedError):
-            utils.finite_diff(z, a, order=1, mode="central", return_list=False)
+            utils._finite_diff(z, a, order=1, mode="central", return_list=False)
 
 
 class TestLiad:
@@ -163,8 +164,8 @@ class TestLiad:
         z = np.random.rand(8, 16)
         a = np.random.rand(8, 16)
 
-        d1, z1 = utils.finite_diff(z, a, order=1, mode="forward", return_list=False)
-        d2, z2 = utils.liad(z, a, order=1, mode="forward", return_list=False)
+        d1, z1 = utils._finite_diff(z, a, order=1, mode="forward", return_list=False)
+        d2, z2 = utils._liad(z, a, order=1, mode="forward", return_list=False)
 
         np.testing.assert_allclose(d1, d2)
         np.testing.assert_allclose(z1, z2)
@@ -173,8 +174,8 @@ class TestLiad:
         z = np.random.rand(8, 16)
         a = np.random.rand(8, 16)
 
-        d1, z1 = utils.finite_diff(z, a, order=2, mode="forward", return_list=False)
-        d2, z2 = utils.liad(z, a, order=2, mode="forward", return_list=False)
+        d1, z1 = utils._finite_diff(z, a, order=2, mode="forward", return_list=False)
+        d2, z2 = utils._liad(z, a, order=2, mode="forward", return_list=False)
 
         np.testing.assert_allclose(d1, d2)
         np.testing.assert_allclose(z1, z2)
@@ -184,13 +185,13 @@ class TestLehmerMean:
     def test_p1(self):
         x = np.random.rand(8, 16)
 
-        m = utils.lehmer_mean(x, p=1.0)
+        m = utils._lehmer_mean(x, p=1.0)
         np.testing.assert_allclose(m, np.mean(x, axis=-1))
 
     def test_p2(self):
         x = np.random.rand(8, 16)
 
-        m = utils.lehmer_mean(x, p=2.0)
+        m = utils._lehmer_mean(x, p=2.0)
         np.testing.assert_allclose(
             m, np.sum(np.square(x), axis=-1) / np.sum(x, axis=-1)
         )
@@ -198,7 +199,7 @@ class TestLehmerMean:
     def test_p0(self):
         x = np.random.rand(8, 16)
 
-        m = utils.lehmer_mean(x, p=0.0)
+        m = utils._lehmer_mean(x, p=0.0)
         np.testing.assert_allclose(
             m, np.sum(np.ones_like(x), axis=-1) / np.sum(1.0 / x, axis=-1)
         )
