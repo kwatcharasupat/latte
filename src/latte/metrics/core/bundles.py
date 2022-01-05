@@ -34,7 +34,7 @@ class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
         ..disentanglement.DependencyAwareLatentInformationGap: Dependency-Aware Latent Information Gap
         ..disentanglement.DependencyBlindMutualInformationGap: Dependency-Blind Mutual Information Gap
         """
-        
+
         super().__init__()
 
         self.add_state("z", [])
@@ -53,7 +53,7 @@ class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
         a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
             a batch of attribute(s)
         """
-        
+
         self.z.append(z)
         self.a.append(a)
 
@@ -65,6 +65,7 @@ class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
         return _optimized_dependency_aware_mutual_info_bundle(
             z, a, self.reg_dim, self.discrete
         )
+
 
 class LiadInterpolatabilityBundle(OptimizedMetricBundle):
     def __init__(
@@ -107,7 +108,7 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
         p : float, optional
             Lehmer mean power, by default 2.0 (i.e., contraharmonic mean). Only used if `max_mode == "lehmer"`. Must be greater than 1.0. Only affects smoothness.
         """
-     
+
         super().__init__()
 
         _validate_monotonicity_args(
@@ -149,7 +150,7 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
         a : np.ndarray, (n_samples, n_interp) or (n_samples, n_attributes, n_interp)
             a batch of attribute(s)
         """
-        
+
         self.z.append(z)
         self.a.append(a)
 

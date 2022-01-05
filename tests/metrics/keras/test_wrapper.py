@@ -9,13 +9,12 @@ try:
     has_tf = True
 except:
     has_tf = False
-    
 
 
 @pytest.mark.skipif(has_tf, reason="requires missing tensorflow")
 def test_import_warning():
     with pytest.raises(ImportError):
-        pass
+        from latte.metrics.keras.wrapper import KerasMetricWrapper
 
 
 @pytest.mark.skipif(not has_tf, reason="requires tensorflow")
@@ -37,13 +36,15 @@ class DummyMetric(LatteMetric):
 class TestConvert:
     def test_graph_mode(self):
         from latte.metrics.keras.wrapper import safe_numpy
-        
+
         with tf.Graph().as_default():
-            with pytest.raises(RuntimeError, match="This metric requires an EagerTensor. Please make sure you are in an eager execution mode. If you are using Keras API, compile the model with the flag `run_eagerly=True`."):
+            with pytest.raises(
+                RuntimeError,
+                match="This metric requires an EagerTensor. Please make sure you are in an eager execution mode. If you are using Keras API, compile the model with the flag `run_eagerly=True`.",
+            ):
                 x = tf.random.uniform(shape=(16,))
                 safe_numpy(x)
-        
-    
+
     def test_tf_to_np(self):
         from latte.metrics.keras.wrapper import tf_to_numpy
 
