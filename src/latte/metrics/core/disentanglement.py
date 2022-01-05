@@ -140,6 +140,45 @@ class DependencyAwareMutualInformationGap(LatteMetric):
 
 
 class DependencyAwareLatentInformationGap(LatteMetric):
+    """
+    Calculate Dependency-Aware Latent Information Gap (DLIG) between latent vectors and attributes
+
+    Dependency-aware Latent Information Gap (DLIG) is a latent-centric counterpart to DMIG. DLIG evaluates disentanglement of a set of semantic attributes :math:`\{a_i\}` with respect to a latent dimension :math:`z_d` such that
+
+    .. math:: \operatorname{DLIG}(\{a_i\}, z_d) = \dfrac{\mathcal{I}(a_j, z_d)-\mathcal{I}(a_k, z_d)}{\mathcal{H}(a_j|a_k)},
+
+    where :math:`j=\operatorname{arg}\max_i \mathcal{I}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{i≠j} \mathcal{I}(a_i, z_d)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot|\cdot)` is conditional entropy.
+
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{i≠j} \mathcal{I}(a_i, z_d)` as usual.
+
+    Parameters
+    ----------
+    z : np.ndarray, (n_samples, n_features)
+        a batch of latent vectors
+    a : np.ndarray, (n_samples, n_attributes)
+        a batch of at least two attributes
+    reg_dim : Optional[List], optional
+        regularized dimensions, by default None
+        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
+    discrete : bool, optional
+        Whether the attributes are discrete, by default False
+
+    Returns
+    -------
+    np.ndarray, (n_attributes,)
+        DLIG for each attribute
+        
+    See Also
+    --------
+    mig : Mutual Information Gap
+    dmig : Dependency-Aware Mutual Information Gap
+    xmig : Dependency-Blind Mutual Information Gap
+    ..modularity.modularity : Modularity
+        
+    References
+    ----------
+    .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
+    """
     def __init__(self, reg_dim: Optional[List[int]] = None, discrete: bool = False):
         super().__init__()
 
@@ -161,6 +200,45 @@ class DependencyAwareLatentInformationGap(LatteMetric):
 
 
 class DependencyBlindMutualInformationGap(LatteMetric):
+    """
+    Calculate Dependency-Blind Mutual Information Gap (XMIG) between latent vectors and attributes
+
+    Dependency-blind Mutual Information Gap (XMIG) is a complementary metric to MIG and DMIG that measures the gap in mutual information with the subtrahend restricted to dimensions which do not regularize any attribute. XMIG is given by
+
+    .. math:: \operatorname{XMIG}(a_i, \mathbf{z}) = \dfrac{\mathcal{I}(a_i, z_j)-\mathcal{I}(a_i, z_k)}{\mathcal{H}(a_i)},
+
+    where :math:`j=\operatorname{arg}\max_d \mathcal{I}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{d∉\mathcal{D}} \mathcal{I}(a_i, z_d)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, :math:`\mathcal{H}(\cdot)` is entropy, and :math:`\mathcal{D}` is a set of latent indices which do not regularize any attribute. XMIG allows monitoring of latent disentanglement exclusively against attribute-unregularized latent dimensions. 
+
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{d∉\mathcal{D}} \mathcal{I}(a_i, z_d)` as usual.
+
+    Parameters
+    ----------
+    z : np.ndarray, (n_samples, n_features)
+        a batch of latent vectors
+    a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
+        a batch of attribute(s)
+    reg_dim : Optional[List], optional
+        regularized dimensions, by default None
+        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
+    discrete : bool, optional
+        Whether the attributes are discrete, by default False
+
+    Returns
+    -------
+    np.ndarray, (n_attributes,)
+        XMIG for each attribute
+        
+    See Also
+    --------
+    mig : Mutual Information Gap
+    dmig : Dependency-Aware Mutual Information Gap
+    xmig : Dependency-Blind Mutual Information Gap
+    dlig : Dependency-Aware Latent Information Gap
+        
+    References
+    ----------
+    .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
+    """
     def __init__(self, reg_dim: Optional[List[int]] = None, discrete: bool = False):
         super().__init__()
 
@@ -182,6 +260,43 @@ class DependencyBlindMutualInformationGap(LatteMetric):
 
 
 class SeparateAttributePredictability(LatteMetric):
+    """
+    Calculate Separate Attribute Predictability (SAP) between latent vectors and attributes
+
+    Separate Attribute Predictability (SAP) is similar in nature to MIG but, instead of mutual information, uses the coefficient of determination for continuous attributes and classification accuracy for discrete attributes to measure the extent of relationship between a latent dimension and an attribute. SAP is given by
+
+    .. math:: \operatorname{SAP}(a_i, \mathbf{z}) = \mathcal{S}(a_i, z_j)-\mathcal{S}(a_i, z_k),
+
+    where :math:`j=\operatorname{arg}\max_d \mathcal{S}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{d≠j} \mathcal{S}(a_i, z_d)`, and :math:`\mathcal{S}(\cdot,\cdot)` is either the coefficient of determination or classification accuracy.
+
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{d≠j} \mathcal{S}(a_i, z_d)` as usual.
+
+    Parameters
+    ----------
+    z : np.ndarray, (n_samples, n_features)
+        a batch of latent vectors
+    a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
+        a batch of attribute(s)
+    reg_dim : Optional[List], optional
+        regularized dimensions, by default None
+        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
+    discrete : bool, optional
+        Whether the attributes are discrete, by default False
+    l2_reg : float, optional
+        regularization parameter for linear classifier, by default 1.0. Ignored if `discrete` is `False`.
+    thresh : float, optional
+        threshold for latent vector variance, by default 1e-12. Latent dimensions with variance below `thresh` will have SAP contribution zeroed. Ignored if `discrete` is `True`.
+
+    Returns
+    -------
+    np.ndarray, (n_attributes,)
+        SAP for each attribute
+        
+    
+    References
+    ----------
+    .. [1] A. Kumar, P. Sattigeri, and A. Balakrishnan, “Variational inference of disentangled latent concepts from unlabeled observations”, in Proceedings of the 6th International Conference on Learning Representations, 2018.
+    """
     def __init__(
         self,
         reg_dim: Optional[List[int]] = None,
@@ -213,6 +328,42 @@ class SeparateAttributePredictability(LatteMetric):
 
 
 class Modularity(LatteMetric):
+    """
+    Calculate Modularity between latent vectors and attributes
+
+    Modularity is a letent-centric measure of disentanglement based on mutual information. Modularity measures the degree in which a latent dimension contains information about only one attribute, and is given by
+
+    .. math:: \operatorname{Modularity}(\{a_i\}, z_d) = 1-\dfrac{\sum_{i≠j}(\mathcal{I}(a_i, z_d)/\mathcal{I}(a_j, z_d))^2}{|{a_i}| -1},
+
+    where :math:`j=\operatorname{arg}\max_i \mathcal{I}(a_i, z_d)`, and :math:`\mathcal{I}(\cdot,\cdot)` is mutual information.
+
+    `reg_dim` is currently ignored in Modularity.
+
+
+    Parameters
+    ----------
+    z : np.ndarray, (n_samples, n_features)
+        a batch of latent vectors
+    a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
+        a batch of attribute(s)
+    reg_dim : Optional[List], optional
+        regularized dimensions, by default None
+        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
+    discrete : bool, optional
+        Whether the attributes are discrete, by default False
+    thresh : float, optional
+        threshold for mutual information, by default 1e-12. Latent-attribute pair with variance below `thresh` will have modularity contribution zeroed.
+
+    Returns
+    -------
+    np.ndarray, (n_attributes,)
+        Modularity for each attribute
+        
+    
+    References
+    ----------
+    .. [1] K. Ridgeway and M. C. Mozer, “Learning deep disentangled embeddings with the F-statistic loss,” in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018, pp. 185–194.
+    """
     def __init__(
         self,
         reg_dim: Optional[List[int]] = None,
