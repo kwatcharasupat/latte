@@ -43,6 +43,17 @@ class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
         self.discrete = discrete
 
     def update_state(self, z, a):
+        """
+        Update the states of the submodules.
+
+        Parameters
+        ----------
+        z : np.ndarray, (n_samples, n_features)
+            a batch of latent vectors
+        a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
+            a batch of attribute(s)
+        """
+        
         self.z.append(z)
         self.a.append(a)
 
@@ -54,21 +65,6 @@ class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
         return _optimized_dependency_aware_mutual_info_bundle(
             z, a, self.reg_dim, self.discrete
         )
-
-    def update_state(self, z: np.ndarray, a: np.ndarray) -> None:
-        """
-        Update the states of the submodules.
-
-        Parameters
-        ----------
-        z : np.ndarray, (n_samples, n_features)
-            a batch of latent vectors
-        a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
-            a batch of attribute(s)
-        """
-
-        return super().update_state(z=z, a=a)
-
 
 class LiadInterpolatabilityBundle(OptimizedMetricBundle):
     def __init__(
@@ -143,6 +139,17 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
         self.nanmean = nanmean
 
     def update_state(self, z, a):
+        """
+        Update the states of the submodules.
+
+        Parameters
+        ----------
+        z : np.ndarray, (n_samples, n_interp) or (n_samples, n_features or n_attributes, n_interp)
+            a batch of latent vectors
+        a : np.ndarray, (n_samples, n_interp) or (n_samples, n_attributes, n_interp)
+            a batch of attribute(s)
+        """
+        
         self.z.append(z)
         self.a.append(a)
 
@@ -165,17 +172,3 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
             degenerate_val=self.degenerate_val,
             nanmean=self.nanmean,
         )
-
-    def update_state(self, z: np.ndarray, a: np.ndarray) -> None:
-        """
-        Update the states of the submodules.
-
-        Parameters
-        ----------
-        z : np.ndarray, (n_samples, n_interp) or (n_samples, n_features or n_attributes, n_interp)
-            a batch of latent vectors
-        a : np.ndarray, (n_samples, n_interp) or (n_samples, n_attributes, n_interp)
-            a batch of attribute(s)
-        """
-
-        return super().update_state(z=z, a=a)
