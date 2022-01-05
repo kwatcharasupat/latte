@@ -15,7 +15,7 @@ from ...metrics.base import LatteMetric
 
 
 def safe_numpy(t: tf.Tensor) -> np.ndarray:
-    if hasattr(t, 'numpy'):
+    if hasattr(t, "numpy"):
         return t.numpy()
     else:
         raise RuntimeError(
@@ -55,6 +55,7 @@ class KerasMetricWrapper(tfm.Metric):
 
         self.metric = metric(**kwargs)
 
+    @tf.autograph.experimental.do_not_convert
     def update_state(self, *args, **kwargs):
         args, kwargs = tf_to_numpy(args, kwargs)
         self.metric.update_state(*args, **kwargs)
