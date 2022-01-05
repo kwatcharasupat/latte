@@ -1,5 +1,5 @@
-import pytest
 import numpy as np
+import pytest
 
 from latte.functional.interpolatability.monotonicity import monotonicity
 

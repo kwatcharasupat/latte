@@ -1,9 +1,7 @@
-from .wrapper import TorchMetricWrapper
+import torch
 
 from ..core import disentanglement as C
-
-
-import torch
+from .wrapper import TorchMetricWrapper
 
 
 class MutualInformationGap(TorchMetricWrapper):

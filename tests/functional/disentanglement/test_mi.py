@@ -1,16 +1,18 @@
-import pytest
-from latte.functional.disentanglement import mutual_info as mi
-import latte
 import numpy as np
+import pytest
 from sklearn import feature_selection as fs
+
+import latte
+from latte.functional.disentanglement import mutual_info as mi
+from latte.functional.disentanglement import utils
 
 
 class TestMiFunc:
     def test_discrete(self):
-        assert mi.get_mi_func(True).func == fs.mutual_info_classif
+        assert mi._get_mi_func(True).func == fs.mutual_info_classif
 
     def test_continuous(self):
-        assert mi.get_mi_func(False).func == fs.mutual_info_regression
+        assert mi._get_mi_func(False).func == fs.mutual_info_regression
 
 
 class TestSingleMiEntropy:
@@ -19,7 +21,7 @@ class TestSingleMiEntropy:
         b = np.random.randint(16, size=(16,))
 
         np.testing.assert_almost_equal(
-            mi.single_mutual_info(a, b, True),
+            mi._single_mutual_info(a, b, True),
             fs.mutual_info_classif(a[:, None], b, random_state=latte.RANDOM_STATE)[0],
         )
 
@@ -28,7 +30,7 @@ class TestSingleMiEntropy:
         b = np.random.randn(16,)
 
         np.testing.assert_almost_equal(
-            mi.single_mutual_info(a, b, False),
+            mi._single_mutual_info(a, b, False),
             fs.mutual_info_regression(a[:, None], b, random_state=latte.RANDOM_STATE)[
                 0
             ],
@@ -38,7 +40,7 @@ class TestSingleMiEntropy:
         a = np.random.randint(16, size=(16,))
 
         np.testing.assert_almost_equal(
-            mi.entropy(a, True),
+            mi._entropy(a, True),
             fs.mutual_info_classif(a[:, None], a, random_state=latte.RANDOM_STATE)[0],
         )
 
@@ -46,7 +48,7 @@ class TestSingleMiEntropy:
         a = np.random.randn(16,)
 
         np.testing.assert_almost_equal(
-            mi.entropy(a, False),
+            mi._entropy(a, False),
             fs.mutual_info_regression(a[:, None], a, random_state=latte.RANDOM_STATE)[
                 0
             ],
@@ -59,7 +61,7 @@ class TestLatentAttr:
         a = np.random.randint(16, size=(16,))
 
         np.testing.assert_array_almost_equal(
-            mi.latent_attr_mutual_info(z, a, True),
+            mi._latent_attr_mutual_info(z, a, True),
             fs.mutual_info_classif(z, a, random_state=latte.RANDOM_STATE),
         )
 
@@ -68,7 +70,7 @@ class TestLatentAttr:
         a = np.random.randn(16,)
 
         np.testing.assert_array_almost_equal(
-            mi.latent_attr_mutual_info(z, a, False),
+            mi._latent_attr_mutual_info(z, a, False),
             fs.mutual_info_regression(z, a, random_state=latte.RANDOM_STATE),
         )
 
@@ -79,8 +81,8 @@ class TestConditionalEntropy:
         b = np.random.randint(16, size=(16,))
 
         np.testing.assert_almost_equal(
-            mi.conditional_entropy(a, b, True),
-            mi.entropy(a, True) - mi.single_mutual_info(a, b, True),
+            mi._conditional_entropy(a, b, True),
+            mi._entropy(a, True) - mi._single_mutual_info(a, b, True),
         )
 
     def test_continuous(self):
@@ -88,8 +90,8 @@ class TestConditionalEntropy:
         b = np.random.randn(16,)
 
         np.testing.assert_almost_equal(
-            mi.conditional_entropy(a, b, False),
-            mi.entropy(a, False) - mi.single_mutual_info(a, b, False),
+            mi._conditional_entropy(a, b, False),
+            mi._entropy(a, False) - mi._single_mutual_info(a, b, False),
         )
 
 
@@ -97,7 +99,7 @@ class TestMGaps:
     def test_mgap_no_z(self):
         minfo = np.array([4, 3, 1, 9])
 
-        gap, zmax = mi._mgap(minfo)
+        gap, zmax = utils._top2gap(minfo)
 
         assert gap == 5
         assert zmax is None
@@ -105,7 +107,7 @@ class TestMGaps:
     def test_mgap_w_z_max(self):
         minfo = np.array([4, 3, 1, 9])
 
-        gap, zmax = mi._mgap(minfo, zi=3)
+        gap, zmax = utils._top2gap(minfo, zi=3)
 
         assert gap == 5
         assert zmax == 0
@@ -113,7 +115,7 @@ class TestMGaps:
     def test_mgap_w_z_notmax(self):
         minfo = np.array([4, 3, 1, 9])
 
-        gap, zmax = mi._mgap(minfo, zi=0)
+        gap, zmax = utils._top2gap(minfo, zi=0)
 
         assert gap == -5
         assert zmax == 3

@@ -1,6 +1,7 @@
+import numpy as np
+
 from latte.functional.interpolatability.smoothness import smoothness
 from latte.metrics.core.interpolatability import Smoothness
-import numpy as np
 
 
 class TestSmoothness:

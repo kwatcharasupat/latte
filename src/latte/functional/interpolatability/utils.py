@@ -1,4 +1,5 @@
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Union
+
 import numpy as np
 
 __VALID_LIAD_MODE__ = ["forward"]  # ["forward", "central", "spline"]
@@ -8,8 +9,11 @@ __VALID_REDUCE_MODE__ = ["all", "attribute", "sample", "none"]
 
 
 def _validate_za_shape(
-    z: np.ndarray, a: np.ndarray, reg_dim: Optional[List] = None, min_size: int = None
-) -> Tuple[np.ndarray, np.ndarray, List]:
+    z: np.ndarray,
+    a: np.ndarray,
+    reg_dim: Optional[List[int]] = None,
+    min_size: int = None,
+) -> Tuple[np.ndarray, np.ndarray, List[int]]:
 
     assert 2 <= a.ndim <= 3
     assert 2 <= z.ndim <= 3
@@ -54,13 +58,13 @@ def _validate_equal_interp_deltas(z):
         raise NotImplementedError("Unequal `z` spacing is currently not supported.")
 
 
-def finite_diff(
+def _finite_diff(
     z: np.ndarray,
     a: np.ndarray,
     order: int = 1,
     mode: str = "forward",
     return_list: bool = False,
-):
+) -> Union[Tuple[np.ndarray, np.ndarray], List[Tuple[np.ndarray, np.ndarray]]]:
 
     rets = []
 
@@ -82,16 +86,16 @@ def finite_diff(
         return a, z
 
 
-def liad(
+def _liad(
     z: np.ndarray,
     a: np.ndarray,
     order: int = 1,
     mode: str = "forward",
     return_list: bool = False,
-):
+) -> Union[Tuple[np.ndarray, np.ndarray], List[Tuple[np.ndarray, np.ndarray]]]:
 
     if mode in ["forward"]:
-        rets = finite_diff(z, a, order, mode, return_list=return_list)
+        rets = _finite_diff(z, a, order, mode, return_list=return_list)
     else:
         # TODO: add spline interpolation derivatives
         raise NotImplementedError
@@ -99,7 +103,7 @@ def liad(
     return rets
 
 
-def lehmer_mean(x: np.ndarray, p: float):
+def _lehmer_mean(x: np.ndarray, p: float) -> np.ndarray:
 
     if p == 1.0:
         den = np.ones_like(x)

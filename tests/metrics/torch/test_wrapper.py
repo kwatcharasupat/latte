@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+
 from latte.metrics.base import LatteMetric
 
 try:
