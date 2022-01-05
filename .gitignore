@@ -133,3 +133,8 @@ run_tests.sh
 **/.DS_Store
 docs/_build/**
 twistd.pid
+*.pickle
+
+docs/_build/**
+
+**/lightning_logs/**

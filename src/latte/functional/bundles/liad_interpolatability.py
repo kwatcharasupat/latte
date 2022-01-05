@@ -2,14 +2,25 @@ from typing import Dict, List, Optional, Union
 
 import numpy as np
 
-from ..interpolatability.smoothness import smoothness
-from ..interpolatability.monotonicity import monotonicity
+from latte.functional.interpolatability import utils
+
+from ..interpolatability.monotonicity import (
+    _get_monotonicity_from_liad,
+    _validate_monotonicity_args,
+    monotonicity,
+)
+from ..interpolatability.smoothness import (
+    _get_2nd_order_liad,
+    _get_smoothness_from_liads,
+    _validate_smoothness_args,
+    smoothness,
+)
 
 
 def liad_interpolatability_bundle(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     liad_mode: str = "forward",
     max_mode: str = "lehmer",
     ptp_mode: Union[float, str] = "naive",
@@ -66,26 +77,102 @@ def liad_interpolatability_bundle(
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
-    return {
-        "smoothness": smoothness(
-            z,
-            a,
-            reg_dim=reg_dim,
-            liad_mode=liad_mode,
-            max_mode=max_mode,
-            ptp_mode=ptp_mode,
-            reduce_mode=reduce_mode,
-            clamp=clamp,
-            p=p,
-        ),
-        "monotonicity": monotonicity(
-            z,
-            a,
-            reg_dim=reg_dim,
-            liad_mode=liad_mode,
-            reduce_mode=reduce_mode,
-            liad_thresh=liad_thresh,
-            degenerate_val=degenerate_val,
-            nanmean=nanmean,
-        ),
-    }
+    return _optimized_liad_interpolatability_bundle(
+        z=z,
+        a=a,
+        reg_dim=reg_dim,
+        liad_mode=liad_mode,
+        max_mode=max_mode,
+        ptp_mode=ptp_mode,
+        reduce_mode=reduce_mode,
+        liad_thresh=liad_thresh,
+        degenerate_val=degenerate_val,
+        nanmean=nanmean,
+        clamp=clamp,
+        p=p,
+    )
+
+    # return {
+    #     "smoothness": smoothness(
+    #         z,
+    #         a,
+    #         reg_dim=reg_dim,
+    #         liad_mode=liad_mode,
+    #         max_mode=max_mode,
+    #         ptp_mode=ptp_mode,
+    #         reduce_mode=reduce_mode,
+    #         clamp=clamp,
+    #         p=p,
+    #     ),
+    #     "monotonicity": monotonicity(
+    #         z,
+    #         a,
+    #         reg_dim=reg_dim,
+    #         liad_mode=liad_mode,
+    #         reduce_mode=reduce_mode,
+    #         liad_thresh=liad_thresh,
+    #         degenerate_val=degenerate_val,
+    #         nanmean=nanmean,
+    #     ),
+    # }
+
+
+def _optimized_liad_interpolatability_bundle(
+    z: np.ndarray,
+    a: np.ndarray,
+    reg_dim: Optional[List[int]] = None,
+    liad_mode: str = "forward",
+    max_mode: str = "lehmer",
+    ptp_mode: Union[float, str] = "naive",
+    reduce_mode: str = "attribute",
+    liad_thresh: float = 1e-3,
+    degenerate_val: float = np.nan,
+    nanmean: bool = True,
+    clamp: bool = False,
+    p: float = 2.0,
+) -> Dict[str, np.ndarray]:
+
+    _validate_smoothness_args(
+        liad_mode=liad_mode,
+        max_mode=max_mode,
+        ptp_mode=ptp_mode,
+        reduce_mode=reduce_mode,
+        p=p,
+    )
+
+    _validate_monotonicity_args(
+        liad_mode=liad_mode,
+        reduce_mode=reduce_mode,
+        degenerate_val=degenerate_val,
+        nanmean=nanmean,
+    )
+
+    z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=3)
+    utils._validate_non_constant_interp(z)
+    utils._validate_equal_interp_deltas(z)
+
+    liads = _get_2nd_order_liad(z, a, liad_mode=liad_mode)
+
+    liad1, _ = liads[0]
+    liad2, _ = liads[1]
+    z_interval = z[..., 1] - z[..., 0]
+
+    smth = _get_smoothness_from_liads(
+        liad1=liad1,
+        liad2=liad2,
+        z_interval=z_interval,
+        max_mode=max_mode,
+        ptp_mode=ptp_mode,
+        reduce_mode=reduce_mode,
+        clamp=clamp,
+        p=p,
+    )
+    mntc = _get_monotonicity_from_liad(
+        liad1=liad1,
+        reduce_mode=reduce_mode,
+        liad_thresh=liad_thresh,
+        degenerate_val=degenerate_val,
+        nanmean=nanmean,
+    )
+
+    return {"smoothness": smth, "monotonicity": mntc}

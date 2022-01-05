@@ -1,27 +1,13 @@
-from inspect import getmembers
+from typing import List, Optional
+
 import numpy as np
 from sklearn import feature_selection as fs
-from typing import List, Tuple, Optional
 from sklearn import svm
 
-from .utils import _validate_za_shape
+from .utils import _top2gap, _validate_za_shape
 
 
-def _sgap(
-    score: np.ndarray, zi: Optional[int] = None
-) -> Tuple[np.ndarray, Optional[int]]:
-    sc_sort = np.sort(score)
-    if zi is None:
-        return (sc_sort[-1] - sc_sort[-2]), None
-    else:
-        sc_argsort = np.argsort(score)
-        if sc_argsort[-1] == zi:
-            return (sc_sort[-1] - sc_sort[-2]), sc_argsort[-2]
-        else:
-            return (score[zi] - sc_sort[-1]), sc_argsort[-1]
-
-
-def get_continuous_sap_score(z: np.ndarray, a: np.ndarray, thresh: float = 1e-12):
+def _get_continuous_sap_score(z: np.ndarray, a: np.ndarray, thresh: float = 1e-12):
 
     _, n_features = z.shape
     _, n_attr = a.shape
@@ -40,7 +26,7 @@ def get_continuous_sap_score(z: np.ndarray, a: np.ndarray, thresh: float = 1e-12
     return score
 
 
-def get_discrete_sap_score(z: np.ndarray, a: np.ndarray, l2_reg: float = 1.0):
+def _get_discrete_sap_score(z: np.ndarray, a: np.ndarray, l2_reg: float = 1.0):
 
     assert l2_reg > 0, "`l2_reg` must be more than 0.0"
 
@@ -68,7 +54,7 @@ def get_discrete_sap_score(z: np.ndarray, a: np.ndarray, l2_reg: float = 1.0):
 def sap(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
     l2_reg: float = 1.0,
     thresh: float = 1e-12,
@@ -82,6 +68,7 @@ def sap(
 
     where :math:`j=\operatorname{arg}\max_d \mathcal{S}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{d≠j} \mathcal{S}(a_i, z_d)`, and :math:`\mathcal{S}(\cdot,\cdot)` is either the coefficient of determination or classification accuracy.
 
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{d≠j} \mathcal{S}(a_i, z_d)` as usual.
 
     Parameters
     ----------
@@ -117,12 +104,12 @@ def sap(
     ret = np.zeros((n_attr,))
 
     if discrete:
-        score = get_discrete_sap_score(z, a, l2_reg=l2_reg)
+        score = _get_discrete_sap_score(z, a, l2_reg=l2_reg)
     else:
-        score = get_continuous_sap_score(z, a, thresh=thresh)
+        score = _get_continuous_sap_score(z, a, thresh=thresh)
 
     for i in range(n_attr):
         zi = reg_dim[i] if reg_dim is not None else None
-        ret[i], _ = _sgap(score[:, i], zi=zi)
+        ret[i], _ = _top2gap(score[:, i], zi=zi)
 
     return ret

@@ -1,7 +1,8 @@
-import numpy as np
-from typing import Optional, List
+from typing import List, Optional
 
-from latte.functional.disentanglement.mutual_info import latent_attr_mutual_info
+import numpy as np
+
+from latte.functional.disentanglement.mutual_info import _latent_attr_mutual_info
 
 from .utils import _validate_za_shape
 
@@ -9,7 +10,7 @@ from .utils import _validate_za_shape
 def modularity(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
     thresh: float = 1e-12,
 ):
@@ -18,9 +19,11 @@ def modularity(
 
     Modularity is a letent-centric measure of disentanglement based on mutual information. Modularity measures the degree in which a latent dimension contains information about only one attribute, and is given by
 
-    .. math:: \operatorname{Mod}({a_i}, z_d) = 1-\dfrac{\sum_{i≠j}(\mathcal{I}(a_i, z_d)/\mathcal{I}(a_j, z_d))^2}{|{a_i}| -1},
+    .. math:: \operatorname{Modularity}(\{a_i\}, z_d) = 1-\dfrac{\sum_{i≠j}(\mathcal{I}(a_i, z_d)/\mathcal{I}(a_j, z_d))^2}{|{a_i}| -1},
 
-    where :math:`j=\operatorname{arg}\max_i \mathcal{I}(a_i, z_d)`.
+    where :math:`j=\operatorname{arg}\max_i \mathcal{I}(a_i, z_d)`, and :math:`\mathcal{I}(\cdot,\cdot)` is mutual information.
+
+    `reg_dim` is currently ignored in Modularity.
 
 
     Parameters
@@ -58,7 +61,7 @@ def modularity(
 
     sqmi = np.square(
         np.stack(
-            [latent_attr_mutual_info(z, a[:, i], discrete) for i in range(n_attr)],
+            [_latent_attr_mutual_info(z, a[:, i], discrete) for i in range(n_attr)],
             axis=1,
         )
     )

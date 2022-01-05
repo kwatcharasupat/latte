@@ -8,6 +8,7 @@
 [![License](https://img.shields.io/badge/license-MIT-brightgreen)](https://opensource.org/licenses/MIT)
 [![PyPI version](https://badge.fury.io/py/latte-metrics.svg)](https://badge.fury.io/py/latte-metrics)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5786402.svg)](https://doi.org/10.5281/zenodo.5786402)
+[![arXiv](https://img.shields.io/badge/arXiv-2112.10638-b31b1b.svg)](https://arxiv.org/abs/2112.10638)
 
 
 # Latte
@@ -32,7 +33,7 @@ pip install .[tests]
 pytest tests/ --cov=latte
 ```
 
-## Example
+## Quick Examples
 
 ### Functional API
 ```python
@@ -115,31 +116,16 @@ for data, attributes in range(batches):
 mig_val = mig.result()
 ```
 
+## Example Notebooks
+
+See Latte in action with Morpho-MNIST example notebooks on Google Colab:
+- <a href="https://colab.research.google.com/github/karnwatcharasupat/latte/blob/main/examples/morphomnist/morphomnist-torch.ipynb">**PyTorch (vanilla)**</a>
+- <a href="https://colab.research.google.com/github/karnwatcharasupat/latte/blob/main/examples/morphomnist/morphomnist-lightning.ipynb">**PyTorch Lightning**</a>
+- <a href="https://colab.research.google.com/github/karnwatcharasupat/latte/blob/main/examples/morphomnist/morphomnist-keras.ipynb">**TensorFlow/Keras**</a>
 
 ## Documentation
 
 https://latte.readthedocs.io/en/latest
-
-## Method Chart for Modular API
-
-TorchMetrics: https://torchmetrics.readthedocs.io/en/latest/pages/implement.html
-
-Keras Metric: https://www.tensorflow.org/api_docs/python/tf/keras/metrics/Metric
-
-Torch/Keras wrapper will
-1. convert torch/tf types to numpy types (and move everything to CPU)
-2. call native class methods
-3. if there are return values, convert numpy types back to torch/tf types
-
-
-|      | Native  |TorchMetrics | Keras Metric |
-| :--- | :--- | :---        | :---         |
-| base class | `latte.metrics.LatteMetric` | `torchmetrics.Metric` | `tf.keras.metrics.Metric` |
-| super class | `object` | `torch.nn.Module` | `tf.keras.layers.Layer` |
-| adding buffer | `self.add_state` | `self.add_state` | `self.add_weight` |
-| updating buffer | `self.update_state` | `self.update` | `self.update_state` |
-| resetting buffer | `self.reset_state` | `self.reset` | `self.reset_state` |
-| computing metric values | `self.compute` | `self.compute` | `self.result` |
 
 ## Supported metrics
 
@@ -178,12 +164,15 @@ Torch/Keras wrapper will
 
 For individual metrics, please cite the paper according to the link in the 📝 icon in front of each metric.
 
-If you find our package useful please cite us as
+If you find our package useful please cite our repository and [arXiv preprint](https://arxiv.org/abs/2112.10638) as
 ```bibtex
-@software{
+@article{
   watcharasupat2021latte,
   author = {Watcharasupat, Karn N. and Lee, Junyoung and Lerch, Alexander},
   title = {{Latte: Cross-framework Python Package for Evaluation of Latent-based Generative Models}},
+  eprint={2112.10638},
+  archivePrefix={arXiv},
+  primaryClass={cs.LG},
   url = {https://github.com/karnwatcharasupat/latte}
   doi = {10.5281/zenodo.5786402}
 }

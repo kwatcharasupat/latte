@@ -1,22 +1,23 @@
 from typing import List, Optional, Union
-from torchmetrics import MetricCollection
 
 import numpy as np
+import torch
+from torchmetrics import MetricCollection
 
 from ..torch.disentanglement import (
-    MutualInformationGap,
+    DependencyAwareLatentInformationGap,
     DependencyAwareMutualInformationGap,
     DependencyBlindMutualInformationGap,
-    DependencyAwareLatentInformationGap,
+    MutualInformationGap,
 )
-from ..torch.interpolatability import Smoothness, Monotonicity
+from ..torch.interpolatability import Monotonicity, Smoothness
 
 # Note: We use `MetricCollection` from TorchMetrics for better efficiency, instead of a `TorchMetricWrapper` around a `MetricBundle`.
 
 
 class DependencyAwareMutualInformationBundle(MetricCollection):
     def __init__(
-        self, reg_dim: Optional[List] = None, discrete: bool = False,
+        self, reg_dim: Optional[List[int]] = None, discrete: bool = False,
     ):
         # need to set `fill_reg_dim=True` for same `reg_dim` behaviour with other metrics
         super().__init__(
@@ -36,11 +37,14 @@ class DependencyAwareMutualInformationBundle(MetricCollection):
             }
         )
 
+    def update(self, z: torch.Tensor, a: torch.Tensor) -> None:
+        return super().update(z=z, a=a)
+
 
 class LiadInterpolatabilityBundle(MetricCollection):
     def __init__(
         self,
-        reg_dim: Optional[List] = None,
+        reg_dim: Optional[List[int]] = None,
         liad_mode: str = "forward",
         max_mode: str = "lehmer",
         ptp_mode: Union[float, str] = "naive",
@@ -74,3 +78,6 @@ class LiadInterpolatabilityBundle(MetricCollection):
                 ),
             }
         )
+
+    def update(self, z: torch.Tensor, a: torch.Tensor) -> None:
+        return super().update(z=z, a=a)

@@ -1,6 +1,7 @@
+import numpy as np
+
 from latte.functional.disentanglement.sap import sap
 from latte.metrics.core.disentanglement import SeparateAttributePredictability
-import numpy as np
 
 
 class TestDependencyAware:

@@ -1,13 +1,13 @@
+from functools import partial
+from typing import Callable, List, Optional, Tuple
+
 import numpy as np
 from sklearn import feature_selection as fs
-from typing import Callable, Optional, List, Tuple
 
-from functools import partial
-
-from .utils import _validate_za_shape
+from . import utils
 
 
-def get_mi_func(discrete: bool) -> Callable:
+def _get_mi_func(discrete: bool) -> Callable:
     """
     Get mutual information function depending on whether the attribute is discrete
 
@@ -32,7 +32,7 @@ def get_mi_func(discrete: bool) -> Callable:
     )
 
 
-def latent_attr_mutual_info(
+def _latent_attr_mutual_info(
     z: np.ndarray, a: np.ndarray, discrete: bool = False
 ) -> np.ndarray:
     """
@@ -53,10 +53,36 @@ def latent_attr_mutual_info(
         mutual information between each latent vector dimension and the attribute
     """
 
-    return get_mi_func(discrete)(z, a)
+    return _get_mi_func(discrete)(z, a)
 
 
-def single_mutual_info(a: np.ndarray, b: np.ndarray, discrete: bool) -> float:
+def _attr_latent_mutual_info(
+    z: np.ndarray, a: np.ndarray, discrete: bool = False
+) -> np.ndarray:
+    """
+    Calculate mutual information between latent vectors and a target attribute.
+
+    Parameters
+    ----------
+    z : np.ndarray, (n_samples,)
+        a batch of a latent vector
+    a : np.ndarray, (n_samples, n_attr)
+        a batch of attributes
+    discrete : bool, optional
+        whether the attribute is discrete, by default False
+
+    Returns
+    -------
+    np.ndarray, (n_attr,)
+        mutual information between each latent vector dimension and the attribute
+    """
+
+    return np.concatenate(
+        [_get_mi_func(discrete)(z[:, None], a[:, i]) for i in range(a.shape[1])]
+    )
+
+
+def _single_mutual_info(a: np.ndarray, b: np.ndarray, discrete: bool) -> float:
     """
     Calculate mutual information between two variables
 
@@ -74,10 +100,10 @@ def single_mutual_info(a: np.ndarray, b: np.ndarray, discrete: bool) -> float:
     float
         mutual information between the variables
     """
-    return get_mi_func(discrete)(a[:, None], b)[0]
+    return _get_mi_func(discrete)(a[:, None], b)[0]
 
 
-def entropy(a: np.ndarray, discrete: bool = False) -> float:
+def _entropy(a: np.ndarray, discrete: bool = False) -> float:
     """
     Calculate entropy of a variable
 
@@ -93,10 +119,10 @@ def entropy(a: np.ndarray, discrete: bool = False) -> float:
     float
         entropy of the variable
     """
-    return single_mutual_info(a, a, discrete)
+    return _single_mutual_info(a, a, discrete)
 
 
-def conditional_entropy(
+def _conditional_entropy(
     ai: np.ndarray, aj: np.ndarray, discrete: bool = False
 ) -> float:
     """
@@ -120,23 +146,11 @@ def conditional_entropy(
     float
         conditional entropy of `ai` given `aj`.
     """
-    return entropy(ai, discrete) - single_mutual_info(ai, aj, discrete)
-
-
-def _mgap(mi: np.ndarray, zi: Optional[int] = None) -> Tuple[np.ndarray, Optional[int]]:
-
-    mi_sort = np.sort(mi)
-    if zi is None:
-        return (mi_sort[-1] - mi_sort[-2]), None
-    else:
-        mi_argsort = np.argsort(mi)
-        if mi_argsort[-1] == zi:
-            return (mi_sort[-1] - mi_sort[-2]), mi_argsort[-2]
-        else:
-            return (mi[zi] - mi_sort[-1]), mi_argsort[-1]
+    return _entropy(ai, discrete) - _single_mutual_info(ai, aj, discrete)
 
 
 def _xgap(mi: np.ndarray, zi: int, reg_dim: List) -> Tuple[np.ndarray, Optional[int]]:
+    # TODO: merge this function with utils._top2gap
     mizi = mi[zi]
     mi = np.delete(mi, reg_dim)
     mi_sort = np.sort(mi)
@@ -147,7 +161,7 @@ def _xgap(mi: np.ndarray, zi: int, reg_dim: List) -> Tuple[np.ndarray, Optional[
 def mig(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
     fill_reg_dim: bool = False,
 ) -> np.ndarray:
@@ -158,7 +172,9 @@ def mig(
     
     .. math:: \operatorname{MIG}(a_i, \mathbf{z}) = \dfrac{\mathcal{I}(a_i, z_j)-\mathcal{I}(a_i, z_k)}{\mathcal{H}(a_i)},
     
-    where :math:`j=\operatorname{arg}\max_n \mathcal{I}(a_i, z_n)`, :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot)` is entropy. If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)` as usual.
+    where :math:`j=\operatorname{arg}\max_n \mathcal{I}(a_i, z_n)`, :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot)` is entropy.
+    
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)` as usual.
     
     MIG is best applied for independent attributes.
     
@@ -176,7 +192,7 @@ def mig(
         a batch of attribute(s)
     reg_dim : Optional[List], optional
         regularized dimensions, by default None
-        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `reg_dim` is provided, the first mutual information is always taken between the regularized dimension and the attribute and MIG may be negative.
+        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `reg_dim` is provided, the first mutual information is always taken between the regularized dimension and the attribute, and MIG may be negative.
     discrete : bool, optional
         Whether the attributes are discrete, by default False
     fill_reg_dim : bool, optional
@@ -192,7 +208,7 @@ def mig(
     .. [1] Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
     """
 
-    z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=fill_reg_dim)
+    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=fill_reg_dim)
 
     _, n_attr = a.shape
 
@@ -202,10 +218,10 @@ def mig(
         ai = a[:, i]
         zi = reg_dim[i] if reg_dim is not None else None
 
-        en = entropy(ai, discrete)
-        mi = latent_attr_mutual_info(z, ai, discrete)
+        en = _entropy(ai, discrete)
+        mi = _latent_attr_mutual_info(z, ai, discrete)
 
-        gap, _ = _mgap(mi, zi)
+        gap, _ = utils._top2gap(mi, zi)
         ret[i] = gap / en
 
     return ret
@@ -214,7 +230,7 @@ def mig(
 def dmig(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
 ) -> np.ndarray:
     """
@@ -224,7 +240,9 @@ def dmig(
     
     .. math:: \operatorname{DMIG}(a_i, \mathbf{z}) = \dfrac{\mathcal{I}(a_i, z_j)-\mathcal{I}(a_i, z_k)}{\mathcal{H}(a_i|a_l)},
     
-    where :math:`j=\operatorname{arg}\max_n \mathcal{I}(a_i, z_n)`, :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)`, :math:`\mathcal{H}(\cdot|\cdot)` is conditional entropy, and :math:`a_l` is the attribute regularized by :math:`z_k`. If :math:`z_k` is not regularizing any attribute, DMIG reduces to the usual MIG. DMIG compensates for the reduced maximum possible value of the numerator due to attribute interdependence.
+    where :math:`j=\operatorname{arg}\max_n \mathcal{I}(a_i, z_n)`, :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, :math:`\mathcal{H}(\cdot|\cdot)` is conditional entropy, and :math:`a_l` is the attribute regularized by :math:`z_k`. If :math:`z_k` is not regularizing any attribute, DMIG reduces to the usual MIG. DMIG compensates for the reduced maximum possible value of the numerator due to attribute interdependence.
+
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)` as usual.
 
     Parameters
     ----------
@@ -256,7 +274,7 @@ def dmig(
     .. [1] K. N. Watcharasupat and A. Lerch, “Evaluation of Latent Space Disentanglement in the Presence of Interdependent Attributes”, in Extended Abstracts of the Late-Breaking Demo Session of the 22nd International Society for Music Information Retrieval Conference, 2021.
     .. [2] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
-    z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
     _, n_attr = a.shape
 
@@ -266,14 +284,14 @@ def dmig(
         ai = a[:, i]
         zi = reg_dim[i]
 
-        mi = latent_attr_mutual_info(z, ai, discrete)
+        mi = _latent_attr_mutual_info(z, ai, discrete)
 
-        gap, zj = _mgap(mi, zi)
+        gap, zj = utils._top2gap(mi, zi)
 
         if zj in reg_dim:
-            cen = conditional_entropy(ai, a[:, reg_dim.index(zj)], discrete)
+            cen = _conditional_entropy(ai, a[:, reg_dim.index(zj)], discrete)
         else:
-            cen = entropy(ai, discrete)
+            cen = _entropy(ai, discrete)
 
         ret[i] = gap / cen
 
@@ -283,17 +301,19 @@ def dmig(
 def dlig(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
 ):
     """
     Calculate Dependency-Aware Latent Information Gap (DLIG) between latent vectors and attributes
 
-    Dependency-aware Latent Information Gap (DLIG) is a latent-centric counterpart to DMIG. DLIG evaluates disentanglement of a set of semantic attributes :math:'{a_i}' with respect to a latent dimension :math:'z_d' such that
+    Dependency-aware Latent Information Gap (DLIG) is a latent-centric counterpart to DMIG. DLIG evaluates disentanglement of a set of semantic attributes :math:`\{a_i\}` with respect to a latent dimension :math:`z_d` such that
 
-    .. math:: \operatorname{DLIG}({a_i}, z_d) = \dfrac{\mathcal{I}(a_j, z_d)-\mathcal{I}(a_k, z_d)}{\mathcal{H}(a_j|a_k)},
+    .. math:: \operatorname{DLIG}(\{a_i\}, z_d) = \dfrac{\mathcal{I}(a_j, z_d)-\mathcal{I}(a_k, z_d)}{\mathcal{H}(a_j|a_k)},
 
-    where :math:`j=\operatorname{arg}\max_i \mathcal{I}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{i≠j} \mathcal{I}(a_i, z_d)`.
+    where :math:`j=\operatorname{arg}\max_i \mathcal{I}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{i≠j} \mathcal{I}(a_i, z_d)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot|\cdot)` is conditional entropy.
+
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{i≠j} \mathcal{I}(a_i, z_d)` as usual.
 
     Parameters
     ----------
@@ -323,7 +343,7 @@ def dlig(
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
-    z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
     _, n_attr = a.shape  # same as len(reg_dim)
 
@@ -333,11 +353,11 @@ def dlig(
 
     for i, zi in enumerate(reg_dim):
 
-        mi = latent_attr_mutual_info(a, z[:, zi], discrete=False)
+        mi = _attr_latent_mutual_info(z[:, zi], a, discrete)
 
-        gap, j = _mgap(mi, i)
+        gap, j = utils._top2gap(mi, i)
 
-        cen = conditional_entropy(a[:, i], a[:, j], discrete)
+        cen = _conditional_entropy(a[:, i], a[:, j], discrete)
 
         ret[i] = gap / cen
 
@@ -347,7 +367,7 @@ def dlig(
 def xmig(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     discrete: bool = False,
 ):
     """
@@ -357,7 +377,9 @@ def xmig(
 
     .. math:: \operatorname{XMIG}(a_i, \mathbf{z}) = \dfrac{\mathcal{I}(a_i, z_j)-\mathcal{I}(a_i, z_k)}{\mathcal{H}(a_i)},
 
-    where :math:`j=\operatorname{arg}\max_d \mathcal{I}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{d\not\in\mathcal{D}} \mathcal{I}(a_i, z_d)`, 
+    where :math:`j=\operatorname{arg}\max_d \mathcal{I}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{d∉\mathcal{D}} \mathcal{I}(a_i, z_d)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, :math:`\mathcal{H}(\cdot)` is entropy, and :math:`\mathcal{D}` is a set of latent indices which do not regularize any attribute. XMIG allows monitoring of latent disentanglement exclusively against attribute-unregularized latent dimensions. 
+
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{d∉\mathcal{D}} \mathcal{I}(a_i, z_d)` as usual.
 
     Parameters
     ----------
@@ -388,7 +410,7 @@ def xmig(
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
-    z, a, reg_dim = _validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
     _, n_features = z.shape
     _, n_attr = a.shape
@@ -401,8 +423,8 @@ def xmig(
         ai = a[:, i]
         zi = reg_dim[i]
 
-        en = entropy(ai, discrete)
-        mi = latent_attr_mutual_info(z, ai, discrete)
+        en = _entropy(ai, discrete)
+        mi = _latent_attr_mutual_info(z, ai, discrete)
 
         gap, _ = _xgap(mi, zi, reg_dim)
         ret[i] = gap / en

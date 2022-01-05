@@ -1,8 +1,9 @@
-from typing import List, Optional, Union
+import warnings
+from typing import List, Optional
+
 import numpy as np
 
 from . import utils
-import warnings
 
 
 def _validate_monotonicity_args(
@@ -18,10 +19,41 @@ def _validate_monotonicity_args(
         )
 
 
+def _get_monotonicity_from_liad(
+    liad1: np.ndarray,
+    reduce_mode: str = "attribute",
+    liad_thresh: float = 1e-3,
+    degenerate_val: float = np.nan,
+    nanmean: bool = True,
+) -> np.ndarray:
+    liad1 = liad1 * (np.abs(liad1) > liad_thresh)
+
+    sgn = np.sign(liad1)
+    nz = np.sum(sgn != 0, axis=-1)
+    ssgn = np.sum(sgn, axis=-1)
+
+    with np.errstate(divide="ignore", invalid="ignore"):
+        mntc = ssgn / nz
+    mntc[nz == 0] = degenerate_val
+
+    meanfunc = np.nanmean if nanmean else np.mean
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        if reduce_mode == "attribute":
+            return meanfunc(mntc, axis=0)
+        elif reduce_mode == "sample":
+            return meanfunc(mntc, axis=-1)
+        elif reduce_mode == "all":
+            return meanfunc(mntc)
+        else:
+            return mntc
+
+
 def monotonicity(
     z: np.ndarray,
     a: np.ndarray,
-    reg_dim: Optional[List] = None,
+    reg_dim: Optional[List[int]] = None,
     liad_mode: str = "forward",
     reduce_mode: str = "attribute",
     liad_thresh: float = 1e-3,
@@ -31,11 +63,11 @@ def monotonicity(
     """
     Calculate latent monotonicity.
 
-    Monotonicity is a measure of how monotonic an attribute changes with respect to a change in the regularizing dimension. Monotonicity of a latent vector :math:'\mathbf{z}' is given by
+    Monotonicity is a measure of how monotonic an attribute changes with respect to a change in the regularizing dimension. Monotonicity of a latent vector :math:`\mathbf{z}` is given by
 
     .. math:: \operatorname{Monotonicity}_{i,d}(\mathbf{z};\delta,\epsilon) = \dfrac{\sum_{k\in\mathfrak{K}}I_k\cdot S_k}{\sum_{k\in\mathfrak{K}}I_k},
 
-    where :math:`S_k = \operatorname{sgn}\left( \mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)\right) \in {-1,0,1}`, :math:`I_k = \mathbb{I}\left[\lvert\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)\rvert > \epsilon\right] \in {0,1}`, :math:`\mathbb{I}[\cdot]` is the Iverson bracket operator, and :math:`\epsilon > 0` is a noise threshold for ignoring near-zero attribute changes.
+    where :math:`S_k = \operatorname{sgn}(\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)) \in \{-1,0,1\}`, :math:`I_k = \mathbb{I}[|\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)| > \epsilon] \in \{0,1\}`, :math:`\mathbb{I}[\cdot]` is the Iverson bracket operator, and :math:`\epsilon > 0` is a noise threshold for ignoring near-zero attribute changes.
 
     
     Parameters
@@ -78,27 +110,12 @@ def monotonicity(
     z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=2)
     utils._validate_non_constant_interp(z)
 
-    liad1, _ = utils.liad(z, a, order=1, mode=liad_mode, return_list=False)
+    liad1, _ = utils._liad(z, a, order=1, mode=liad_mode, return_list=False)
 
-    liad1 = liad1 * (np.abs(liad1) > liad_thresh)
-
-    sgn = np.sign(liad1)
-    nz = np.sum(sgn != 0, axis=-1)
-    ssgn = np.sum(sgn, axis=-1)
-
-    with np.errstate(divide="ignore", invalid="ignore"):
-        mntc = ssgn / nz
-    mntc[nz == 0] = degenerate_val
-
-    meanfunc = np.nanmean if nanmean else np.mean
-
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", RuntimeWarning)
-        if reduce_mode == "attribute":
-            return meanfunc(mntc, axis=0)
-        elif reduce_mode == "sample":
-            return meanfunc(mntc, axis=-1)
-        elif reduce_mode == "all":
-            return meanfunc(mntc)
-        else:
-            return mntc
+    return _get_monotonicity_from_liad(
+        liad1=liad1,
+        reduce_mode=reduce_mode,
+        liad_thresh=liad_thresh,
+        degenerate_val=degenerate_val,
+        nanmean=nanmean,
+    )

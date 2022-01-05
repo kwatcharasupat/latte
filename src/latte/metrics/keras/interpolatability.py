@@ -1,7 +1,20 @@
-from .wrapper import KerasMetricWrapper
+import tensorflow as tf
+
 from ..core import interpolatability as C
+from .wrapper import KerasMetricWrapper
 
-from functools import partial
 
-Smoothness = partial(KerasMetricWrapper, metric=C.Smoothness)
-Monotonicity = partial(KerasMetricWrapper, metric=C.Monotonicity)
+class Smoothness(KerasMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.Smoothness, **kwargs)
+
+    def update_state(self, z: tf.Tensor, a: tf.Tensor):
+        return super().update_state(z=z, a=a)
+
+
+class Monotonicity(KerasMetricWrapper):
+    def __init__(self, **kwargs):
+        super().__init__(metric=C.Monotonicity, **kwargs)
+
+    def update_state(self, z: tf.Tensor, a: tf.Tensor):
+        return super().update_state(z=z, a=a)

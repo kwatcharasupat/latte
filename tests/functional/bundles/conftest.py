@@ -1,6 +1,7 @@
-import pytest
-import latte
 import numpy as np
+import pytest
+
+import latte
 
 
 @pytest.fixture(autouse=True)
