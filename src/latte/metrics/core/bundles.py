@@ -14,12 +14,10 @@ from ...functional.interpolatability.smoothness import _validate_smoothness_args
 from ..base import OptimizedMetricBundle
 
 
-class DependencyAwareMutualInformationBundle(MetricBundle):
-    def __init__(
-        self, reg_dim: Optional[List] = None, discrete: bool = False,
-    ):
+class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
+    def __init__(self, reg_dim: Optional[List[int]] = None, discrete: bool = False):
         """
-        Calculate between latent vectors (`z`) and attributes (`a`): Mutual Information Gap (MIG), Dependency-Aware Mutual Information Gap (DMIG), Dependency-Blind Mutual Information Gap (XMIG), and Dependency-Aware Latent Information Gap (DLIG).
+        Calculate Mutual Information Gap (MIG), Dependency-Aware Mutual Information Gap (DMIG), Dependency-Blind Mutual Information Gap (XMIG), and Dependency-Aware Latent Information Gap (DLIG) between latent vectors (`z`) and attributes (`a`).
 
         Parameters
         ----------
@@ -37,25 +35,6 @@ class DependencyAwareMutualInformationBundle(MetricBundle):
         ..disentanglement.DependencyBlindMutualInformationGap: Dependency-Blind Mutual Information Gap
         """
 
-        # need to set `fill_reg_dim=True` for same `reg_dim` behaviour with other metrics
-        super().__init__(
-            metrics={
-                "MIG": MutualInformationGap(
-                    reg_dim=reg_dim, discrete=discrete, fill_reg_dim=True
-                ),
-                "DMIG": DependencyAwareMutualInformationGap(
-                    reg_dim=reg_dim, discrete=discrete
-                ),
-                "XMIG": DependencyBlindMutualInformationGap(
-                    reg_dim=reg_dim, discrete=discrete
-                ),
-                "DLIG": DependencyAwareLatentInformationGap(
-                    reg_dim=reg_dim, discrete=discrete
-                ),
-            }
-        )
-class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
-    def __init__(self, reg_dim: Optional[List[int]] = None, discrete: bool = False):
         super().__init__()
 
         self.add_state("z", [])
@@ -64,19 +43,6 @@ class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
         self.discrete = discrete
 
     def update_state(self, z, a):
-        self.z.append(z)
-        self.a.append(a)
-
-    def compute(self):
-
-        z = np.concatenate(self.z, axis=0)
-        a = np.concatenate(self.a, axis=0)
-
-        return _optimized_dependency_aware_mutual_info_bundle(
-            z, a, self.reg_dim, self.discrete
-        )
-
-    def update_state(self, z: np.ndarray, a: np.ndarray) -> None:
         """
         Update the states of the submodules.
 
@@ -88,7 +54,17 @@ class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
             a batch of attribute(s)
         """
 
-        return super().update_state(z=z, a=a)
+        self.z.append(z)
+        self.a.append(a)
+
+    def compute(self):
+
+        z = np.concatenate(self.z, axis=0)
+        a = np.concatenate(self.a, axis=0)
+
+        return _optimized_dependency_aware_mutual_info_bundle(
+            z, a, self.reg_dim, self.discrete
+        )
 
 
 class LiadInterpolatabilityBundle(OptimizedMetricBundle):
@@ -132,28 +108,6 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
         p : float, optional
             Lehmer mean power, by default 2.0 (i.e., contraharmonic mean). Only used if `max_mode == "lehmer"`. Must be greater than 1.0. Only affects smoothness.
         """
-        super().__init__(
-            metrics={
-                "smoothness": Smoothness(
-                    reg_dim=reg_dim,
-                    liad_mode=liad_mode,
-                    max_mode=max_mode,
-                    ptp_mode=ptp_mode,
-                    reduce_mode=reduce_mode,
-                    clamp=clamp,
-                    p=p,
-                ),
-                "monotonicity": Monotonicity(
-                    reg_dim=reg_dim,
-                    liad_mode=liad_mode,
-                    reduce_mode=reduce_mode,
-                    liad_thresh=liad_thresh,
-                    degenerate_val=degenerate_val,
-                    nanmean=nanmean,
-                    clamp=clamp,
-                    p=p,
-                ),
-            }
 
         super().__init__()
 
@@ -186,6 +140,17 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
         self.nanmean = nanmean
 
     def update_state(self, z, a):
+        """
+        Update the states of the submodules.
+
+        Parameters
+        ----------
+        z : np.ndarray, (n_samples, n_interp) or (n_samples, n_features or n_attributes, n_interp)
+            a batch of latent vectors
+        a : np.ndarray, (n_samples, n_interp) or (n_samples, n_attributes, n_interp)
+            a batch of attribute(s)
+        """
+
         self.z.append(z)
         self.a.append(a)
 
@@ -208,17 +173,3 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
             degenerate_val=self.degenerate_val,
             nanmean=self.nanmean,
         )
-
-    def update_state(self, z: np.ndarray, a: np.ndarray) -> None:
-        """
-        Update the states of the submodules.
-
-        Parameters
-        ----------
-        z : np.ndarray, (n_samples, n_interp) or (n_samples, n_features or n_attributes, n_interp)
-            a batch of latent vectors
-        a : np.ndarray, (n_samples, n_interp) or (n_samples, n_attributes, n_interp)
-            a batch of attribute(s)
-        """
-
-        return super().update_state(z=z, a=a)
