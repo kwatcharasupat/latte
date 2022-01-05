@@ -15,7 +15,7 @@ except:
 @pytest.mark.skipif(has_tf, reason="requires missing tensorflow")
 def test_import_warning():
     with pytest.raises(ImportError):
-        pass
+        from latte.metrics.keras import wrapper
 
 
 @pytest.mark.skipif(not has_tf, reason="requires tensorflow")
