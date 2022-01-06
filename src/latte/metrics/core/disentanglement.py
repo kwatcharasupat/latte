@@ -21,12 +21,6 @@ class MutualInformationGap(LatteMetric):
     If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)` as usual.
     
     MIG is best applied for independent attributes.
-    
-    See Also
-    --------
-    dmig : Dependency-Aware Mutual Information Gap
-    xmig : Dependency-Blind Mutual Information Gap
-    dlig : Dependency-Aware Latent Information Gap
 
     Parameters
     ----------
@@ -46,6 +40,13 @@ class MutualInformationGap(LatteMetric):
     -------
     np.ndarray, (n_attributes,)
         MIG for each attribute
+        
+    
+    See Also
+    --------
+    dmig : Dependency-Aware Mutual Information Gap
+    xmig : Dependency-Blind Mutual Information Gap
+    dlig : Dependency-Aware Latent Information Gap
         
     References
     ----------

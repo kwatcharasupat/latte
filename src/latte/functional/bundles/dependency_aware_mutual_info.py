@@ -35,10 +35,10 @@ def dependency_aware_mutual_info_bundle(
         
     See Also
     --------
-    ...disentanglement.mig : Mutual Information Gap
-    ...disentanglement.dmig : Dependency-Aware Mutual Information Gap
-    ...disentanglement.xmig : Dependency-Blind Mutual Information Gap
-    ...disentanglement.dlig : Dependency-Aware Latent Information Gap
+    .disentanglement.mig : Mutual Information Gap
+    .disentanglement.dmig : Dependency-Aware Mutual Information Gap
+    .disentanglement.xmig : Dependency-Blind Mutual Information Gap
+    .disentanglement.dlig : Dependency-Aware Latent Information Gap
     
     References
     ----------

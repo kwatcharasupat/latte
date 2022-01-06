@@ -1,11 +1,10 @@
 import tensorflow as tf
 
-from latte.metrics import _copydoc
 
 from ..core import disentanglement as C
 from .wrapper import KerasMetricWrapper
 
-@_copydoc(C.MutualInformationGap)
+
 class MutualInformationGap(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.MutualInformationGap, **kwargs)
@@ -14,7 +13,6 @@ class MutualInformationGap(KerasMetricWrapper):
         return super().update_state(z=z, a=a)
 
 
-@_copydoc(C.DependencyAwareMutualInformationGap)
 class DependencyAwareMutualInformationGap(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.DependencyAwareMutualInformationGap, **kwargs)
@@ -22,7 +20,7 @@ class DependencyAwareMutualInformationGap(KerasMetricWrapper):
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
 
-@_copydoc(C.DependencyAwareLatentInformationGap)
+
 class DependencyAwareLatentInformationGap(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.DependencyAwareLatentInformationGap, **kwargs)
@@ -30,7 +28,7 @@ class DependencyAwareLatentInformationGap(KerasMetricWrapper):
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
 
-@_copydoc(C.DependencyBlindMutualInformationGap)
+
 class DependencyBlindMutualInformationGap(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.DependencyBlindMutualInformationGap, **kwargs)
@@ -38,7 +36,7 @@ class DependencyBlindMutualInformationGap(KerasMetricWrapper):
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
 
-@_copydoc(C.SeparateAttributePredictability)
+
 class SeparateAttributePredictability(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.SeparateAttributePredictability, **kwargs)
@@ -46,13 +44,16 @@ class SeparateAttributePredictability(KerasMetricWrapper):
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
 
-@_copydoc(C.Modularity)
+
 class Modularity(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.Modularity, **kwargs)
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
+
+
+MutualInformationGap.__doc__ = C.MutualInformationGap.__doc__
 
 
 MIG = MutualInformationGap
