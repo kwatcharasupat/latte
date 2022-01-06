@@ -7,6 +7,7 @@ from .wrapper import KerasMetricWrapper
 class MutualInformationGap(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.MutualInformationGap, **kwargs)
+        self.__doc__ = C.MutualInformationGap.__doc__
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
@@ -15,6 +16,7 @@ class MutualInformationGap(KerasMetricWrapper):
 class DependencyAwareMutualInformationGap(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.DependencyAwareMutualInformationGap, **kwargs)
+        self.__doc__ = C.DependencyAwareMutualInformationGap.__doc__
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
@@ -23,6 +25,7 @@ class DependencyAwareMutualInformationGap(KerasMetricWrapper):
 class DependencyAwareLatentInformationGap(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.DependencyAwareLatentInformationGap, **kwargs)
+        self.__doc__ = C.DependencyAwareLatentInformationGap.__doc__
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
@@ -31,6 +34,7 @@ class DependencyAwareLatentInformationGap(KerasMetricWrapper):
 class DependencyBlindMutualInformationGap(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.DependencyBlindMutualInformationGap, **kwargs)
+        self.__doc__ = C.DependencyBlindMutualInformationGap.__doc__
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
@@ -39,6 +43,7 @@ class DependencyBlindMutualInformationGap(KerasMetricWrapper):
 class SeparateAttributePredictability(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.SeparateAttributePredictability, **kwargs)
+        self.__doc__ = C.SeparateAttributePredictability.__doc__
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
@@ -47,6 +52,7 @@ class SeparateAttributePredictability(KerasMetricWrapper):
 class Modularity(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.Modularity, **kwargs)
+        self.__doc__ = C.Modularity.__doc__
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
