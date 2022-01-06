@@ -2,7 +2,7 @@ from typing import Dict, List, Optional, Union
 
 import numpy as np
 
-from latte.functional.interpolatability import utils
+from latte.functional.interpolatability import _utils
 
 from ..interpolatability.monotonicity import (
     _get_monotonicity_from_liad,
@@ -165,9 +165,9 @@ def _optimized_liad_interpolatability_bundle(
         nanmean=nanmean,
     )
 
-    z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=3)
-    utils._validate_non_constant_interp(z)
-    utils._validate_equal_interp_deltas(z)
+    z, a = _utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=3)
+    _utils._validate_non_constant_interp(z)
+    _utils._validate_equal_interp_deltas(z)
 
     liads = _get_2nd_order_liad(z, a, liad_mode=liad_mode)
 

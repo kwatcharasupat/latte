@@ -4,7 +4,7 @@ from typing import Callable, List, Optional, Tuple
 import numpy as np
 from sklearn import feature_selection as fs
 
-from . import utils
+from . import _utils
 
 
 def _get_mi_func(discrete: bool) -> Callable:
@@ -177,12 +177,6 @@ def mig(
     If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)` as usual.
     
     MIG is best applied for independent attributes.
-    
-    See Also
-    --------
-    dmig : Dependency-Aware Mutual Information Gap
-    xmig : Dependency-Blind Mutual Information Gap
-    dlig : Dependency-Aware Latent Information Gap
 
     Parameters
     ----------
@@ -203,12 +197,18 @@ def mig(
     np.ndarray, (n_attributes,)
         MIG for each attribute
         
+    See Also
+    --------
+    dmig : Dependency-Aware Mutual Information Gap
+    xmig : Dependency-Blind Mutual Information Gap
+    dlig : Dependency-Aware Latent Information Gap
+        
     References
     ----------
     .. [1] Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
     """
 
-    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=fill_reg_dim)
+    z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=fill_reg_dim)
 
     _, n_attr = a.shape
 
@@ -221,7 +221,7 @@ def mig(
         en = _entropy(ai, discrete)
         mi = _latent_attr_mutual_info(z, ai, discrete)
 
-        gap, _ = utils._top2gap(mi, zi)
+        gap, _ = _utils._top2gap(mi, zi)
         ret[i] = gap / en
 
     return ret
@@ -274,7 +274,7 @@ def dmig(
     .. [1] K. N. Watcharasupat and A. Lerch, “Evaluation of Latent Space Disentanglement in the Presence of Interdependent Attributes”, in Extended Abstracts of the Late-Breaking Demo Session of the 22nd International Society for Music Information Retrieval Conference, 2021.
     .. [2] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
-    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+    z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
     _, n_attr = a.shape
 
@@ -286,7 +286,7 @@ def dmig(
 
         mi = _latent_attr_mutual_info(z, ai, discrete)
 
-        gap, zj = utils._top2gap(mi, zi)
+        gap, zj = _utils._top2gap(mi, zi)
 
         if zj in reg_dim:
             cen = _conditional_entropy(ai, a[:, reg_dim.index(zj)], discrete)
@@ -343,7 +343,7 @@ def dlig(
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
-    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+    z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
     _, n_attr = a.shape  # same as len(reg_dim)
 
@@ -355,7 +355,7 @@ def dlig(
 
         mi = _attr_latent_mutual_info(z[:, zi], a, discrete)
 
-        gap, j = utils._top2gap(mi, i)
+        gap, j = _utils._top2gap(mi, i)
 
         cen = _conditional_entropy(a[:, i], a[:, j], discrete)
 
@@ -410,7 +410,7 @@ def xmig(
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
-    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+    z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
     _, n_features = z.shape
     _, n_attr = a.shape

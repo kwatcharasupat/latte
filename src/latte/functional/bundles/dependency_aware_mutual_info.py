@@ -2,7 +2,7 @@ from typing import Dict, List, Optional
 
 import numpy as np
 
-from latte.functional.disentanglement import utils
+from latte.functional.disentanglement import _utils
 
 from ..disentanglement import mutual_info as minfo
 
@@ -35,7 +35,7 @@ def dependency_aware_mutual_info_bundle(
         
     See Also
     --------
-    ..disentanglement.mig: Mutual Information Gap
+    ..disentanglement.mig : Mutual Information Gap
     ..disentanglement.dmig : Dependency-Aware Mutual Information Gap
     ..disentanglement.xmig : Dependency-Blind Mutual Information Gap
     ..disentanglement.dlig : Dependency-Aware Latent Information Gap
@@ -83,7 +83,7 @@ def _optimized_dependency_aware_mutual_info_bundle(
     .. [3] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
-    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+    z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
 
     _, n_attr = a.shape
 
@@ -100,7 +100,7 @@ def _optimized_dependency_aware_mutual_info_bundle(
         en = minfo._entropy(ai, discrete)
         mi = minfo._latent_attr_mutual_info(z, ai, discrete)
 
-        gap, zj = utils._top2gap(mi, zi)
+        gap, zj = _utils._top2gap(mi, zi)
 
         if zj in reg_dim:
             cen = minfo._conditional_entropy(ai, a[:, reg_dim.index(zj)], discrete)
@@ -119,7 +119,7 @@ def _optimized_dependency_aware_mutual_info_bundle(
 
         mi = minfo._attr_latent_mutual_info(z[:, zi], a, discrete)
 
-        gap, j = utils._top2gap(mi, i)
+        gap, j = _utils._top2gap(mi, i)
 
         cen = minfo._conditional_entropy(a[:, i], a[:, j], discrete)
 

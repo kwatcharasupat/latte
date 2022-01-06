@@ -112,9 +112,9 @@ class Monotonicity(LatteMetric):
 
     Monotonicity is a measure of how monotonic an attribute changes with respect to a change in the regularizing dimension. Monotonicity of a latent vector :math:`\mathbf{z}` is given by
 
-    .. math:: \operatorname{Monotonicity}_{i,d}(\mathbf{z};\delta,\epsilon) = \dfrac{\sum_{k\in\mathfrak{K}}I_k\cdot S_k}{\sum_{k\in\mathfrak{K}}I_k},
+    .. math:: \operatorname{Monotonicity}_{i,d}(\mathbf{z};\delta,\epsilon) = \dfrac{\sum_{k\in\mathfrak{K}}I_k\cdot \operatorname{sgn}(\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta))}{\sum_{k\in\mathfrak{K}}I_k},
 
-    where :math:`S_k = \operatorname{sgn}(\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)) \in \{-1,0,1\}`, :math:`I_k = \mathbb{I}[|\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)| > \epsilon] \in \{0,1\}`, :math:`\mathbb{I}[\cdot]` is the Iverson bracket operator, and :math:`\epsilon > 0` is a noise threshold for ignoring near-zero attribute changes.
+    where :math:`I_k = \mathbb{I}[|\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)| > \epsilon] \in \{0,1\}`, :math:`\mathbb{I}[\cdot]` is the Iverson bracket operator, and :math:`\epsilon > 0` is a noise threshold for ignoring near-zero attribute changes.
 
     
     Parameters

@@ -3,7 +3,7 @@ from typing import List, Optional
 import numpy as np
 from sklearn import svm
 
-from .utils import _top2gap, _validate_za_shape
+from ._utils import _top2gap, _validate_za_shape
 
 
 def _get_continuous_sap_score(z: np.ndarray, a: np.ndarray, thresh: float = 1e-12):
@@ -81,7 +81,7 @@ def sap(
     discrete : bool, optional
         Whether the attributes are discrete, by default False
     l2_reg : float, optional
-        regularization parameter for linear classifier, by default 1.0. Ignored if `discrete` is `False`.
+        regularization parameter for linear classifier, by default 1.0. Ignored if `discrete` is `False`. See `sklearn.svm.LinearSVC` for more details.
     thresh : float, optional
         threshold for latent vector variance, by default 1e-12. Latent dimensions with variance below `thresh` will have SAP contribution zeroed. Ignored if `discrete` is `True`.
 
@@ -89,7 +89,10 @@ def sap(
     -------
     np.ndarray, (n_attributes,)
         SAP for each attribute
-        
+    
+    See Also
+    --------
+    sklearn.svm.LinearSVC : Linear SVC 
     
     References
     ----------

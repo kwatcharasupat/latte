@@ -2,7 +2,7 @@ from typing import List, Optional, Tuple, Union
 
 import numpy as np
 
-from . import utils
+from . import _utils
 
 
 def _validate_smoothness_args(
@@ -12,11 +12,11 @@ def _validate_smoothness_args(
     reduce_mode: str,
     p: float,
 ):
-    assert liad_mode in utils.__VALID_LIAD_MODE__
-    assert max_mode in utils.__VALID_MAX_MODE__
-    assert reduce_mode in utils.__VALID_REDUCE_MODE__
+    assert liad_mode in _utils.__VALID_LIAD_MODE__
+    assert max_mode in _utils.__VALID_MAX_MODE__
+    assert reduce_mode in _utils.__VALID_REDUCE_MODE__
     if isinstance(ptp_mode, str):
-        assert ptp_mode in utils.__VALID_PTP_MODE__
+        assert ptp_mode in _utils.__VALID_PTP_MODE__
     elif isinstance(ptp_mode, float):
         if not (0.0 < ptp_mode <= 1.0):
             raise ValueError("`ptp_mode` must be in (0.0, 1.0].")
@@ -30,7 +30,7 @@ def _validate_smoothness_args(
 def _get_2nd_order_liad(
     z: np.ndarray, a: np.ndarray, liad_mode: str
 ) -> List[Tuple[np.ndarray, np.ndarray]]:
-    return utils._liad(z, a, order=2, mode=liad_mode, return_list=True)
+    return _utils._liad(z, a, order=2, mode=liad_mode, return_list=True)
 
 
 def _get_smoothness_from_liads(
@@ -48,7 +48,7 @@ def _get_smoothness_from_liads(
     if max_mode == "naive":
         num = np.max(liad2abs, axis=-1)
     elif max_mode == "lehmer":
-        num = utils._lehmer_mean(liad2abs, p=p)
+        num = _utils._lehmer_mean(liad2abs, p=p)
     else:
         raise NotImplementedError
 
@@ -139,9 +139,9 @@ def smoothness(
         p=p,
     )
 
-    z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=3)
-    utils._validate_non_constant_interp(z)
-    utils._validate_equal_interp_deltas(z)
+    z, a = _utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=3)
+    _utils._validate_non_constant_interp(z)
+    _utils._validate_equal_interp_deltas(z)
 
     liads = _get_2nd_order_liad(z, a, liad_mode=liad_mode)
 

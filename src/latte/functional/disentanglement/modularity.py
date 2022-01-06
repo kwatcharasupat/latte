@@ -4,7 +4,7 @@ import numpy as np
 
 from latte.functional.disentanglement.mutual_info import _latent_attr_mutual_info
 
-from .utils import _validate_za_shape
+from ._utils import _validate_za_shape
 
 
 def modularity(
@@ -33,7 +33,7 @@ def modularity(
     a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
         a batch of attribute(s)
     reg_dim : Optional[List], optional
-        regularized dimensions, by default None
+        regularized dimensions, by default None.
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
     discrete : bool, optional
         Whether the attributes are discrete, by default False

@@ -4,7 +4,7 @@ from sklearn import feature_selection as fs
 
 import latte
 from latte.functional.disentanglement import mutual_info as mi
-from latte.functional.disentanglement import utils
+from latte.functional.disentanglement import _utils
 
 
 class TestMiFunc:
@@ -99,7 +99,7 @@ class TestMGaps:
     def test_mgap_no_z(self):
         minfo = np.array([4, 3, 1, 9])
 
-        gap, zmax = utils._top2gap(minfo)
+        gap, zmax = _utils._top2gap(minfo)
 
         assert gap == 5
         assert zmax is None
@@ -107,7 +107,7 @@ class TestMGaps:
     def test_mgap_w_z_max(self):
         minfo = np.array([4, 3, 1, 9])
 
-        gap, zmax = utils._top2gap(minfo, zi=3)
+        gap, zmax = _utils._top2gap(minfo, zi=3)
 
         assert gap == 5
         assert zmax == 0
@@ -115,7 +115,7 @@ class TestMGaps:
     def test_mgap_w_z_notmax(self):
         minfo = np.array([4, 3, 1, 9])
 
-        gap, zmax = utils._top2gap(minfo, zi=0)
+        gap, zmax = _utils._top2gap(minfo, zi=0)
 
         assert gap == -5
         assert zmax == 3

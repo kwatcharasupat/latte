@@ -3,14 +3,14 @@ from typing import List, Optional
 
 import numpy as np
 
-from . import utils
+from . import _utils
 
 
 def _validate_monotonicity_args(
     liad_mode: str, reduce_mode: str, degenerate_val: float, nanmean: bool,
 ):
-    assert liad_mode in utils.__VALID_LIAD_MODE__
-    assert reduce_mode in utils.__VALID_REDUCE_MODE__
+    assert liad_mode in _utils.__VALID_LIAD_MODE__
+    assert reduce_mode in _utils.__VALID_REDUCE_MODE__
 
     if np.isnan(degenerate_val) and nanmean is False and reduce_mode != "none":
         warnings.warn(
@@ -65,9 +65,9 @@ def monotonicity(
 
     Monotonicity is a measure of how monotonic an attribute changes with respect to a change in the regularizing dimension. Monotonicity of a latent vector :math:`\mathbf{z}` is given by
 
-    .. math:: \operatorname{Monotonicity}_{i,d}(\mathbf{z};\delta,\epsilon) = \dfrac{\sum_{k\in\mathfrak{K}}I_k\cdot S_k}{\sum_{k\in\mathfrak{K}}I_k},
+    .. math:: \operatorname{Monotonicity}_{i,d}(\mathbf{z};\delta,\epsilon) = \dfrac{\sum_{k\in\mathfrak{K}}I_k\cdot \operatorname{sgn}(\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta))}{\sum_{k\in\mathfrak{K}}I_k},
 
-    where :math:`S_k = \operatorname{sgn}(\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)) \in \{-1,0,1\}`, :math:`I_k = \mathbb{I}[|\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)| > \epsilon] \in \{0,1\}`, :math:`\mathbb{I}[\cdot]` is the Iverson bracket operator, and :math:`\epsilon > 0` is a noise threshold for ignoring near-zero attribute changes.
+    where :math:`I_k = \mathbb{I}[|\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)| > \epsilon] \in \{0,1\}`, :math:`\mathbb{I}[\cdot]` is the Iverson bracket operator, and :math:`\epsilon > 0` is a noise threshold for ignoring near-zero attribute changes.
 
     
     Parameters
@@ -107,10 +107,10 @@ def monotonicity(
         nanmean=nanmean,
     )
 
-    z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=2)
-    utils._validate_non_constant_interp(z)
+    z, a = _utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=2)
+    _utils._validate_non_constant_interp(z)
 
-    liad1, _ = utils._liad(z, a, order=1, mode=liad_mode, return_list=False)
+    liad1, _ = _utils._liad(z, a, order=1, mode=liad_mode, return_list=False)
 
     return _get_monotonicity_from_liad(
         liad1=liad1,
