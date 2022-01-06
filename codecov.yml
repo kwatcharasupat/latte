@@ -13,5 +13,5 @@ coverage:
       default:
         enabled: yes
         target: auto
-        threshold: 5
+        threshold: 50
     changes: no
