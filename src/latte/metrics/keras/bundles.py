@@ -1,3 +1,5 @@
+from typing import Dict, List, Optional, Union
+import numpy as np
 import tensorflow as tf
 
 
@@ -24,8 +26,12 @@ class DependencyAwareMutualInformationBundle(KerasMetricWrapper):
     .. [3] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
-    def __init__(self, **kwargs):
-        super().__init__(metric=C.DependencyAwareMutualInformationBundle, **kwargs)
+    def __init__(self, reg_dim: Optional[List[int]] = None, discrete: bool = False):
+        super().__init__(
+            metric=C.DependencyAwareMutualInformationBundle,
+            reg_dim=reg_dim,
+            discrete=discrete,
+        )
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         """
@@ -40,7 +46,7 @@ class DependencyAwareMutualInformationBundle(KerasMetricWrapper):
         """
         super().update_state(z=z, a=a)
 
-    def result(self) -> tf.Tensor:
+    def result(self) -> Dict[str, tf.Tensor]:
         """
         Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
 
@@ -85,8 +91,32 @@ class LiadInterpolatabilityBundle(KerasMetricWrapper):
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
-    def __init__(self, **kwargs):
-        super().__init__(metric=C.LiadInterpolatabilityBundle, **kwargs)
+    def __init__(
+        self,
+        reg_dim: Optional[List[int]] = None,
+        liad_mode: str = "forward",
+        max_mode: str = "lehmer",
+        ptp_mode: Union[float, str] = "naive",
+        reduce_mode: str = "attribute",
+        liad_thresh: float = 1e-3,
+        degenerate_val: float = np.nan,
+        nanmean: bool = True,
+        clamp: bool = False,
+        p: float = 2.0,
+    ):
+        super().__init__(
+            metric=C.LiadInterpolatabilityBundle,
+            reg_dim=reg_dim,
+            liad_mode=liad_mode,
+            max_mode=max_mode,
+            ptp_mode=ptp_mode,
+            reduce_mode=reduce_mode,
+            liad_thresh=liad_thresh,
+            degenerate_val=degenerate_val,
+            nanmean=nanmean,
+            clamp=clamp,
+            p=p,
+        )
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         """
@@ -101,7 +131,7 @@ class LiadInterpolatabilityBundle(KerasMetricWrapper):
         """
         super().update_state(z=z, a=a)
 
-    def result(self) -> tf.Tensor:
+    def result(self) -> Dict[str, tf.Tensor]:
         """
         Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
 

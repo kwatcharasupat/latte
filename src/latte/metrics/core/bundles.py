@@ -1,4 +1,4 @@
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 import numpy as np
 
@@ -56,7 +56,7 @@ class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
         self.z.append(z)
         self.a.append(a)
 
-    def compute(self) -> np.ndarray:
+    def compute(self) -> Dict[str, np.ndarray]:
         """
         Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
 
@@ -166,7 +166,7 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
         self.z.append(z)
         self.a.append(a)
 
-    def compute(self) -> np.ndarray:
+    def compute(self) -> Dict[str, np.ndarray]:
         """
         Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
 

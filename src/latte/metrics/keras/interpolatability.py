@@ -1,3 +1,5 @@
+from typing import List, Optional, Union
+import numpy as np
 import tensorflow as tf
 
 
@@ -48,8 +50,26 @@ class Smoothness(KerasMetricWrapper):
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
-    def __init__(self, **kwargs):
-        super().__init__(metric=C.Smoothness, **kwargs)
+    def __init__(
+        self,
+        reg_dim: Optional[List[int]] = None,
+        liad_mode: str = "forward",
+        max_mode: str = "lehmer",
+        ptp_mode: Union[float, str] = "naive",
+        reduce_mode: str = "attribute",
+        clamp: bool = False,
+        p: float = 2.0,
+    ):
+        super().__init__(
+            metric=C.Smoothness,
+            reg_dim=reg_dim,
+            liad_mode=liad_mode,
+            max_mode=max_mode,
+            ptp_mode=ptp_mode,
+            reduce_mode=reduce_mode,
+            clamp=clamp,
+            p=p,
+        )
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         """
@@ -114,8 +134,24 @@ class Monotonicity(KerasMetricWrapper):
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
-    def __init__(self, **kwargs):
-        super().__init__(metric=C.Monotonicity, **kwargs)
+    def __init__(
+        self,
+        reg_dim: Optional[List[int]] = None,
+        liad_mode: str = "forward",
+        reduce_mode: str = "attribute",
+        liad_thresh: float = 1e-3,
+        degenerate_val: float = np.nan,
+        nanmean: bool = True,
+    ):
+        super().__init__(
+            metric=C.Monotonicity,
+            reg_dim=reg_dim,
+            liad_mode=liad_mode,
+            reduce_mode=reduce_mode,
+            liad_thresh=liad_thresh,
+            degenerate_val=degenerate_val,
+            nanmean=nanmean,
+        )
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         """
