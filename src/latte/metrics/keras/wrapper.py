@@ -7,6 +7,7 @@ except ImportError as e:
     warnings.warn("Make sure you have TensorFlow installed.", ImportWarning)
     raise e
 
+from abc import abstractmethod
 import typing as t
 
 import numpy as np
@@ -54,6 +55,7 @@ class KerasMetricWrapper(tfm.Metric):
         super().__init__(name=name)
 
         self.metric = metric(**kwargs)
+    
 
     @tf.autograph.experimental.do_not_convert
     def update_state(self, *args, **kwargs):

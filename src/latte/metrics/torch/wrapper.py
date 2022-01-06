@@ -9,6 +9,7 @@ except ModuleNotFoundError as e:
     )
     raise e
 
+from abc import abstractmethod
 import typing as t
 
 import numpy as np
@@ -59,7 +60,7 @@ class TorchMetricWrapper(tm.Metric):
 
         self.metric = metric(**kwargs)
 
-    def update(self, *args, **kwargs):
+    def update(self, *args, **kwargs): # type: ignore
         args, kwargs = torch_to_numpy(args, kwargs)
         self.metric.update_state(*args, **kwargs)
 

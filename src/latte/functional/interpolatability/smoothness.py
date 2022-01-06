@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union, cast
 
 import numpy as np
 
@@ -30,7 +30,7 @@ def _validate_smoothness_args(
 def _get_2nd_order_liad(
     z: np.ndarray, a: np.ndarray, liad_mode: str
 ) -> List[Tuple[np.ndarray, np.ndarray]]:
-    return utils._liad(z, a, order=2, mode=liad_mode, return_list=True)
+    return cast(List[Tuple[np.ndarray, np.ndarray]], utils._liad(z, a, order=2, mode=liad_mode, return_list=True))
 
 
 def _get_smoothness_from_liads(

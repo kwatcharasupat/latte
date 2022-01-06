@@ -1,7 +1,10 @@
+import sys
+
 from functools import partial
-from typing import Callable, List, Optional, Tuple
+from typing import Any, Callable, List, Optional, Tuple, cast
 
 import numpy as np
+from numpy.core.numerictypes import ScalarType
 from sklearn import feature_selection as fs
 
 from . import utils
@@ -22,9 +25,7 @@ def _get_mi_func(discrete: bool) -> Callable:
         mutual information function handle
     """
 
-    from ... import (
-        RANDOM_STATE,
-    )  # this should be imported inside a function, in case the seed changes after this file is imported
+    RANDOM_STATE = getattr(sys.modules[__name__.split(".")[0]], "RANDOM_STATE")
 
     return partial(
         fs.mutual_info_classif if discrete else fs.mutual_info_regression,
@@ -259,6 +260,8 @@ def dmig(
     .. [2] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
     z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+    
+    reg_dim = cast(List[int], reg_dim) # make the type checker happy
 
     _, n_attr = a.shape
 
@@ -313,6 +316,8 @@ def dlig(
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
     z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+    
+    reg_dim = cast(List[int], reg_dim) # make the type checker happy
 
     _, n_attr = a.shape  # same as len(reg_dim)
 
@@ -365,6 +370,8 @@ def xmig(
     """
 
     z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+    
+    reg_dim = cast(List[int], reg_dim) # make the type checker happy
 
     _, n_features = z.shape
     _, n_attr = a.shape

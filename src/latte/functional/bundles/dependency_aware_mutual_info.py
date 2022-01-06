@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, cast
 
 import numpy as np
 
@@ -55,6 +55,8 @@ def _optimized_dependency_aware_mutual_info_bundle(
 ) -> Dict[str, np.ndarray]:
 
     z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+    
+    reg_dim = cast(List[int], reg_dim) # make type checker happy
 
     _, n_attr = a.shape
 
@@ -66,7 +68,7 @@ def _optimized_dependency_aware_mutual_info_bundle(
 
     for i in range(n_attr):
         ai = a[:, i]
-        zi = reg_dim[i] if reg_dim is not None else None
+        zi = reg_dim[i]
 
         en = minfo._entropy(ai, discrete)
         mi = minfo._latent_attr_mutual_info(z, ai, discrete)

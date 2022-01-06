@@ -1,3 +1,5 @@
+import sys
+
 from typing import List, Optional
 
 import numpy as np
@@ -29,8 +31,8 @@ def _get_discrete_sap_score(z: np.ndarray, a: np.ndarray, l2_reg: float = 1.0):
 
     assert l2_reg > 0, "`l2_reg` must be more than 0.0"
 
-    from ... import (
-        RANDOM_STATE,
+    RANDOM_STATE = getattr(
+        sys.modules[__name__.split(".")[0]], "RANDOM_STATE"
     )  # this should be imported inside a function, in case the seed changes after this file is imported
 
     _, n_features = z.shape
