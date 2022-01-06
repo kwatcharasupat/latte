@@ -35,7 +35,7 @@ class DummyMetric(LatteMetric):
 @pytest.mark.skipif(not has_tf, reason="requires tensorflow")
 class TestConvert:
     def test_graph_mode(self):
-        from latte.metrics.keras.wrapper import safe_numpy
+        from latte.metrics.keras.wrapper import _safe_numpy
 
         with tf.Graph().as_default():
             with pytest.raises(
@@ -43,16 +43,16 @@ class TestConvert:
                 match="This metric requires an EagerTensor. Please make sure you are in an eager execution mode. If you are using Keras API, compile the model with the flag `run_eagerly=True`.",
             ):
                 x = tf.random.uniform(shape=(16,))
-                safe_numpy(x)
+                _safe_numpy(x)
 
     def test_tf_to_np(self):
-        from latte.metrics.keras.wrapper import tf_to_numpy
+        from latte.metrics.keras.wrapper import _tf_to_numpy
 
         a1 = tf.random.uniform(shape=(16,))
         a2 = tf.random.uniform(shape=(16,))
         k1 = tf.random.uniform(shape=(16,))
         k2 = tf.random.uniform(shape=(16,))
-        args, kwargs = tf_to_numpy([a1, a2], dict(k1=k1, k2=k2))
+        args, kwargs = _tf_to_numpy([a1, a2], dict(k1=k1, k2=k2))
 
         for module in [np.testing, tf]:
 
@@ -62,40 +62,40 @@ class TestConvert:
             module.assert_equal(k2, kwargs["k2"])
 
     def test_np_to_tf_scalar(self):
-        from latte.metrics.keras.wrapper import numpy_to_tf
+        from latte.metrics.keras.wrapper import _numpy_to_tf
 
         a1 = np.random.randn(16,)
-        a1t = numpy_to_tf(a1)
+        a1t = _numpy_to_tf(a1)
 
         for module in [np.testing, tf]:
 
             module.assert_equal(a1, a1t)
 
     def test_np_to_tf_list(self):
-        from latte.metrics.keras.wrapper import numpy_to_tf
+        from latte.metrics.keras.wrapper import _numpy_to_tf
 
         alist = [np.random.randn(16,) for _ in range(3)]
-        alistt = numpy_to_tf(alist)
+        alistt = _numpy_to_tf(alist)
 
         for module in [np.testing, tf]:
             for a1, a1t in zip(alist, alistt):
                 module.assert_equal(a1, a1t)
 
     def test_np_to_tf_dict(self):
-        from latte.metrics.keras.wrapper import numpy_to_tf
+        from latte.metrics.keras.wrapper import _numpy_to_tf
 
         adict = {f"{i}:02d": np.random.randn(16,) for i in range(3)}
-        adictt = numpy_to_tf(adict)
+        adictt = _numpy_to_tf(adict)
 
         for module in [np.testing, tf]:
             for k in adict:
                 module.assert_equal(adict[k], adictt[k])
 
     def test_np_to_tf_bad_type(self):
-        from latte.metrics.keras.wrapper import numpy_to_tf
+        from latte.metrics.keras.wrapper import _numpy_to_tf
 
         with pytest.raises(TypeError):
-            numpy_to_tf(None)
+            _numpy_to_tf(None)
 
 
 @pytest.mark.skipif(not has_tf, reason="requires tensorflow")

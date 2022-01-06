@@ -50,13 +50,13 @@ class DummyMetric(LatteMetric):
 @pytest.mark.skipif(not has_torch_and_tm, reason="requires torch and torchmetrics")
 class TestConvert:
     def test_torch_to_np(self):
-        from latte.metrics.torch.wrapper import torch_to_numpy
+        from latte.metrics.torch.wrapper import _torch_to_numpy
 
         a1 = torch.randn(size=(16,))
         a2 = torch.randn(size=(16,))
         k1 = torch.randn(size=(16,))
         k2 = torch.randn(size=(16,))
-        args, kwargs = torch_to_numpy([a1, a2], dict(k1=k1, k2=k2))
+        args, kwargs = _torch_to_numpy([a1, a2], dict(k1=k1, k2=k2))
 
         for module in [np, torch]:
 
@@ -66,40 +66,40 @@ class TestConvert:
             module.testing.assert_allclose(k2, kwargs["k2"])
 
     def test_np_to_torch_scalar(self):
-        from latte.metrics.torch.wrapper import numpy_to_torch
+        from latte.metrics.torch.wrapper import _numpy_to_torch
 
         a1 = np.random.randn(16,)
-        a1t = numpy_to_torch(a1)
+        a1t = _numpy_to_torch(a1)
 
         for module in [np, torch]:
 
             module.testing.assert_allclose(a1, a1t)
 
     def test_np_to_torch_list(self):
-        from latte.metrics.torch.wrapper import numpy_to_torch
+        from latte.metrics.torch.wrapper import _numpy_to_torch
 
         alist = [np.random.randn(16,) for _ in range(3)]
-        alistt = numpy_to_torch(alist)
+        alistt = _numpy_to_torch(alist)
 
         for module in [np, torch]:
             for a1, a1t in zip(alist, alistt):
                 module.testing.assert_allclose(a1, a1t)
 
     def test_np_to_torch_dict(self):
-        from latte.metrics.torch.wrapper import numpy_to_torch
+        from latte.metrics.torch.wrapper import _numpy_to_torch
 
         adict = {f"{i}:02d": np.random.randn(16,) for i in range(3)}
-        adictt = numpy_to_torch(adict)
+        adictt = _numpy_to_torch(adict)
 
         for module in [np, torch]:
             for k in adict:
                 module.testing.assert_allclose(adict[k], adictt[k])
 
     def test_np_to_torch_bad_type(self):
-        from latte.metrics.torch.wrapper import numpy_to_torch
+        from latte.metrics.torch.wrapper import _numpy_to_torch
 
         with pytest.raises(TypeError):
-            numpy_to_torch(None)
+            _numpy_to_torch(None)
 
 
 @pytest.mark.skipif(not has_torch_and_tm, reason="requires torch and torchmetrics")

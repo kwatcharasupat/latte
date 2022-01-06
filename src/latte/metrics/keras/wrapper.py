@@ -51,6 +51,8 @@ class KerasMetricWrapper(tfm.Metric):
         Class handle of the Latte metric to be converted.
     name : t.Optional[str], optional
         Name of the Keras metric object, by default None. If None, the name of the Latte metric is used.
+    **kwargs
+        Keyword arguments to be passed to the Latte metric.
         
     See Also
     --------
