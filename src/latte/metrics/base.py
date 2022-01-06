@@ -110,6 +110,7 @@ class MetricBundle:
     metrics : Union[List[LatteMetric], Dict[str, LatteMetric]]
         A list of metrics or a dictionary of metric names mapping to metrics. If a list is provided, the key for each metric in the output will be the name of the metric.
     """
+
     def __init__(
         self, metrics: Union[List[LatteMetric], Dict[str, LatteMetric]]
     ) -> None:

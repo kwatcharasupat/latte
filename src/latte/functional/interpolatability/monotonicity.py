@@ -118,7 +118,7 @@ def monotonicity(
     _utils._validate_non_constant_interp(z)
 
     liad1, _ = _utils._liad(z, a, order=1, mode=liad_mode, return_list=False)
-    liad1 = np.array(liad1) # make type checker happy
+    liad1 = np.array(liad1)  # make type checker happy
 
     return _get_monotonicity_from_liad(
         liad1=liad1,

@@ -49,8 +49,8 @@ autoapi_type = "python"
 autoapi_dirs = ["../src/latte/"]
 autoapi_options = [
     "members",
-    "undoc-members",
-    "inherited-members",
+    # "undoc-members",
+    # "inherited-members",
     "show-inheritance",
     "show-module-summary",
     # "imported-members",
@@ -59,8 +59,11 @@ autoapi_add_toctree_entry = False
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
-    "sklearn": ("http://scikit-learn.org/stable", None),
-    'numpy': ('https://numpy.org/doc/stable/', None),
+    "sklearn": ("https://scikit-learn.org/stable", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
+    "torch": ("https://pytorch.org/docs/stable/", None),
+    "torchmetrics": ("https://torchmetrics.readthedocs.io/en/stable/", None),
+    "pytorch_lightning": ("https://pytorch-lightning.readthedocs.io/en/stable", None),
 }
 
 # Add any paths that contain templates here, relative to this directory.

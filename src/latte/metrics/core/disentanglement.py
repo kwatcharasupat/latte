@@ -24,10 +24,6 @@ class MutualInformationGap(LatteMetric):
 
     Parameters
     ----------
-    z : np.ndarray, (n_samples, n_features)
-        a batch of latent vectors
-    a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
-        a batch of attribute(s)
     reg_dim : Optional[List], optional
         regularized dimensions, by default None
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `reg_dim` is provided, the first mutual information is always taken between the regularized dimension and the attribute, and MIG may be negative.
@@ -35,23 +31,19 @@ class MutualInformationGap(LatteMetric):
         Whether the attributes are discrete, by default False
     fill_reg_dim : bool, optional
         Whether to automatically fill `reg_dim` with `range(n_attributes)`, by default False. If `fill_reg_dim` is True, the `reg_dim` behavior is the same as the dependency-aware family. This option is mainly used for compatibility with the dependency-aware family in a bundle.
-
-    Returns
-    -------
-    np.ndarray, (n_attributes,)
-        MIG for each attribute
         
-    
     See Also
     --------
-    dmig : Dependency-Aware Mutual Information Gap
-    xmig : Dependency-Blind Mutual Information Gap
-    dlig : Dependency-Aware Latent Information Gap
+    ..bundles.DependencyAwareMutualInformationBundle : Dependency-Aware Mutual Information Bundle
+    .DependencyAwareMutualInformationGap : Dependency-Aware Mutual Information Gap
+    .DependencyBlindMutualInformationGap : Dependency-Blind Mutual Information Gap
+    .DependencyAwareLatentInformationGap : Dependency-Aware Latent Information Gap
         
     References
     ----------
     .. [1] Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
     """
+
     def __init__(
         self,
         reg_dim: Optional[List[int]] = None,
@@ -66,11 +58,29 @@ class MutualInformationGap(LatteMetric):
         self.discrete = discrete
         self.fill_reg_dim = fill_reg_dim
 
-    def update_state(self, z, a):
+    def update_state(self, z: np.ndarray, a: np.ndarray):
+        """
+        Update metric states. This function append the latent vectors and attributes to the internal state lists.
+
+        Parameters
+        ----------
+        z : np.ndarray, (n_samples, n_features)
+            a batch of latent vectors
+        a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
+            a batch of attribute(s)
+        """
         self.z.append(z)
         self.a.append(a)
 
-    def compute(self):
+    def compute(self) -> np.ndarray:
+        """
+        Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
+
+        Returns
+        -------
+        np.ndarray, (n_attributes,)
+            MIG for each attribute
+        """
 
         z = np.concatenate(self.z, axis=0)
         a = np.concatenate(self.a, axis=0)
@@ -92,34 +102,25 @@ class DependencyAwareMutualInformationGap(LatteMetric):
 
     Parameters
     ----------
-    z : np.ndarray, (n_samples, n_features)
-        a batch of latent vectors
-    a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
-        a batch of attribute(s)
     reg_dim : Optional[List], optional
         regularized dimensions, by default None
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
     discrete : bool, optional
         Whether the attributes are discrete, by default False
-
-    Returns
-    -------
-    np.ndarray, (n_attributes,)
-        DMIG for each attribute
         
     See Also
     --------
-    mig : Mutual Information Gap
-    dmig : Dependency-Aware Mutual Information Gap
-    xmig : Dependency-Blind Mutual Information Gap
-    dlig : Dependency-Aware Latent Information Gap
-        
-    
+    ..bundles.DependencyAwareMutualInformationBundle : Dependency-Aware Mutual Information Bundle
+    .MutualInformationGap : Mutual Information Gap
+    .DependencyBlindMutualInformationGap : Dependency-Blind Mutual Information Gap
+    .DependencyAwareLatentInformationGap : Dependency-Aware Latent Information Gap
+
     References
     ----------
     .. [1] K. N. Watcharasupat and A. Lerch, “Evaluation of Latent Space Disentanglement in the Presence of Interdependent Attributes”, in Extended Abstracts of the Late-Breaking Demo Session of the 22nd International Society for Music Information Retrieval Conference, 2021.
     .. [2] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
+
     def __init__(self, reg_dim: Optional[List[int]] = None, discrete: bool = False):
         super().__init__()
 
@@ -128,11 +129,29 @@ class DependencyAwareMutualInformationGap(LatteMetric):
         self.reg_dim = reg_dim
         self.discrete = discrete
 
-    def update_state(self, z, a):
+    def update_state(self, z: np.ndarray, a: np.ndarray):
+        """
+        Update metric states. This function append the latent vectors and attributes to the internal state lists.
+
+        Parameters
+        ----------
+        z : np.ndarray, (n_samples, n_features)
+            a batch of latent vectors
+        a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
+            a batch of attribute(s)
+        """
         self.z.append(z)
         self.a.append(a)
 
-    def compute(self):
+    def compute(self) -> np.ndarray:
+        """
+        Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
+
+        Returns
+        -------
+        np.ndarray, (n_attributes,)
+            DMIG for each attribute
+        """
 
         z = np.concatenate(self.z, axis=0)
         a = np.concatenate(self.a, axis=0)
@@ -154,32 +173,24 @@ class DependencyAwareLatentInformationGap(LatteMetric):
 
     Parameters
     ----------
-    z : np.ndarray, (n_samples, n_features)
-        a batch of latent vectors
-    a : np.ndarray, (n_samples, n_attributes)
-        a batch of at least two attributes
     reg_dim : Optional[List], optional
         regularized dimensions, by default None
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
     discrete : bool, optional
         Whether the attributes are discrete, by default False
 
-    Returns
-    -------
-    np.ndarray, (n_attributes,)
-        DLIG for each attribute
-        
     See Also
     --------
-    mig : Mutual Information Gap
-    dmig : Dependency-Aware Mutual Information Gap
-    xmig : Dependency-Blind Mutual Information Gap
-    ..modularity.modularity : Modularity
-        
+    ..bundles.DependencyAwareMutualInformationBundle : Dependency-Aware Mutual Information Bundle
+    .MutualInformationGap : Mutual Information Gap
+    .DependencyBlindMutualInformationGap : Dependency-Blind Mutual Information Gap
+    .DependencyAwareMutualInformationGap : Dependency-Aware Mutual Information Gap
+
     References
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
+
     def __init__(self, reg_dim: Optional[List[int]] = None, discrete: bool = False):
         super().__init__()
 
@@ -188,12 +199,29 @@ class DependencyAwareLatentInformationGap(LatteMetric):
         self.reg_dim = reg_dim
         self.discrete = discrete
 
-    def update_state(self, z, a):
+    def update_state(self, z: np.ndarray, a: np.ndarray):
+        """
+        Update metric states. This function append the latent vectors and attributes to the internal state lists.
+
+        Parameters
+        ----------
+        z : np.ndarray, (n_samples, n_features)
+            a batch of latent vectors
+        a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
+            a batch of attribute(s)
+        """
         self.z.append(z)
         self.a.append(a)
 
-    def compute(self):
+    def compute(self) -> np.ndarray:
+        """
+        Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
 
+        Returns
+        -------
+        np.ndarray, (n_attributes,)
+            DLIG for each attribute-regularizing latent dimension
+        """
         z = np.concatenate(self.z, axis=0)
         a = np.concatenate(self.a, axis=0)
 
@@ -214,32 +242,24 @@ class DependencyBlindMutualInformationGap(LatteMetric):
 
     Parameters
     ----------
-    z : np.ndarray, (n_samples, n_features)
-        a batch of latent vectors
-    a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
-        a batch of attribute(s)
     reg_dim : Optional[List], optional
         regularized dimensions, by default None
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
     discrete : bool, optional
         Whether the attributes are discrete, by default False
-
-    Returns
-    -------
-    np.ndarray, (n_attributes,)
-        XMIG for each attribute
         
     See Also
     --------
-    mig : Mutual Information Gap
-    dmig : Dependency-Aware Mutual Information Gap
-    xmig : Dependency-Blind Mutual Information Gap
-    dlig : Dependency-Aware Latent Information Gap
+    ..bundles.DependencyAwareMutualInformationBundle : Dependency-Aware Mutual Information Bundle
+    .MutualInformationGap : Mutual Information Gap
+    .DependencyAwareMutualInformationGap : Dependency-Aware Mutual Information Gap
+    .DependencyAwareLatentInformationGap : Dependency-Aware Latent Information Gap
         
     References
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
+
     def __init__(self, reg_dim: Optional[List[int]] = None, discrete: bool = False):
         super().__init__()
 
@@ -248,12 +268,29 @@ class DependencyBlindMutualInformationGap(LatteMetric):
         self.reg_dim = reg_dim
         self.discrete = discrete
 
-    def update_state(self, z, a):
+    def update_state(self, z: np.ndarray, a: np.ndarray):
+        """
+        Update metric states. This function append the latent vectors and attributes to the internal state lists.
+
+        Parameters
+        ----------
+        z : np.ndarray, (n_samples, n_features)
+            a batch of latent vectors
+        a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
+            a batch of attribute(s)
+        """
         self.z.append(z)
         self.a.append(a)
 
-    def compute(self):
+    def compute(self) -> np.ndarray:
+        """
+        Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
 
+        Returns
+        -------
+        np.ndarray, (n_attributes,)
+            XMIG for each attribute
+        """
         z = np.concatenate(self.z, axis=0)
         a = np.concatenate(self.a, axis=0)
 
@@ -274,30 +311,25 @@ class SeparateAttributePredictability(LatteMetric):
 
     Parameters
     ----------
-    z : np.ndarray, (n_samples, n_features)
-        a batch of latent vectors
-    a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
-        a batch of attribute(s)
     reg_dim : Optional[List], optional
         regularized dimensions, by default None
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
     discrete : bool, optional
         Whether the attributes are discrete, by default False
     l2_reg : float, optional
-        regularization parameter for linear classifier, by default 1.0. Ignored if `discrete` is `False`.
+        regularization parameter for linear classifier, by default 1.0. Ignored if `discrete` is `False`. See `sklearn.svm.LinearSVC` for more details.
     thresh : float, optional
         threshold for latent vector variance, by default 1e-12. Latent dimensions with variance below `thresh` will have SAP contribution zeroed. Ignored if `discrete` is `True`.
 
-    Returns
-    -------
-    np.ndarray, (n_attributes,)
-        SAP for each attribute
-        
+    See Also
+    --------
+    sklearn.svm.LinearSVC : Linear SVC 
     
     References
     ----------
     .. [1] A. Kumar, P. Sattigeri, and A. Balakrishnan, “Variational inference of disentangled latent concepts from unlabeled observations”, in Proceedings of the 6th International Conference on Learning Representations, 2018.
     """
+
     def __init__(
         self,
         reg_dim: Optional[List[int]] = None,
@@ -314,12 +346,29 @@ class SeparateAttributePredictability(LatteMetric):
         self.l2_reg = l2_reg
         self.thresh = thresh
 
-    def update_state(self, z, a):
+    def update_state(self, z: np.ndarray, a: np.ndarray):
+        """
+        Update metric states. This function append the latent vectors and attributes to the internal state lists.
+
+        Parameters
+        ----------
+        z : np.ndarray, (n_samples, n_features)
+            a batch of latent vectors
+        a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
+            a batch of attribute(s)
+        """
         self.z.append(z)
         self.a.append(a)
 
-    def compute(self):
+    def compute(self) -> np.ndarray:
+        """
+        Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
 
+        Returns
+        -------
+        np.ndarray, (n_attributes,)
+            SAP for each attribute
+        """
         z = np.concatenate(self.z, axis=0)
         a = np.concatenate(self.a, axis=0)
 
@@ -340,31 +389,22 @@ class Modularity(LatteMetric):
 
     `reg_dim` is currently ignored in Modularity.
 
-
     Parameters
     ----------
-    z : np.ndarray, (n_samples, n_features)
-        a batch of latent vectors
-    a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
         a batch of attribute(s)
     reg_dim : Optional[List], optional
-        regularized dimensions, by default None
+        regularized dimensions, by default None.
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
     discrete : bool, optional
         Whether the attributes are discrete, by default False
     thresh : float, optional
         threshold for mutual information, by default 1e-12. Latent-attribute pair with variance below `thresh` will have modularity contribution zeroed.
 
-    Returns
-    -------
-    np.ndarray, (n_attributes,)
-        Modularity for each attribute
-        
-    
     References
     ----------
     .. [1] K. Ridgeway and M. C. Mozer, “Learning deep disentangled embeddings with the F-statistic loss,” in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018, pp. 185–194.
     """
+
     def __init__(
         self,
         reg_dim: Optional[List[int]] = None,
@@ -379,12 +419,29 @@ class Modularity(LatteMetric):
         self.discrete = discrete
         self.thresh = thresh
 
-    def update_state(self, z, a):
+    def update_state(self, z: np.ndarray, a: np.ndarray):
+        """
+        Update metric states. This function append the latent vectors and attributes to the internal state lists.
+
+        Parameters
+        ----------
+        z : np.ndarray, (n_samples, n_features)
+            a batch of latent vectors
+        a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
+            a batch of attribute(s)
+        """
         self.z.append(z)
         self.a.append(a)
 
-    def compute(self):
+    def compute(self) -> np.ndarray:
+        """
+        Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
 
+        Returns
+        -------
+        np.ndarray, (n_features,)
+            Modularity for each latent vector dimension
+        """
         z = np.concatenate(self.z, axis=0)
         a = np.concatenate(self.a, axis=0)
 

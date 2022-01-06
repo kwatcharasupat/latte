@@ -2,7 +2,7 @@ from typing import List, Optional, Union
 
 import numpy as np
 
-from latte.functional.bundles.liad_interpolatability import (
+from ...functional.bundles.liad_interpolatability import (
     _optimized_liad_interpolatability_bundle,
 )
 

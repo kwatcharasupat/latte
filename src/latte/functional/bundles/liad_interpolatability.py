@@ -2,7 +2,7 @@ from typing import Dict, List, Optional, Union
 
 import numpy as np
 
-from latte.functional.interpolatability import _utils
+from ..interpolatability import _utils
 
 from ..interpolatability.monotonicity import (
     _get_monotonicity_from_liad,
@@ -89,6 +89,7 @@ def liad_interpolatability_bundle(
         clamp=clamp,
         p=p,
     )
+
 
 def _optimized_liad_interpolatability_bundle(
     z: np.ndarray,

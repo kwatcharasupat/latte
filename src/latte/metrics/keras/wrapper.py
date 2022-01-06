@@ -54,7 +54,6 @@ class KerasMetricWrapper(tfm.Metric):
         super().__init__(name=name)
 
         self.metric = metric(**kwargs)
-        
 
     @tf.autograph.experimental.do_not_convert
     def update_state(self, *args, **kwargs):

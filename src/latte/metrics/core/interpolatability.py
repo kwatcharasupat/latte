@@ -54,6 +54,7 @@ class Smoothness(LatteMetric):
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
+
     def __init__(
         self,
         reg_dim: Optional[List[int]] = None,
@@ -146,6 +147,7 @@ class Monotonicity(LatteMetric):
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
+
     def __init__(
         self,
         reg_dim: Optional[List[int]] = None,

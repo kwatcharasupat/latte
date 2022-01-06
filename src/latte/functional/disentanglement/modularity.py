@@ -2,7 +2,7 @@ from typing import List, Optional
 
 import numpy as np
 
-from latte.functional.disentanglement.mutual_info import _latent_attr_mutual_info
+from .mutual_info import _latent_attr_mutual_info
 
 from ._utils import _validate_za_shape
 
@@ -42,9 +42,8 @@ def modularity(
 
     Returns
     -------
-    np.ndarray, (n_attributes,)
-        Modularity for each attribute
-        
+    np.ndarray, (n_features,)
+        Modularity for each latent vector dimension
     
     References
     ----------

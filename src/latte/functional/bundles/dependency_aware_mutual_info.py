@@ -2,7 +2,7 @@ from typing import Dict, List, Optional, cast
 
 import numpy as np
 
-from latte.functional.disentanglement import _utils
+from ..disentanglement import _utils
 
 from ..disentanglement import mutual_info as minfo
 
@@ -84,8 +84,8 @@ def _optimized_dependency_aware_mutual_info_bundle(
     """
 
     z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
-    
-    reg_dim = cast(List[int], reg_dim) # make type checker happy
+
+    reg_dim = cast(List[int], reg_dim)  # make type checker happy
 
     _, n_attr = a.shape
 

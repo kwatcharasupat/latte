@@ -275,8 +275,8 @@ def dmig(
     .. [2] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
     z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
-    
-    reg_dim = cast(List[int], reg_dim) # make the type checker happy
+
+    reg_dim = cast(List[int], reg_dim)  # make the type checker happy
 
     _, n_attr = a.shape
 
@@ -332,7 +332,7 @@ def dlig(
     Returns
     -------
     np.ndarray, (n_attributes,)
-        DLIG for each attribute
+        DLIG for each attribute-regularizing latent dimension
         
     See Also
     --------
@@ -346,8 +346,8 @@ def dlig(
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
     z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
-    
-    reg_dim = cast(List[int], reg_dim) # make the type checker happy
+
+    reg_dim = cast(List[int], reg_dim)  # make the type checker happy
 
     _, n_attr = a.shape  # same as len(reg_dim)
 
@@ -414,8 +414,8 @@ def xmig(
     """
 
     z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
-    
-    reg_dim = cast(List[int], reg_dim) # make the type checker happy
+
+    reg_dim = cast(List[int], reg_dim)  # make the type checker happy
 
     _, n_features = z.shape
     _, n_attr = a.shape

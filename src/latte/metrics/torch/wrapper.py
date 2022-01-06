@@ -60,7 +60,7 @@ class TorchMetricWrapper(tm.Metric):
 
         self.metric = metric(**kwargs)
 
-    def update(self, *args, **kwargs): # type: ignore
+    def update(self, *args, **kwargs):  # type: ignore
         args, kwargs = torch_to_numpy(args, kwargs)
         self.metric.update_state(*args, **kwargs)
 

@@ -45,6 +45,7 @@ class Smoothness(TorchMetricWrapper):
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
+
     def __init__(self, **kwargs):
         super().__init__(metric=C.Smoothness, **kwargs)
 
@@ -92,6 +93,7 @@ class Monotonicity(TorchMetricWrapper):
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
+
     def __init__(self, **kwargs):
         super().__init__(metric=C.Monotonicity, **kwargs)
 
