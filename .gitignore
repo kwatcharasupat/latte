@@ -138,3 +138,5 @@ twistd.pid
 docs/_build/**
 
 **/lightning_logs/**
+
+twistd.pid
