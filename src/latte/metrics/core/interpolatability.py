@@ -21,7 +21,7 @@ class Smoothness(LatteMetric):
 
     .. math:: \operatorname{Smoothness}_{i,d}(\mathbf{z};\delta) = 1-\dfrac{\mathcal{C}_{k\in\mathfrak{K}}[\mathcal{D}_{i,d}^{(2)}(\mathbf{z} + k\delta\mathbf{e}_d;\delta )]}{\delta^{-1}\mathcal{R}_{k\in\mathfrak{K}}[\mathcal{D}_{i,d}^{(1)}(\mathbf{z} + k\delta\mathbf{e}_d;\delta )]},
 
-    where :math:`\mathcal{D}_{i,d}^{(n)}(z; \delta)` is the :math:`n` th order latent-induced attribute difference (LIAD) as defined below, :math:`\mathbf{e}_d` is the :math:`d`th elementary vector, :math:`\mathcal{C}_{k\in\mathfrak{K}}[\cdot]` is the Lehmer mean (with `p=2` by default) of its arguments over values of :math:`k\in\mathfrak{K}`, and :math:`\mathcal{R}_{k\in\mathfrak{K}}[\cdot]` is the range of its arguments over values of :math:`k\in\mathfrak{K}` (controlled by `ptp_mode`), and :math:`\mathfrak{K}` is the set of interpolating points (controlled by `z`) used during evaluation.
+    where :math:`\mathcal{D}_{i,d}^{(n)}(z; \delta)` is the :math:`n` th order latent-induced attribute difference (LIAD) as defined below, :math:`\mathbf{e}_d` is the :math:`d` th elementary vector, :math:`\mathcal{C}_{k\in\mathfrak{K}}[\cdot]` is the Lehmer mean (with `p=2` by default) of its arguments over values of :math:`k\in\mathfrak{K}`, and :math:`\mathcal{R}_{k\in\mathfrak{K}}[\cdot]` is the range of its arguments over values of :math:`k\in\mathfrak{K}` (controlled by `ptp_mode`), and :math:`\mathfrak{K}` is the set of interpolating points (controlled by `z`) used during evaluation.
     
     The first-order LIAD is defined by
     
