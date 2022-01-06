@@ -13,14 +13,6 @@ import numpy as np
 
 from ...metrics.base import LatteMetric
 
-def copydoc(src):
-    def inner(target):
-        target.__doc__ = src.__doc__
-        target.result.__doc__ = src.compute.__doc__
-        return target
-    return inner
-
-
 def safe_numpy(t: tf.Tensor) -> np.ndarray:
     if hasattr(t, "numpy"):
         return t.numpy()

@@ -5,7 +5,6 @@ import tensorflow as tf
 from ..core import disentanglement as C
 from .wrapper import KerasMetricWrapper, copydoc
 
-@copydoc(C.MutualInformationGap)
 class MutualInformationGap(KerasMetricWrapper):
     def __init__(
         self,
@@ -22,10 +21,6 @@ class MutualInformationGap(KerasMetricWrapper):
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
-
-
-# MutualInformationGap.__doc__ = C.MutualInformationGap.__doc__
-
 
 class DependencyAwareMutualInformationGap(KerasMetricWrapper):
     def __init__(self, reg_dim: Optional[List[int]] = None, discrete: bool = False):

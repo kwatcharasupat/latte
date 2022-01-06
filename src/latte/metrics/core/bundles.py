@@ -26,13 +26,12 @@ class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
             Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`. Note that this is the `reg_dim` behavior of the dependency-aware family but is different from the default `reg_dim` behavior of the conventional MIG.
         discrete : bool, optional
             Whether the attributes are discrete, by default False
-            
-        See Also
-        --------
-        ..disentanglement.MutualInformationGap: Mutual Information Gap
-        ..disentanglement.DependencyAwareMutualInformationGap: Dependency-Aware Mutual Information Gap
-        ..disentanglement.DependencyAwareLatentInformationGap: Dependency-Aware Latent Information Gap
-        ..disentanglement.DependencyBlindMutualInformationGap: Dependency-Blind Mutual Information Gap
+        
+        References
+        ----------
+        .. [1] Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
+        .. [2] K. N. Watcharasupat and A. Lerch, “Evaluation of Latent Space Disentanglement in the Presence of Interdependent Attributes”, in Extended Abstracts of the Late-Breaking Demo Session of the 22nd International Society for Music Information Retrieval Conference, 2021.
+        .. [3] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
         """
 
         super().__init__()
@@ -42,9 +41,9 @@ class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
         self.reg_dim = reg_dim
         self.discrete = discrete
 
-    def update_state(self, z, a):
+    def update_state(self, z: np.ndarray, a: np.ndarray):
         """
-        Update the states of the submodules.
+        Update metric states. This function append the latent vectors and attributes to the internal state lists.
 
         Parameters
         ----------
@@ -57,7 +56,15 @@ class DependencyAwareMutualInformationBundle(OptimizedMetricBundle):
         self.z.append(z)
         self.a.append(a)
 
-    def compute(self):
+    def compute(self) -> np.ndarray:
+        """
+        Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
+
+        Returns
+        -------
+        Dict[str, np.ndarray]
+            A dictionary of mutual information metrics with keys ['MIG', 'DMIG', 'XMIG', 'DLIG'] each mapping to a corresponding metric np.ndarray of shape (n_attributes,).
+        """
 
         z = np.concatenate(self.z, axis=0)
         a = np.concatenate(self.a, axis=0)
@@ -82,7 +89,7 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
         p: float = 2.0,
     ):
         """
-        Calculate latent smoothness and monotonicity.   
+        Calculate latent smoothness and monotonicity.
 
         Parameters
         ----------
@@ -107,6 +114,10 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
             Whether to clamp smoothness to [0, 1], by default False. Only affects smoothness.
         p : float, optional
             Lehmer mean power, by default 2.0 (i.e., contraharmonic mean). Only used if `max_mode == "lehmer"`. Must be greater than 1.0. Only affects smoothness.
+
+        References
+        ----------
+        .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
         """
 
         super().__init__()
@@ -139,12 +150,12 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
         self.degenerate_val = degenerate_val
         self.nanmean = nanmean
 
-    def update_state(self, z, a):
+    def update_state(self, z: np.ndarray, a: np.ndarray):
         """
-        Update the states of the submodules.
+        Update metric states. This function append the latent vectors and attributes to the internal state lists.
 
-        Parameters
-        ----------
+        Returns
+        -------
         z : np.ndarray, (n_samples, n_interp) or (n_samples, n_features or n_attributes, n_interp)
             a batch of latent vectors
         a : np.ndarray, (n_samples, n_interp) or (n_samples, n_attributes, n_interp)
@@ -154,7 +165,15 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
         self.z.append(z)
         self.a.append(a)
 
-    def compute(self):
+    def compute(self) -> np.ndarray:
+        '''
+        Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
+
+        Returns
+        -------
+        Dict[str, np.ndarray]
+            A dictionary of LIAD-based interpolatability metrics with keys ['smoothness', 'monotonicity'] each mapping to a corresponding metric np.ndarray. See `reduce_mode` for details on the shape of the return arrays.
+        '''
 
         z = np.concatenate(self.z, axis=0)
         a = np.concatenate(self.a, axis=0)
