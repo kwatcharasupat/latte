@@ -7,6 +7,7 @@ except ImportError as e:
     warnings.warn("Make sure you have TensorFlow installed.", ImportWarning)
     raise e
 
+from abc import abstractmethod
 import typing as t
 
 import numpy as np

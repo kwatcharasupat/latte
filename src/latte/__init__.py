@@ -1,9 +1,8 @@
 import sys
 from typing import Optional
+import types
 
-this = sys.modules[__name__]
-
-this.RANDOM_STATE = None
+setattr(sys.modules[__name__], "RANDOM_STATE", None)
 
 
 def seed(seed: Optional[int] = 42):
@@ -16,4 +15,4 @@ def seed(seed: Optional[int] = 42):
         Random seed, by default 42.
         Set to None for non-deterministic behavior.
     """
-    this.RANDOM_STATE = seed
+    setattr(sys.modules[__name__], "RANDOM_STATE", seed)

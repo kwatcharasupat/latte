@@ -66,7 +66,7 @@ def modularity(
         )
     )
     max_sqmi = np.max(sqmi, axis=-1)
-    mod = 1.0 - (
+    mod: np.ndarray = 1.0 - (
         np.sum(sqmi / np.where(max_sqmi < sqthresh, 1.0, max_sqmi)[:, None], axis=-1)
         - 1.0
     ) / (n_attr - 1.0)
