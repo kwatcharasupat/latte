@@ -199,9 +199,9 @@ def mig(
         
     See Also
     --------
-    dmig : Dependency-Aware Mutual Information Gap
-    xmig : Dependency-Blind Mutual Information Gap
-    dlig : Dependency-Aware Latent Information Gap
+    .dmig : Dependency-Aware Mutual Information Gap
+    .xmig : Dependency-Blind Mutual Information Gap
+    .dlig : Dependency-Aware Latent Information Gap
         
     References
     ----------
@@ -263,10 +263,9 @@ def dmig(
         
     See Also
     --------
-    mig : Mutual Information Gap
-    dmig : Dependency-Aware Mutual Information Gap
-    xmig : Dependency-Blind Mutual Information Gap
-    dlig : Dependency-Aware Latent Information Gap
+    .mig : Mutual Information Gap
+    .xmig : Dependency-Blind Mutual Information Gap
+    .dlig : Dependency-Aware Latent Information Gap
         
     
     References
@@ -334,9 +333,9 @@ def dlig(
         
     See Also
     --------
-    mig : Mutual Information Gap
-    dmig : Dependency-Aware Mutual Information Gap
-    xmig : Dependency-Blind Mutual Information Gap
+    .mig : Mutual Information Gap
+    .dmig : Dependency-Aware Mutual Information Gap
+    .xmig : Dependency-Blind Mutual Information Gap
     ..modularity.modularity : Modularity
         
     References
@@ -400,10 +399,9 @@ def xmig(
         
     See Also
     --------
-    mig : Mutual Information Gap
-    dmig : Dependency-Aware Mutual Information Gap
-    xmig : Dependency-Blind Mutual Information Gap
-    dlig : Dependency-Aware Latent Information Gap
+    .mig : Mutual Information Gap
+    .dmig : Dependency-Aware Mutual Information Gap
+    .dlig : Dependency-Aware Latent Information Gap
         
     References
     ----------
