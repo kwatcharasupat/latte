@@ -65,9 +65,15 @@ def monotonicity(
 
     Monotonicity is a measure of how monotonic an attribute changes with respect to a change in the regularizing dimension. Monotonicity of a latent vector :math:`\mathbf{z}` is given by
 
-    .. math:: \operatorname{Monotonicity}_{i,d}(\mathbf{z};\delta,\epsilon) = \dfrac{\sum_{k\in\mathfrak{K}}I_k\cdot \operatorname{sgn}(\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta))}{\sum_{k\in\mathfrak{K}}I_k},
+    .. math:: \operatorname{Monotonicity}_{i,d}(\mathbf{z};\delta,\epsilon) = \dfrac{\sum_{k\in\mathfrak{K}}I_k\cdot \operatorname{sgn}(\mathcal{D}_{i,d}(\mathbf{z}+k\delta\mathbf{e}_d;\delta))}{\sum_{k\in\mathfrak{K}}I_k},
 
-    where :math:`I_k = \mathbb{I}[|\mathcal{D}_{i,d}^{(1)}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)| > \epsilon] \in \{0,1\}`, :math:`\mathbb{I}[\cdot]` is the Iverson bracket operator, and :math:`\epsilon > 0` is a noise threshold for ignoring near-zero attribute changes.
+    where :math:`\mathcal{D}_{i,d}(z; \delta)` is the first-order latent-induced attribute difference (LIAD) as defined below, :math:`I_k = \mathbb{I}[|\mathcal{D}_{i,d}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)| > \epsilon] \in \{0,1\}`, :math:`\mathbb{I}[\cdot]` is the Iverson bracket operator, :math:`\epsilon > 0` is a noise threshold for ignoring near-zero attribute changes, and :math:`\mathfrak{K}` is the set of interpolating points (controlled by `z`) used during evaluation.
+    
+    The first-order LIAD is defined by
+    
+    .. math:: \mathcal{D}_{i, d}(\mathbf{z}; \delta) = \frac{\mathcal{A}_i(\mathbf{z}+\delta \mathbf{e}_d) - \mathcal{A}_i(\mathbf{z})}{\delta}
+    
+    where :math:`\mathcal{A}_i(\cdot)` is the measurement of attribute :math:`a_i` from a sample generated from its latent vector argument, :math:`d` is the latent dimension regularizing :math:`a_i`, :math:`\delta>0` is the latent step size.
 
     
     Parameters
