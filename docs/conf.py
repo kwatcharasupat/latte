@@ -34,7 +34,7 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
     "sphinx.ext.mathjax",
-    "sphinx.ext.intersphinx",
+    # "sphinx.ext.intersphinx",
     "autoapi.extension",
     "numpydoc",
     "m2r2",
