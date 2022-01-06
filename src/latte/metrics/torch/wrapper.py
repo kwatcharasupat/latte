@@ -10,7 +10,7 @@ except ModuleNotFoundError as e:
     raise e
 
 from abc import abstractmethod
-import typing as t
+from typing import Any, Callable, Collection, Optional, Union, List
 
 import numpy as np
 
@@ -41,9 +41,9 @@ class TorchMetricWrapper(tm.Metric):
 
     Parameters
     ----------
-    metric : t.Callable[..., LatteMetric]
+    metric : Callable[..., LatteMetric]
         Class handle of the Latte metric to be converted.
-    name : t.Optional[str], optional
+    name : Optional[str], optional
         Name of the Keras metric object, by default None. If None, the name of the Latte metric is used.
     **kwargs
         Keyword arguments to be passed to the Latte metric.
@@ -65,12 +65,12 @@ class TorchMetricWrapper(tm.Metric):
     """
     def __init__(
         self,
-        metric: t.Callable[..., LatteMetric],
-        name: t.Optional[str] = None,
+        metric: Callable[..., LatteMetric],
+        name: Optional[str] = None,
         compute_on_step: bool = False,
         dist_sync_on_step: bool = False,
-        process_group: t.Optional[t.Any] = None,
-        dist_sync_fn: t.Callable = None,
+        process_group: Optional[Any] = None,
+        dist_sync_fn: Callable = None,
         **kwargs,
     ) -> None:
 
