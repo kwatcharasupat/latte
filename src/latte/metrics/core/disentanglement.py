@@ -391,7 +391,6 @@ class Modularity(LatteMetric):
 
     Parameters
     ----------
-        a batch of attribute(s)
     reg_dim : Optional[List], optional
         regularized dimensions, by default None.
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
