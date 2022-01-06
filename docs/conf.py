@@ -34,13 +34,15 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
     "sphinx.ext.mathjax",
-    # "sphinx.ext.intersphinx",
+    "sphinx.ext.intersphinx",
     "autoapi.extension",
     "numpydoc",
     "m2r2",
 ]
 
 autodoc_typehints = "description"
+autodoc_inherit_docstrings = False
+autoclass_content = "class"
 add_module_names = False
 
 source_suffix = [".rst", ".md"]
@@ -56,7 +58,6 @@ autoapi_options = [
     # "imported-members",
 ]
 autoapi_add_toctree_entry = False
-autoclass_content = "class"
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
