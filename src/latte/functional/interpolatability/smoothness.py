@@ -101,13 +101,13 @@ def smoothness(
     
     The first-order LIAD is defined by
     
-    .. math:: \mathcal{D}_{i, d}(\mathbf{z}; \delta) = \frac{\mathcal{A}_i(\mathbf{z}+\delta \mathbf{e}_d) - \mathcal{A}_i(\mathbf{z})}{\delta}
+    .. math:: \mathcal{D}_{i, d}(\mathbf{z}; \delta) = \dfrac{\mathcal{A}_i(\mathbf{z}+\delta \mathbf{e}_d) - \mathcal{A}_i(\mathbf{z})}{\delta}
     
     where :math:`\mathcal{A}_i(\cdot)` is the measurement of attribute :math:`a_i` from a sample generated from its latent vector argument, :math:`d` is the latent dimension regularizing :math:`a_i`, :math:`\delta>0` is the latent step size.
     
     Higher-order LIADs are defined by
     
-    .. math:: \mathcal{D}^{(n)}_{i, d}(\mathbf{z}; \delta) =\frac{{\mathcal{D}^{(n-1)}_i(\mathbf{z}+\delta \mathbf{e}_d) - \mathcal{D}^{(n-1)}_i(\mathbf{z})}}{\delta}.
+    .. math:: \mathcal{D}^{(n)}_{i, d}(\mathbf{z}; \delta) =\dfrac{{\mathcal{D}^{(n-1)}_i(\mathbf{z}+\delta \mathbf{e}_d) - \mathcal{D}^{(n-1)}_i(\mathbf{z})}}{\delta}.
 
     Parameters
     ----------
