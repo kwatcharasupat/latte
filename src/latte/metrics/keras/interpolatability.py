@@ -7,7 +7,7 @@ from .wrapper import KerasMetricWrapper
 class Smoothness(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.Smoothness, **kwargs)
-        self.__doc__ = C.Smoothness.__doc__
+        __doc__ = C.Smoothness.__doc__
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
@@ -16,7 +16,7 @@ class Smoothness(KerasMetricWrapper):
 class Monotonicity(KerasMetricWrapper):
     def __init__(self, **kwargs):
         super().__init__(metric=C.Monotonicity, **kwargs)
-        self.__doc__ = C.Monotonicity.__doc__
+        __doc__ = C.Monotonicity.__doc__
 
     def update_state(self, z: tf.Tensor, a: tf.Tensor):
         return super().update_state(z=z, a=a)
