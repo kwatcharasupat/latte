@@ -34,12 +34,15 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
     "sphinx.ext.mathjax",
+    "sphinx.ext.intersphinx",
     "autoapi.extension",
     "numpydoc",
     "m2r2",
 ]
 
 autodoc_typehints = "description"
+autodoc_inherit_docstrings = False
+autoclass_content = "class"
 add_module_names = False
 
 source_suffix = [".rst", ".md"]
@@ -48,31 +51,26 @@ autoapi_type = "python"
 autoapi_dirs = ["../src/latte/"]
 autoapi_options = [
     "members",
-    "undoc-members",
-    "inherited-members",
+    # "undoc-members",
+    # "inherited-members",
     "show-inheritance",
     "show-module-summary",
     # "imported-members",
 ]
 autoapi_add_toctree_entry = False
 
-# Add any paths that contain templates here, relative to this directory.
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "sklearn": ("https://scikit-learn.org/stable", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
+    "torch": ("https://pytorch.org/docs/stable/", None),
+    "torchmetrics": ("https://torchmetrics.readthedocs.io/en/stable/", None),
+    "pytorch_lightning": ("https://pytorch-lightning.readthedocs.io/en/stable", None),
+    # "tensorflow": ("https://www.tensorflow.org/api_docs/python/tf", None)
+}
+
 templates_path = ["_templates"]
 
-# List of patterns, relative to source directory, that match files and
-# directories to ignore when looking for source files.
-# This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-
-# -- Options for HTML output -------------------------------------------------
-
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
 html_theme = "sphinx_rtd_theme"
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]

@@ -7,15 +7,14 @@ except ImportError as e:
     warnings.warn("Make sure you have TensorFlow installed.", ImportWarning)
     raise e
 
-from abc import abstractmethod
-import typing as t
+from typing import Callable, Optional, Union, Collection
 
 import numpy as np
 
 from ...metrics.base import LatteMetric
 
 
-def safe_numpy(t: tf.Tensor) -> np.ndarray:
+def _safe_numpy(t: tf.Tensor) -> np.ndarray:
     if hasattr(t, "numpy"):
         return t.numpy()
     else:
@@ -24,14 +23,14 @@ def safe_numpy(t: tf.Tensor) -> np.ndarray:
         )
 
 
-def tf_to_numpy(args, kwargs):
-    args = [safe_numpy(a) for a in args]
-    kwargs = {k: safe_numpy(kwargs[k]) for k in kwargs}
+def _tf_to_numpy(args, kwargs):
+    args = [_safe_numpy(a) for a in args]
+    kwargs = {k: _safe_numpy(kwargs[k]) for k in kwargs}
 
     return args, kwargs
 
 
-def numpy_to_tf(val):
+def _numpy_to_tf(val):
     if isinstance(val, np.ndarray):
         return tf.convert_to_tensor(val)
     elif isinstance(val, list):
@@ -43,28 +42,53 @@ def numpy_to_tf(val):
 
 
 class KerasMetricWrapper(tfm.Metric):
+    """
+    A wrapper class for converting a Latte metric to Keras metric.
+
+    Parameters
+    ----------
+    metric : t.Callable[..., LatteMetric]
+        Class handle of the Latte metric to be converted.
+    name : t.Optional[str], optional
+        Name of the Keras metric object, by default None. If None, the name of the Latte metric is used.
+    **kwargs
+        Keyword arguments to be passed to the Latte metric.
+        
+    See Also
+    --------
+    tensorflow.keras.metrics.Metric : Keras Metric base class
+    """
+
     def __init__(
-        self,
-        metric: t.Callable[..., LatteMetric],
-        name: t.Optional[str] = None,
-        **kwargs
+        self, metric: Callable[..., LatteMetric], name: Optional[str] = None, **kwargs
     ) -> None:
+
         if name is None:
             name = metric.__name__
 
         super().__init__(name=name)
 
         self.metric = metric(**kwargs)
-    
 
     @tf.autograph.experimental.do_not_convert
     def update_state(self, *args, **kwargs):
-        args, kwargs = tf_to_numpy(args, kwargs)
+        """
+        Convert inputs to np.ndarray and call the functional `update_state` method.
+        """
+        args, kwargs = _tf_to_numpy(args, kwargs)
         self.metric.update_state(*args, **kwargs)
 
     @tf.autograph.experimental.do_not_convert
-    def result(self):
-        return numpy_to_tf(self.metric.compute())
+    def result(self) -> Union[tf.Tensor, Collection[tf.Tensor]]:
+        """
+        Calculate the metric values and convert them to tf.Tensor or a collection of them.
+
+        Returns
+        -------
+        Union[tf.Tensor, Collection[tf.Tensor]]
+            Metric values
+        """
+        return _numpy_to_tf(self.metric.compute())
 
     def reset_state(self):
         return self.metric.reset_state()

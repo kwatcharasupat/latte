@@ -7,7 +7,7 @@ import numpy as np
 from numpy.core.numerictypes import ScalarType
 from sklearn import feature_selection as fs
 
-from . import utils
+from . import _utils
 
 
 def _get_mi_func(discrete: bool) -> Callable:
@@ -173,15 +173,11 @@ def mig(
     
     .. math:: \operatorname{MIG}(a_i, \mathbf{z}) = \dfrac{\mathcal{I}(a_i, z_j)-\mathcal{I}(a_i, z_k)}{\mathcal{H}(a_i)},
     
-    where :math:`j=\operatorname{arg}\max_n \mathcal{I}(a_i, z_n)`, :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot)` is entropy. If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)` as usual.
+    where :math:`j=\operatorname{arg}\max_n \mathcal{I}(a_i, z_n)`, :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot)` is entropy.
+    
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)` as usual.
     
     MIG is best applied for independent attributes.
-    
-    See Also
-    --------
-    dmig : Dependency-Aware Mutual Information Gap
-    xmig : Dependency-Blind Mutual Information Gap
-    dlig : Dependency-Aware Latent Information Gap
 
     Parameters
     ----------
@@ -191,23 +187,29 @@ def mig(
         a batch of attribute(s)
     reg_dim : Optional[List], optional
         regularized dimensions, by default None
-        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `reg_dim` is provided, the first mutual information is always taken between the regularized dimension and the attribute and MIG may be negative.
+        Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `reg_dim` is provided, the first mutual information is always taken between the regularized dimension and the attribute, and MIG may be negative.
     discrete : bool, optional
         Whether the attributes are discrete, by default False
     fill_reg_dim : bool, optional
-        Whether to automatically fill `reg_dim` with `range(n_attributes)`, by default False
+        Whether to automatically fill `reg_dim` with `range(n_attributes)`, by default False. If `fill_reg_dim` is True, the `reg_dim` behavior is the same as the dependency-aware family. This option is mainly used for compatibility with the dependency-aware family in a bundle.
 
     Returns
     -------
     np.ndarray, (n_attributes,)
         MIG for each attribute
         
+    See Also
+    --------
+    .dmig : Dependency-Aware Mutual Information Gap
+    .xmig : Dependency-Blind Mutual Information Gap
+    .dlig : Dependency-Aware Latent Information Gap
+        
     References
     ----------
     .. [1] Q. Chen, X. Li, R. Grosse, and D. Duvenaud, “Isolating sources of disentanglement in variational autoencoders”, in Proceedings of the 32nd International Conference on Neural Information Processing Systems, 2018.
     """
 
-    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=fill_reg_dim)
+    z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=fill_reg_dim)
 
     _, n_attr = a.shape
 
@@ -220,7 +222,7 @@ def mig(
         en = _entropy(ai, discrete)
         mi = _latent_attr_mutual_info(z, ai, discrete)
 
-        gap, _ = utils._top2gap(mi, zi)
+        gap, _ = _utils._top2gap(mi, zi)
         ret[i] = gap / en
 
     return ret
@@ -235,6 +237,13 @@ def dmig(
     """
     Calculate Dependency-Aware Mutual Information Gap (DMIG) between latent vectors and attributes
 
+    Dependency-Aware Mutual Information Gap (DMIG) is a dependency-aware version of MIG that accounts for attribute interdependence observed in real-world data. Mathematically, DMIG is given by
+    
+    .. math:: \operatorname{DMIG}(a_i, \mathbf{z}) = \dfrac{\mathcal{I}(a_i, z_j)-\mathcal{I}(a_i, z_k)}{\mathcal{H}(a_i|a_l)},
+    
+    where :math:`j=\operatorname{arg}\max_n \mathcal{I}(a_i, z_n)`, :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, :math:`\mathcal{H}(\cdot|\cdot)` is conditional entropy, and :math:`a_l` is the attribute regularized by :math:`z_k`. If :math:`z_k` is not regularizing any attribute, DMIG reduces to the usual MIG. DMIG compensates for the reduced maximum possible value of the numerator due to attribute interdependence.
+
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{n≠j} \mathcal{I}(a_i, z_n)` as usual.
 
     Parameters
     ----------
@@ -253,15 +262,21 @@ def dmig(
     np.ndarray, (n_attributes,)
         DMIG for each attribute
         
+    See Also
+    --------
+    .mig : Mutual Information Gap
+    .xmig : Dependency-Blind Mutual Information Gap
+    .dlig : Dependency-Aware Latent Information Gap
+        
     
     References
     ----------
     .. [1] K. N. Watcharasupat and A. Lerch, “Evaluation of Latent Space Disentanglement in the Presence of Interdependent Attributes”, in Extended Abstracts of the Late-Breaking Demo Session of the 22nd International Society for Music Information Retrieval Conference, 2021.
     .. [2] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
-    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
-    
-    reg_dim = cast(List[int], reg_dim) # make the type checker happy
+    z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+
+    reg_dim = cast(List[int], reg_dim)  # make the type checker happy
 
     _, n_attr = a.shape
 
@@ -273,7 +288,7 @@ def dmig(
 
         mi = _latent_attr_mutual_info(z, ai, discrete)
 
-        gap, zj = utils._top2gap(mi, zi)
+        gap, zj = _utils._top2gap(mi, zi)
 
         if zj in reg_dim:
             cen = _conditional_entropy(ai, a[:, reg_dim.index(zj)], discrete)
@@ -294,6 +309,14 @@ def dlig(
     """
     Calculate Dependency-Aware Latent Information Gap (DLIG) between latent vectors and attributes
 
+    Dependency-aware Latent Information Gap (DLIG) is a latent-centric counterpart to DMIG. DLIG evaluates disentanglement of a set of semantic attributes :math:`\{a_i\}` with respect to a latent dimension :math:`z_d` such that
+
+    .. math:: \operatorname{DLIG}(\{a_i\}, z_d) = \dfrac{\mathcal{I}(a_j, z_d)-\mathcal{I}(a_k, z_d)}{\mathcal{H}(a_j|a_k)},
+
+    where :math:`j=\operatorname{arg}\max_i \mathcal{I}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{i≠j} \mathcal{I}(a_i, z_d)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, and :math:`\mathcal{H}(\cdot|\cdot)` is conditional entropy.
+
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{i≠j} \mathcal{I}(a_i, z_d)` as usual.
+
     Parameters
     ----------
     z : np.ndarray, (n_samples, n_features)
@@ -309,15 +332,22 @@ def dlig(
     Returns
     -------
     np.ndarray, (n_attributes,)
-        DLIG for each attribute
+        DLIG for each attribute-regularizing latent dimension
+        
+    See Also
+    --------
+    .mig : Mutual Information Gap
+    .dmig : Dependency-Aware Mutual Information Gap
+    .xmig : Dependency-Blind Mutual Information Gap
+    ..modularity.modularity : Modularity
         
     References
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
-    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
-    
-    reg_dim = cast(List[int], reg_dim) # make the type checker happy
+    z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+
+    reg_dim = cast(List[int], reg_dim)  # make the type checker happy
 
     _, n_attr = a.shape  # same as len(reg_dim)
 
@@ -329,7 +359,7 @@ def dlig(
 
         mi = _attr_latent_mutual_info(z[:, zi], a, discrete)
 
-        gap, j = utils._top2gap(mi, i)
+        gap, j = _utils._top2gap(mi, i)
 
         cen = _conditional_entropy(a[:, i], a[:, j], discrete)
 
@@ -346,6 +376,14 @@ def xmig(
 ):
     """
     Calculate Dependency-Blind Mutual Information Gap (XMIG) between latent vectors and attributes
+
+    Dependency-blind Mutual Information Gap (XMIG) is a complementary metric to MIG and DMIG that measures the gap in mutual information with the subtrahend restricted to dimensions which do not regularize any attribute. XMIG is given by
+
+    .. math:: \operatorname{XMIG}(a_i, \mathbf{z}) = \dfrac{\mathcal{I}(a_i, z_j)-\mathcal{I}(a_i, z_k)}{\mathcal{H}(a_i)},
+
+    where :math:`j=\operatorname{arg}\max_d \mathcal{I}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{d∉\mathcal{D}} \mathcal{I}(a_i, z_d)`, :math:`\mathcal{I}(\cdot,\cdot)` is mutual information, :math:`\mathcal{H}(\cdot)` is entropy, and :math:`\mathcal{D}` is a set of latent indices which do not regularize any attribute. XMIG allows monitoring of latent disentanglement exclusively against attribute-unregularized latent dimensions. 
+
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{d∉\mathcal{D}} \mathcal{I}(a_i, z_d)` as usual.
 
     Parameters
     ----------
@@ -364,14 +402,20 @@ def xmig(
     np.ndarray, (n_attributes,)
         XMIG for each attribute
         
+    See Also
+    --------
+    .mig : Mutual Information Gap
+    .dmig : Dependency-Aware Mutual Information Gap
+    .dlig : Dependency-Aware Latent Information Gap
+        
     References
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
 
-    z, a, reg_dim = utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
-    
-    reg_dim = cast(List[int], reg_dim) # make the type checker happy
+    z, a, reg_dim = _utils._validate_za_shape(z, a, reg_dim, fill_reg_dim=True)
+
+    reg_dim = cast(List[int], reg_dim)  # make the type checker happy
 
     _, n_features = z.shape
     _, n_attr = a.shape

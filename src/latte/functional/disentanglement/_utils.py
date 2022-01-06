@@ -36,6 +36,24 @@ def _validate_za_shape(
 def _top2gap(
     score: np.ndarray, zi: Optional[int] = None
 ) -> Tuple[np.ndarray, Optional[int]]:
+    """
+    Calculate the difference between the top two scores, or the difference between `score[zi]` and the top score if `zi` is provided and the top score is not `score[zi]`.
+
+    Parameters
+    ----------
+    score : np.ndarray, (n_features,)
+        A vector of scores.
+    zi : Optional[int], optional
+        Index of the feature to be used as the minuend, by default None
+
+    Returns
+    -------
+    Tuple[np.ndarray, Optional[int]]
+        A tuple of
+        - the top two scores or the difference between `score[zi]` and the top score if `zi` is provided and the top score is not `score[zi]`
+        - the index of the subtrahend. If `zi` is not provided, the index of the subtrahend is None.
+    """
+
     sc_sort = np.sort(score)
     if zi is None:
         return (sc_sort[-1] - sc_sort[-2]), None

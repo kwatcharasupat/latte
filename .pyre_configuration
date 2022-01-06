@@ -1,0 +1,14 @@
+{
+  "source_directories": [
+    "./src"
+  ],
+  "taint_models_path": "/home/karn/anaconda3/envs/latte38/lib",
+  "search_path": [
+    {"import_root": "/home/karn/anaconda3/envs/latte38/lib/python3.8/site-packages", "source": "numpy"},
+    {"import_root": "/home/karn/anaconda3/envs/latte38/lib/python3.8/site-packages", "source": "tensorflow"},
+    {"import_root": "/home/karn/anaconda3/envs/latte38/lib/python3.8/site-packages", "source": "torch"},
+    {"import_root": "/home/karn/anaconda3/envs/latte38/lib/python3.8/site-packages", "source": "sklearn"},
+    {"import_root": "/home/karn/anaconda3/envs/latte38/lib/python3.8/site-packages", "source": "torchmetrics"},
+    {"import_root": "/home/karn/anaconda3/envs/latte38/lib/python3.8/site-packages", "source": "pytorch_lightning"}
+  ]
+}

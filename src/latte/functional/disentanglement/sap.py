@@ -5,7 +5,7 @@ from typing import List, Optional
 import numpy as np
 from sklearn import svm
 
-from .utils import _top2gap, _validate_za_shape
+from ._utils import _top2gap, _validate_za_shape
 
 
 def _get_continuous_sap_score(z: np.ndarray, a: np.ndarray, thresh: float = 1e-12):
@@ -63,6 +63,13 @@ def sap(
     """
     Calculate Separate Attribute Predictability (SAP) between latent vectors and attributes
 
+    Separate Attribute Predictability (SAP) is similar in nature to MIG but, instead of mutual information, uses the coefficient of determination for continuous attributes and classification accuracy for discrete attributes to measure the extent of relationship between a latent dimension and an attribute. SAP is given by
+
+    .. math:: \operatorname{SAP}(a_i, \mathbf{z}) = \mathcal{S}(a_i, z_j)-\mathcal{S}(a_i, z_k),
+
+    where :math:`j=\operatorname{arg}\max_d \mathcal{S}(a_i, z_d)`, :math:`k=\operatorname{arg}\max_{d≠j} \mathcal{S}(a_i, z_d)`, and :math:`\mathcal{S}(\cdot,\cdot)` is either the coefficient of determination or classification accuracy.
+
+    If `reg_dim` is specified, :math:`j` is instead overwritten to `reg_dim[i]`, while :math:`k=\operatorname{arg}\max_{d≠j} \mathcal{S}(a_i, z_d)` as usual.
 
     Parameters
     ----------
@@ -76,7 +83,7 @@ def sap(
     discrete : bool, optional
         Whether the attributes are discrete, by default False
     l2_reg : float, optional
-        regularization parameter for linear classifier, by default 1.0. Ignored if `discrete` is `False`.
+        regularization parameter for linear classifier, by default 1.0. Ignored if `discrete` is `False`. See `sklearn.svm.LinearSVC` for more details.
     thresh : float, optional
         threshold for latent vector variance, by default 1e-12. Latent dimensions with variance below `thresh` will have SAP contribution zeroed. Ignored if `discrete` is `True`.
 
@@ -84,7 +91,10 @@ def sap(
     -------
     np.ndarray, (n_attributes,)
         SAP for each attribute
-        
+    
+    See Also
+    --------
+    sklearn.svm.LinearSVC : Linear SVC 
     
     References
     ----------

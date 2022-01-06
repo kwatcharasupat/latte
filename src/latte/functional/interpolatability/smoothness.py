@@ -2,7 +2,7 @@ from typing import List, Optional, Tuple, Union, cast
 
 import numpy as np
 
-from . import utils
+from . import _utils
 
 
 def _validate_smoothness_args(
@@ -12,11 +12,11 @@ def _validate_smoothness_args(
     reduce_mode: str,
     p: float,
 ):
-    assert liad_mode in utils.__VALID_LIAD_MODE__
-    assert max_mode in utils.__VALID_MAX_MODE__
-    assert reduce_mode in utils.__VALID_REDUCE_MODE__
+    assert liad_mode in _utils.__VALID_LIAD_MODE__
+    assert max_mode in _utils.__VALID_MAX_MODE__
+    assert reduce_mode in _utils.__VALID_REDUCE_MODE__
     if isinstance(ptp_mode, str):
-        assert ptp_mode in utils.__VALID_PTP_MODE__
+        assert ptp_mode in _utils.__VALID_PTP_MODE__
     elif isinstance(ptp_mode, float):
         if not (0.0 < ptp_mode <= 1.0):
             raise ValueError("`ptp_mode` must be in (0.0, 1.0].")
@@ -30,7 +30,10 @@ def _validate_smoothness_args(
 def _get_2nd_order_liad(
     z: np.ndarray, a: np.ndarray, liad_mode: str
 ) -> List[Tuple[np.ndarray, np.ndarray]]:
-    return cast(List[Tuple[np.ndarray, np.ndarray]], utils._liad(z, a, order=2, mode=liad_mode, return_list=True))
+    return cast(
+        List[Tuple[np.ndarray, np.ndarray]],
+        _utils._liad(z, a, order=2, mode=liad_mode, return_list=True),
+    )
 
 
 def _get_smoothness_from_liads(
@@ -48,7 +51,7 @@ def _get_smoothness_from_liads(
     if max_mode == "naive":
         num = np.max(liad2abs, axis=-1)
     elif max_mode == "lehmer":
-        num = utils._lehmer_mean(liad2abs, p=p)
+        num = _utils._lehmer_mean(liad2abs, p=p)
     else:
         raise NotImplementedError
 
@@ -93,6 +96,22 @@ def smoothness(
     """
     Calculate latent smoothness.
 
+    Smoothness is a measure of how smoothly an attribute changes with respect to a change in the regularizing latent dimension. Smoothness of a latent vector :math:`\mathbf{z}` is based on the concept of second-order derivative, and is given by
+
+    .. math:: \operatorname{Smoothness}_{i,d}(\mathbf{z};\delta) = 1-\dfrac{\mathcal{C}_{k\in\mathfrak{K}}[\mathcal{D}_{i,d}^{(2)}(\mathbf{z} + k\delta\mathbf{e}_d;\delta )]}{\delta^{-1}\mathcal{R}_{k\in\mathfrak{K}}[\mathcal{D}_{i,d}^{(1)}(\mathbf{z} + k\delta\mathbf{e}_d;\delta )]},
+
+    where :math:`\mathcal{D}_{i,d}^{(n)}(z; \delta)` is the :math:`n` th order latent-induced attribute difference (LIAD) as defined below, :math:`\mathbf{e}_d` is the :math:`d` th elementary vector, :math:`\mathcal{C}_{k\in\mathfrak{K}}[\cdot]` is the Lehmer mean (with `p=2` by default) of its arguments over values of :math:`k\in\mathfrak{K}`, and :math:`\mathcal{R}_{k\in\mathfrak{K}}[\cdot]` is the range of its arguments over values of :math:`k\in\mathfrak{K}` (controlled by `ptp_mode`), and :math:`\mathfrak{K}` is the set of interpolating points (controlled by `z`) used during evaluation.
+    
+    The first-order LIAD is defined by
+    
+    .. math:: \mathcal{D}_{i, d}(\mathbf{z}; \delta) = \dfrac{\mathcal{A}_i(\mathbf{z}+\delta \mathbf{e}_d) - \mathcal{A}_i(\mathbf{z})}{\delta}
+    
+    where :math:`\mathcal{A}_i(\cdot)` is the measurement of attribute :math:`a_i` from a sample generated from its latent vector argument, :math:`d` is the latent dimension regularizing :math:`a_i`, :math:`\delta>0` is the latent step size.
+    
+    Higher-order LIADs are defined by
+    
+    .. math:: \mathcal{D}^{(n)}_{i, d}(\mathbf{z}; \delta) =\dfrac{{\mathcal{D}^{(n-1)}_i(\mathbf{z}+\delta \mathbf{e}_d) - \mathcal{D}^{(n-1)}_i(\mathbf{z})}}{\delta}.
+
     Parameters
     ----------
     z : np.ndarray, (n_samples, n_interp) or (n_samples, n_features or n_attributes, n_interp)
@@ -133,9 +152,9 @@ def smoothness(
         p=p,
     )
 
-    z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=3)
-    utils._validate_non_constant_interp(z)
-    utils._validate_equal_interp_deltas(z)
+    z, a = _utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=3)
+    _utils._validate_non_constant_interp(z)
+    _utils._validate_equal_interp_deltas(z)
 
     liads = _get_2nd_order_liad(z, a, liad_mode=liad_mode)
 

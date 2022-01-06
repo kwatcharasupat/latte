@@ -7,7 +7,7 @@ from latte.functional.bundles.liad_interpolatability import (
 )
 from latte.functional.interpolatability.monotonicity import monotonicity
 from latte.functional.interpolatability.smoothness import smoothness
-from latte.functional.interpolatability.utils import (
+from latte.functional.interpolatability._utils import (
     __VALID_LIAD_MODE__,
     __VALID_MAX_MODE__,
     __VALID_PTP_MODE__,

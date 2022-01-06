@@ -4,14 +4,14 @@ from typing import Any, List, Optional, Tuple
 
 import numpy as np
 
-from . import utils
+from . import _utils
 
 
 def _validate_monotonicity_args(
     liad_mode: str, reduce_mode: str, degenerate_val: float, nanmean: bool,
 ):
-    assert liad_mode in utils.__VALID_LIAD_MODE__
-    assert reduce_mode in utils.__VALID_REDUCE_MODE__
+    assert liad_mode in _utils.__VALID_LIAD_MODE__
+    assert reduce_mode in _utils.__VALID_REDUCE_MODE__
 
     if np.isnan(degenerate_val) and nanmean is False and reduce_mode != "none":
         warnings.warn(
@@ -63,6 +63,19 @@ def monotonicity(
 ) -> np.ndarray:
     """
     Calculate latent monotonicity.
+
+    Monotonicity is a measure of how monotonic an attribute changes with respect to a change in the regularizing dimension. Monotonicity of a latent vector :math:`\mathbf{z}` is given by
+
+    .. math:: \operatorname{Monotonicity}_{i,d}(\mathbf{z};\delta,\epsilon) = \dfrac{\sum_{k\in\mathfrak{K}}I_k\cdot \operatorname{sgn}(\mathcal{D}_{i,d}(\mathbf{z}+k\delta\mathbf{e}_d;\delta))}{\sum_{k\in\mathfrak{K}}I_k},
+
+    where :math:`\mathcal{D}_{i,d}(z; \delta)` is the first-order latent-induced attribute difference (LIAD) as defined below, :math:`I_k = \mathbb{I}[|\mathcal{D}_{i,d}(\mathbf{z}+k\delta\mathbf{e}_d;\delta)| > \epsilon] \in \{0,1\}`, :math:`\mathbb{I}[\cdot]` is the Iverson bracket operator, :math:`\epsilon > 0` is a noise threshold for ignoring near-zero attribute changes, and :math:`\mathfrak{K}` is the set of interpolating points (controlled by `z`) used during evaluation.
+    
+    The first-order LIAD is defined by
+    
+    .. math:: \mathcal{D}_{i, d}(\mathbf{z}; \delta) = \dfrac{\mathcal{A}_i(\mathbf{z}+\delta \mathbf{e}_d) - \mathcal{A}_i(\mathbf{z})}{\delta}
+    
+    where :math:`\mathcal{A}_i(\cdot)` is the measurement of attribute :math:`a_i` from a sample generated from its latent vector argument, :math:`d` is the latent dimension regularizing :math:`a_i`, :math:`\delta>0` is the latent step size.
+
     
     Parameters
     ----------
@@ -101,11 +114,11 @@ def monotonicity(
         nanmean=nanmean,
     )
 
-    z, a = utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=2)
-    utils._validate_non_constant_interp(z)
+    z, a = _utils._validate_za_shape(z, a, reg_dim=reg_dim, min_size=2)
+    _utils._validate_non_constant_interp(z)
 
-    liad1, _ = utils._liad(z, a, order=1, mode=liad_mode, return_list=False)
-    liad1 = np.array(liad1) # make type checker happy
+    liad1, _ = _utils._liad(z, a, order=1, mode=liad_mode, return_list=False)
+    liad1 = np.array(liad1)  # make type checker happy
 
     return _get_monotonicity_from_liad(
         liad1=liad1,

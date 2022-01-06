@@ -2,9 +2,9 @@ from typing import List, Optional
 
 import numpy as np
 
-from latte.functional.disentanglement.mutual_info import _latent_attr_mutual_info
+from .mutual_info import _latent_attr_mutual_info
 
-from .utils import _validate_za_shape
+from ._utils import _validate_za_shape
 
 
 def modularity(
@@ -17,6 +17,14 @@ def modularity(
     """
     Calculate Modularity between latent vectors and attributes
 
+    Modularity is a letent-centric measure of disentanglement based on mutual information. Modularity measures the degree in which a latent dimension contains information about only one attribute, and is given by
+
+    .. math:: \operatorname{Modularity}(\{a_i\}, z_d) = 1-\dfrac{\sum_{i≠j}(\mathcal{I}(a_i, z_d)/\mathcal{I}(a_j, z_d))^2}{|{a_i}| -1},
+
+    where :math:`j=\operatorname{arg}\max_i \mathcal{I}(a_i, z_d)`, and :math:`\mathcal{I}(\cdot,\cdot)` is mutual information.
+
+    `reg_dim` is currently ignored in Modularity.
+
 
     Parameters
     ----------
@@ -25,7 +33,7 @@ def modularity(
     a : np.ndarray, (n_samples, n_attributes) or (n_samples,)
         a batch of attribute(s)
     reg_dim : Optional[List], optional
-        regularized dimensions, by default None
+        regularized dimensions, by default None.
         Attribute `a[:, i]` is regularized by `z[:, reg_dim[i]]`. If `None`, `a[:, i]` is assumed to be regularized by `z[:, i]`.
     discrete : bool, optional
         Whether the attributes are discrete, by default False
@@ -34,9 +42,8 @@ def modularity(
 
     Returns
     -------
-    np.ndarray, (n_attributes,)
-        Modularity for each attribute
-        
+    np.ndarray, (n_features,)
+        Modularity for each latent vector dimension
     
     References
     ----------
