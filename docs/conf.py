@@ -34,6 +34,7 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
     "sphinx.ext.mathjax",
+    "sphinx.ext.intersphinx",
     "autoapi.extension",
     "numpydoc",
     "m2r2",
@@ -55,6 +56,8 @@ autoapi_options = [
     # "imported-members",
 ]
 autoapi_add_toctree_entry = False
+
+intersphinx_mapping = {"python": ("https://docs.python.org/3", None), 'sklearn': ('http://scikit-learn.org/stable', None),}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
