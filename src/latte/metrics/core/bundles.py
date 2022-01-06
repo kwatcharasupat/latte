@@ -106,6 +106,7 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
     ----------
     .. [1] K. N. Watcharasupat, “Controllable Music: Supervised Learning of Disentangled Representations for Music Generation”, 2021.
     """
+
     def __init__(
         self,
         reg_dim: Optional[List[int]] = None,
@@ -166,14 +167,14 @@ class LiadInterpolatabilityBundle(OptimizedMetricBundle):
         self.a.append(a)
 
     def compute(self) -> np.ndarray:
-        '''
+        """
         Compute metric values from the current state. The latent vectors and attributes in the internal states are concatenated along the sample dimension and passed to the metric function to obtain the metric values.
 
         Returns
         -------
         Dict[str, np.ndarray]
             A dictionary of LIAD-based interpolatability metrics with keys ['smoothness', 'monotonicity'] each mapping to a corresponding metric np.ndarray. See `reduce_mode` for details on the shape of the return arrays.
-        '''
+        """
 
         z = np.concatenate(self.z, axis=0)
         a = np.concatenate(self.a, axis=0)

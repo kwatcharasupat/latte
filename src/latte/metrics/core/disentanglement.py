@@ -34,7 +34,7 @@ class MutualInformationGap(LatteMetric):
         
     See Also
     --------
-    ..bundles.DependencyAwareMutualInformationBundle : Dependency-Aware Mutual Information Bundle
+    bundles.DependencyAwareMutualInformationBundle : Dependency-Aware Mutual Information Bundle
     .DependencyAwareMutualInformationGap : Dependency-Aware Mutual Information Gap
     .DependencyBlindMutualInformationGap : Dependency-Blind Mutual Information Gap
     .DependencyAwareLatentInformationGap : Dependency-Aware Latent Information Gap
@@ -110,7 +110,7 @@ class DependencyAwareMutualInformationGap(LatteMetric):
         
     See Also
     --------
-    ..bundles.DependencyAwareMutualInformationBundle : Dependency-Aware Mutual Information Bundle
+    bundles.DependencyAwareMutualInformationBundle : Dependency-Aware Mutual Information Bundle
     .MutualInformationGap : Mutual Information Gap
     .DependencyBlindMutualInformationGap : Dependency-Blind Mutual Information Gap
     .DependencyAwareLatentInformationGap : Dependency-Aware Latent Information Gap
@@ -181,7 +181,7 @@ class DependencyAwareLatentInformationGap(LatteMetric):
 
     See Also
     --------
-    ..bundles.DependencyAwareMutualInformationBundle : Dependency-Aware Mutual Information Bundle
+    bundles.DependencyAwareMutualInformationBundle : Dependency-Aware Mutual Information Bundle
     .MutualInformationGap : Mutual Information Gap
     .DependencyBlindMutualInformationGap : Dependency-Blind Mutual Information Gap
     .DependencyAwareMutualInformationGap : Dependency-Aware Mutual Information Gap
@@ -250,7 +250,7 @@ class DependencyBlindMutualInformationGap(LatteMetric):
         
     See Also
     --------
-    ..bundles.DependencyAwareMutualInformationBundle : Dependency-Aware Mutual Information Bundle
+    bundles.DependencyAwareMutualInformationBundle : Dependency-Aware Mutual Information Bundle
     .MutualInformationGap : Mutual Information Gap
     .DependencyAwareMutualInformationGap : Dependency-Aware Mutual Information Gap
     .DependencyAwareLatentInformationGap : Dependency-Aware Latent Information Gap
