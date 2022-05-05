@@ -164,7 +164,7 @@ https://latte.readthedocs.io/en/latest
 
 For individual metrics, please cite the paper according to the link in the 📝 icon in front of each metric.
 
-If you find our package useful please cite our repository and open access [paper](https://www.sciencedirect.com/science/article/pii/S2665963822000033) on Elsevier Software Impacts as
+If you find our package useful, please cite open access [paper](https://www.sciencedirect.com/science/article/pii/S2665963822000033) on _Software Impacts_ (Elsevier) as
 ```bibtex
 @article{
   watcharasupat2021latte,
