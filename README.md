@@ -164,17 +164,19 @@ https://latte.readthedocs.io/en/latest
 
 For individual metrics, please cite the paper according to the link in the 📝 icon in front of each metric.
 
-If you find our package useful please cite our repository and [arXiv preprint](https://arxiv.org/abs/2112.10638) as
+If you find our package useful please cite our repository and open access [paper](https://www.sciencedirect.com/science/article/pii/S2665963822000033) on Elsevier Software Impacts as
 ```bibtex
 @article{
   watcharasupat2021latte,
   author = {Watcharasupat, Karn N. and Lee, Junyoung and Lerch, Alexander},
   title = {{Latte: Cross-framework Python Package for Evaluation of Latent-based Generative Models}},
-  eprint={2112.10638},
-  archivePrefix={arXiv},
-  primaryClass={cs.LG},
-  url = {https://github.com/karnwatcharasupat/latte}
-  doi = {10.5281/zenodo.5786402}
+  journal = {Software Impacts},
+  volume = {11},
+  pages = {100222},
+  year = {2022},
+  issn = {2665-9638},
+  doi = {https://doi.org/10.1016/j.simpa.2022.100222},
+  url = {https://www.sciencedirect.com/science/article/pii/S2665963822000033},
 }
 ```
 
