@@ -40,7 +40,7 @@ jobs:
 
   publish_testpypi:
     docker:
-      - image: cimg/python:3.8
+      - image: cimg/python:3.9
     steps:
       - checkout
       - run:
@@ -60,7 +60,7 @@ jobs:
 
   publish_pypi:
     docker:
-      - image: cimg/python:3.8
+      - image: cimg/python:3.9
     steps:
       - checkout
       - run:
@@ -84,7 +84,7 @@ workflows:
       - build:
           matrix:
             parameters:
-              python-ver: ["3.7", "3.8", "3.9"]
+              python-ver: ["3.7", "3.8", "3.9", "3.10", "3.11"]
               extras: ["tests", "tests,pytorch", "tests,keras", "tests,pytorch,keras"]
       - publish_testpypi:
           requires:
